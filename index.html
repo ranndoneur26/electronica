@@ -1,6 +1,6 @@
 ```html
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="ca" data-lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Segoe UI', system-ui, -apple-system, sans-serif; background:var(--bg-primary); color:var(--text-primary); line-height:1.7; overflow-x:hidden; }
         nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(10,10,15,.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border-subtle); padding:0 2rem; }
-        .nav-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:60px; }
+        .nav-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:72px; padding-top:.5cm; box-sizing:border-box; }
         .nav-logo { font-size:.9rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-electric); }
         .nav-links { display:flex; gap:1.5rem; list-style:none; flex-wrap:wrap; }
         .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; transition:color .3s; }
@@ -122,94 +122,145 @@
         .wave-divider span { width:2px; background:var(--accent-electric); border-radius:1px; }
         footer { border-top:1px solid var(--border-subtle); padding:3rem 2rem 6rem; text-align:center; color:var(--text-secondary); }
         .footer-credits { font-size:.72rem; color:rgba(255,255,255,.3); margin-top:1rem; }
-        .audio-player { position:fixed; bottom:0; left:0; right:0; background:rgba(18,18,26,.95); backdrop-filter:blur(20px); border-top:1px solid var(--border-subtle); padding:.8rem 2rem; z-index:999; display:flex; align-items:center; gap:1rem; }
-        .player-btn { width:36px; height:36px; border-radius:50%; border:1px solid var(--accent-electric); background:transparent; color:var(--accent-electric); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .3s; font-size:.9rem; flex-shrink:0; }
-        .player-btn:hover { background:var(--accent-electric); color:var(--bg-primary); }
-        .player-info { flex:1; min-width:0; }
-        .player-title { font-size:.82rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .player-artist { font-size:.72rem; color:var(--text-secondary); }
-        .player-progress { width:200px; height:3px; background:var(--border-subtle); border-radius:2px; overflow:hidden; }
-        .player-progress-fill { width:0%; height:100%; background:var(--accent-electric); border-radius:2px; transition:width .3s; }
-        @media (max-width:768px) { .player-progress{display:none;} .nav-links{display:none;} .timeline::before{left:20px;} .timeline-content{width:100%;} .timeline-dot{left:20px;} .timeline-item{flex-direction:column!important;} .timeline-content{margin:0 0 1rem 50px!important; width:auto;} .pioneers-grid, .labs-container, .scores-gallery{grid-template-columns:1fr!important;} .hero{padding-top:4rem;} }
+        @media (max-width:768px) { .nav-links{display:none;} .timeline::before{left:20px;} .timeline-content{width:100%;} .timeline-dot{left:20px;} .timeline-item{flex-direction:column!important;} .timeline-content{margin:0 0 1rem 50px!important; width:auto;} .pioneers-grid, .labs-container, .scores-gallery{grid-template-columns:1fr!important;} .hero{padding-top:4rem;} }
+
+        /* ---- source badges (fonoteca) ---- */
+        .fono-card{position:relative; padding-top:2.6rem;}
+        .source-badge{position:absolute; top:1.2rem; right:1.2rem; font-size:.65rem; text-transform:uppercase; letter-spacing:1px; padding:.25rem .6rem; border-radius:20px; font-weight:600;}
+        .badge-bandcamp{background:rgba(99,183,222,.15); color:#63b7de;}
+        .badge-youtube{background:rgba(255,0,0,.12); color:#ff5c5c;}
+        .badge-archive{background:rgba(46,204,113,.15); color:var(--accent-concrete);}
+        .lab-period{font-size:.8rem; color:var(--text-secondary); margin-bottom:.6rem;}
+        /* ---- i18n ---- */
+        .bio-lang-en{display:none;}
+        html[data-lang="en"] .bio-lang-ca{display:none;}
+        html[data-lang="en"] .bio-lang-en{display:block;}
+        .lang-toggle{border:1px solid var(--accent-electric); color:var(--accent-electric); background:transparent; font:inherit; font-size:.72rem; letter-spacing:2px; text-transform:uppercase; padding:.4rem .9rem; border-radius:20px; cursor:pointer; transition:all .3s;}
+        .lang-toggle:hover{background:var(--accent-electric); color:var(--bg-primary);}
+        .nav-toggle-btn{display:none; flex-direction:column; gap:4px; background:none; border:none; cursor:pointer; padding:.4rem;}
+        .nav-toggle-btn span{width:22px; height:2px; background:var(--text-primary);}
+        /* ---- fine-grained responsive ---- */
+        html{ -webkit-text-size-adjust:100%; }
+        img,svg,video{max-width:100%; height:auto;}
+        section{padding:5rem 1.25rem;}
+        @media (max-width:1024px){
+            .pioneers-grid, .labs-container, .scores-gallery{grid-template-columns:repeat(auto-fit, minmax(320px,1fr));}
+        }
+        @media (max-width:900px){
+            .nav-links{position:fixed; top:72px; left:0; right:0; background:rgba(10,10,15,.98); flex-direction:column; gap:0; padding:1rem 2rem 1.5rem; display:none; border-bottom:1px solid var(--border-subtle);}
+            .nav-links.open{display:flex;}
+            .nav-links li{padding:.7rem 0; border-bottom:1px solid var(--border-subtle);}
+            .nav-toggle-btn{display:flex;}
+        }
+        @media (max-width:768px){
+            section{padding:3.5rem 1rem;}
+            .hero{padding:5rem 1rem 3rem;}
+            .hero-cta{gap:1rem;}
+            .btn{padding:.8rem 1.6rem; font-size:.72rem;}
+            .genealogy{padding:1.5rem 1rem;}
+            .connection{padding:.9rem 1rem;}
+            .lab-facts{grid-template-columns:1fr;}
+        }
+        @media (max-width:480px){
+            .hero h1{font-size:1.7rem;}
+            .hero-subtitle{letter-spacing:3px; font-size:.7rem;}
+            .hero-manifest{font-size:.95rem;}
+            .section-header h2{font-size:1.5rem;}
+            .pioneer-body, .lab-card, .transition-card{padding:1.2rem;}
+            .pioneer-avatar{width:80px; height:80px; font-size:1.6rem;}
+            .pioneer-portrait{height:180px;}
+            .quote-block{padding:1.1rem 1.3rem;}
+            .nav-inner{padding:0;}
+            .nav-logo{font-size:.75rem; letter-spacing:2px;}
+        }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-inner">
             <div class="nav-logo">Pioners // Electrònica</div>
-            <ul class="nav-links">
-                <li><a href="#cronologia">Cronologia</a></li>
-                <li><a href="#pioners">Pioners</a></li>
-                <li><a href="#laboratoris">Laboratoris</a></li>
-                <li><a href="#genealogia">Genealogia</a></li>
-                <li><a href="#dibuix-lyss">Dibuix del So</a></li>
-                <li><a href="#transition">Transició 80</a></li>
-                <li><a href="#fonoteca">Fonoteca</a></li>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#cronologia" class="i18n" data-en="Timeline">Cronologia</a></li>
+                <li><a href="#pioners" class="i18n" data-en="Pioneers">Pioners</a></li>
+                <li><a href="#instruments" class="i18n" data-en="Instruments">Instruments</a></li>
+                <li><a href="#laboratoris" class="i18n" data-en="Laboratories">Laboratoris</a></li>
+                <li><a href="#genealogia" class="i18n" data-en="Genealogy">Genealogia</a></li>
+                <li><a href="#dibuix-lyss" class="i18n" data-en="Sound Drawing">Dibuix del So</a></li>
+                <li><a href="#context" class="i18n" data-en="Intl. Context">Context Intl.</a></li>
+                <li><a href="#glossari" class="i18n" data-en="Glossary">Glossari</a></li>
+                <li><a href="#transition" class="i18n" data-en="80s Transition">Transició 80</a></li>
+                <li><a href="#fonoteca" class="i18n" data-en="Sound Archive">Fonoteca</a></li>
+                <li><a href="#biblioteca" class="i18n" data-en="Bibliography">Bibliografia</a></li>
             </ul>
+            <button class="lang-toggle" id="lang-toggle-btn" aria-label="Change language">EN</button>
+            <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Menu"><span></span><span></span><span></span></button>
         </div>
     </nav>
     <header class="hero">
         <div class="waveform-bg" id="waveform-bg"></div>
         <div class="hero-content">
-            <p class="hero-subtitle">Estat Espanyol · 1930–1980</p>
-            <h1>Pioners de la Música Electrònica</h1>
-            <p class="hero-manifest">Un compositor és "pioner" quan treballa abans que el llenguatge estigui consolidat, quan no existeix infraestructura institucional ni públic massiu. A l'Estat espanyol, significà crear en ple franquisme, aïllats del circuit europeu, amb cintes, oscil·ladors i una voluntat radical de renovació.</p>
+            <p class="hero-subtitle i18n" data-en="Spain · 1900–1980">Estat Espanyol · 1930–1980</p>
+            <h1 class="i18n" data-en="Pioneers of Electronic Music">Pioners de la Música Electrònica</h1>
+            <p class="hero-manifest i18n" data-en="A composer is a &quot;pioneer&quot; when working before the language is consolidated, before institutional infrastructure or a mass audience exist. In Spain, that meant creating under Franco's dictatorship, isolated from the European circuit, with tape, oscillators and a radical will to renew — from Castillejo's 1933 electrocompositor to the founding of the Phonos and Alea laboratories.">Un compositor és "pioner" quan treballa abans que el llenguatge estigui consolidat, quan no existeix infraestructura institucional ni públic massiu. A l'Estat espanyol, significà crear en ple franquisme, aïllats del circuit europeu, amb cintes, oscil·ladors i una voluntat radical de renovació.</p>
             <div class="hero-cta">
-                <a href="#pioners" class="btn btn-filled">Explorar Pioners</a>
-                <a href="#cronologia" class="btn">Línia del Temps</a>
+                <a href="#pioners" class="btn btn-filled i18n" data-en="Explore Pioneers">Explorar Pioners</a>
+                <a href="#cronologia" class="btn i18n" data-en="Timeline">Línia del Temps</a>
             </div>
         </div>
     </header>
     <section id="cronologia">
         <div class="section-header">
-            <span class="section-tag">Cronologia</span>
-            <h2>Línia del Temps Interactiva</h2>
-            <p>Des de l'Electrocompositor de Castillejo (1933) fins a la consolidació dels laboratoris Phonos i Alea (1974), cada fita representa una ruptura amb l'isolacionisme cultural del règim.</p>
+            <span class="section-tag i18n" data-en="Timeline">Cronologia</span>
+            <h2 class="i18n" data-en="Interactive Timeline">Línia del Temps Interactiva</h2>
+            <p class="i18n" data-en="From Castillejo's Electrocompositor (1933) to the consolidation of the Phonos and Alea laboratories (1974), every milestone marks a rupture with the regime's cultural isolationism.">Des de l'Electrocompositor de Castillejo (1933) fins a la consolidació dels laboratoris Phonos i Alea (1974), cada fita representa una ruptura amb l'isolacionisme cultural del règim.</p>
         </div>
         <div class="timeline">
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1933</div><h3>Electrocompositor Musical de Castillejo</h3><p class="timeline-desc">Juan García Castillejo presenta el seu "aparato electrocompositor", anticipant conceptes d'automatització musical i distribució remota del so dècades abans d'Internet.</p></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1944</div><h3>Publicació: "Música Eléctrica y Telegrafía"</h3><p class="timeline-desc">Castillejo publica el seu llibre sobre música elèctrica, consolidant-se com el primer teòric espanyol de la generació automàtica de música.</p></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1954</div><h3>Gerhard – "The Prisoner" (Londres)</h3><p class="timeline-desc">Robert Gerhard crea la primera obra de teatre amb música electrònica a Gran Bretanya.</p><a href="#gerhard" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1956</div><h3>Darmstadt: L'entrada espanyola a la vanguardia</h3><p class="timeline-desc">Juan Hidalgo estrena "Ukanga" als Cursos de Darmstadt, convertint-se en el primer compositor espanyol al festival.</p><a href="#hidalgo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1958</div><h3>BBC Radiophonic Workshop funda el primer estudi britànic</h3><p class="timeline-desc">La BBC crea l'estudi de Maida Vale. Gerhard serà l'únic compositor establert amb accés raonable durant els 60.</p></div><div class="timeline-dot" style="background:var(--accent-concrete)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1960</div><h3>"Música Oberta" de Mestres Quadreny – Barcelona</h3><p class="timeline-desc">Primera obra de música aleatòria composta a Espanya, amb partitura gràfica.</p><a href="#mestres" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1961</div><h3>"Étude de Stage" de Hidalgo – París (ORTF)</h3><p class="timeline-desc">Juan Hidalgo crea la primera obra electroacústica d'un compositor espanyol, al servei de Pierre Schaeffer.</p><a href="#hidalgo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1962</div><h3>"King Lear" de Gerhard – Escàndol electrònic</h3><p class="timeline-desc">Partitura electrònica per la Royal Shakespeare Company. Considerada revolucionària per la crítica britànica.</p></div><div class="timeline-dot" style="background:var(--accent-concrete)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1964</div><h3>Fundació del Grup ZAJ – Madrid</h3><p class="timeline-desc">Hidalgo, Marchetti i Barce funden el col·lectiu d'avanguardia més radical d'Espanya.</p><a href="#hidalgo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:#c945ff"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1965</div><h3>"Peça per a serra mecànica" i Laboratori Alea</h3><p class="timeline-desc">Mestres Quadreny crea la primera obra electroacústica catalana. Luis de Pablo funda el Laboratori Alea a Madrid.</p><a href="#mestres" class="timeline-link">→ Perfil</a> <a href="#depablo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1966</div><h3>IBM 7090: Primera música per ordinador a Espanya</h3><p class="timeline-desc">Luis de Pablo utilitza l'ordinador IBM 7090 del Centro de Cálculo de Madrid.</p><a href="#depablo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-analog)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1969</div><h3>"Ibèmia" – Mestres Quadreny / Polonio – IPEM Gant</h3><p class="timeline-desc">Mestres Quadreny: primera partitura generada per ordinador a Catalunya. Polonio rep beca per treballar a l'IPEM de Gant.</p><a href="#mestres" class="timeline-link">→ Perfil</a> <a href="#polonio" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1972</div><h3>Encuentros de Pamplona</h3><p class="timeline-desc">Festival de vanguardia internacional co-organitzat per Luis de Pablo i Alexanco.</p><a href="#depablo" class="timeline-link">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-analog)"></div></div>
-            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1974</div><h3>Fundació del Laboratori Phonos – Barcelona</h3><p class="timeline-desc">Mestres Quadreny, Lewin-Richter i Callejo funden el primer estudi de música electroacústica de Catalunya.</p><a href="#mestres" class="timeline-link">→ Perfil</a> <a href="#phonos" class="timeline-link">→ Laboratori</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1933</div><h3 class="i18n" data-en="Castillejo's Electrocompositor Musical">Electrocompositor Musical de Castillejo</h3><p class="timeline-desc i18n" data-en="Juan García Castillejo presents his "electrocompositor" device, anticipating concepts of automated composition and remote sound distribution decades before the Internet.">Juan García Castillejo presenta el seu "aparato electrocompositor", anticipant conceptes d'automatització musical i distribució remota del so dècades abans d'Internet.</p></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1944</div><h3 class="i18n" data-en="Publication: "Música Eléctrica y Telegrafía"">Publicació: "Música Eléctrica y Telegrafía"</h3><p class="timeline-desc i18n" data-en="Castillejo publishes his book on electric music, establishing himself as Spain's first theorist of automated music generation.">Castillejo publica el seu llibre sobre música elèctrica, consolidant-se com el primer teòric espanyol de la generació automàtica de música.</p></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1954</div><h3 class="i18n" data-en="Gerhard – "The Prisoner" (London)">Gerhard – "The Prisoner" (Londres)</h3><p class="timeline-desc i18n" data-en="Robert Gerhard creates the first theatre work with electronic music in Britain.">Robert Gerhard crea la primera obra de teatre amb música electrònica a Gran Bretanya.</p><a href="#gerhard" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1956</div><h3 class="i18n" data-en="Darmstadt: Spain's entry into the avant-garde">Darmstadt: L'entrada espanyola a la vanguardia</h3><p class="timeline-desc i18n" data-en="Juan Hidalgo premieres "Ukanga" at the Darmstadt Summer Courses, becoming the first Spanish composer at the festival.">Juan Hidalgo estrena "Ukanga" als Cursos de Darmstadt, convertint-se en el primer compositor espanyol al festival.</p><a href="#hidalgo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1958</div><h3 class="i18n" data-en="BBC Radiophonic Workshop founds Britain's first studio">BBC Radiophonic Workshop funda el primer estudi britànic</h3><p class="timeline-desc i18n" data-en="The BBC creates the Maida Vale studio. Gerhard will be the only established composer with reasonable access during the 1960s.">La BBC crea l'estudi de Maida Vale. Gerhard serà l'únic compositor establert amb accés raonable durant els 60.</p></div><div class="timeline-dot" style="background:var(--accent-concrete)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1960</div><h3 class="i18n" data-en=""Música Oberta" by Mestres Quadreny – Barcelona">"Música Oberta" de Mestres Quadreny – Barcelona</h3><p class="timeline-desc i18n" data-en="The first work of aleatory music composed in Spain, with a graphic score.">Primera obra de música aleatòria composta a Espanya, amb partitura gràfica.</p><a href="#mestres" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1961</div><h3 class="i18n" data-en=""Étude de Stage" by Hidalgo – Paris (ORTF)">"Étude de Stage" de Hidalgo – París (ORTF)</h3><p class="timeline-desc i18n" data-en="Juan Hidalgo creates the first electroacoustic work by a Spanish composer, at Pierre Schaeffer's ORTF research service.">Juan Hidalgo crea la primera obra electroacústica d'un compositor espanyol, al servei de Pierre Schaeffer.</p><a href="#hidalgo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-wave)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1962</div><h3 class="i18n" data-en=""King Lear" by Gerhard – Electronic scandal">"King Lear" de Gerhard – Escàndol electrònic</h3><p class="timeline-desc i18n" data-en="Electronic score for the Royal Shakespeare Company. Considered revolutionary by British critics.">Partitura electrònica per la Royal Shakespeare Company. Considerada revolucionària per la crítica britànica.</p></div><div class="timeline-dot" style="background:var(--accent-concrete)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1964</div><h3 class="i18n" data-en="Founding of Grupo ZAJ – Madrid">Fundació del Grup ZAJ – Madrid</h3><p class="timeline-desc i18n" data-en="Hidalgo, Marchetti and Barce found Spain's most radical avant-garde collective.">Hidalgo, Marchetti i Barce funden el col·lectiu d'avanguardia més radical d'Espanya.</p><a href="#hidalgo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:#c945ff"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1965</div><h3 class="i18n" data-en=""Peça per a serra mecànica" and Laboratorio Alea">"Peça per a serra mecànica" i Laboratori Alea</h3><p class="timeline-desc i18n" data-en="Mestres Quadreny creates the first Catalan electroacoustic work. Luis de Pablo founds the Alea Laboratory in Madrid.">Mestres Quadreny crea la primera obra electroacústica catalana. Luis de Pablo funda el Laboratori Alea a Madrid.</p><a href="#mestres" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a> <a href="#depablo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1966</div><h3 class="i18n" data-en="IBM 7090: Spain's first computer music">IBM 7090: Primera música per ordinador a Espanya</h3><p class="timeline-desc i18n" data-en="Luis de Pablo uses the IBM 7090 computer at Madrid's Centro de Cálculo.">Luis de Pablo utilitza l'ordinador IBM 7090 del Centro de Cálculo de Madrid.</p><a href="#depablo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-analog)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1969</div><h3 class="i18n" data-en=""Ibèmia" – Mestres Quadreny / Polonio – IPEM Ghent">"Ibèmia" – Mestres Quadreny / Polonio – IPEM Gant</h3><p class="timeline-desc i18n" data-en="Mestres Quadreny: the first computer-generated score in Catalonia. Polonio receives a grant to work at Ghent's IPEM.">Mestres Quadreny: primera partitura generada per ordinador a Catalunya. Polonio rep beca per treballar a l'IPEM de Gant.</p><a href="#mestres" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a> <a href="#polonio" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1972</div><h3 class="i18n" data-en="Encuentros de Pamplona">Encuentros de Pamplona</h3><p class="timeline-desc i18n" data-en="International avant-garde festival co-organized by Luis de Pablo and Alexanco, bringing Cage, Tudor and Cunningham to Spain.">Festival de vanguardia internacional co-organitzat per Luis de Pablo i Alexanco.</p><a href="#depablo" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a></div><div class="timeline-dot" style="background:var(--accent-analog)"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-year">1974</div><h3 class="i18n" data-en="Founding of the Phonos Laboratory – Barcelona">Fundació del Laboratori Phonos – Barcelona</h3><p class="timeline-desc i18n" data-en="Mestres Quadreny, Lewin-Richter and Callejo found the first electroacoustic music studio in Catalonia.">Mestres Quadreny, Lewin-Richter i Callejo funden el primer estudi de música electroacústica de Catalunya.</p><a href="#mestres" class="timeline-link i18n" data-en="→ Profile">→ Perfil</a> <a href="#phonos" class="timeline-link i18n" data-en="→ Laboratory">→ Laboratori</a></div><div class="timeline-dot" style="background:var(--accent-electric)"></div></div>
         </div>
     </section>
     <div class="wave-divider" id="wave-divider"></div>
     <section id="pioners">
         <div class="section-header">
-            <span class="section-tag wave">1950–1970</span>
-            <h2>Els Pioners</h2>
-            <p>Compositors que treballaren quan no existien estudis, festivals ni públic per a la música electrónica a Espanya. Prem "Ampliar informació" per a la biografia completa.</p>
+            <span class="section-tag wave i18n" data-en="1900–1970">1950–1970</span>
+            <h2 class="i18n" data-en="The Pioneers">Els Pioners</h2>
+            <p class="i18n" data-en="Composers and inventors who worked when no studios, festivals or audience existed yet for electronic music in Spain. Click &quot;Read more&quot; for the full biography, and use the EN button above to read this page in English.">Compositors que treballaren quan no existien estudis, festivals ni públic per a la música electrónica a Espanya. Prem "Ampliar informació" per a la biografia completa.</p>
         </div>
         <div class="pioneers-grid">
             <article class="pioneer-card" id="gerhard">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#1a1a3e,#2d1b69);">
                     <div class="pioneer-avatar">🎼</div>
-                    <span class="pioneer-era">Valls → Cambridge</span>
+                    <span class="pioneer-era i18n" data-en="Valls → Cambridge">Valls → Cambridge</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus focus-serial">Serialisme ↔ Electrònica</span>
+                    <span class="pioneer-focus focus-serial i18n" data-en="Serialism ↔ Electronics">Serialisme ↔ Electrònica</span>
                     <h3 class="pioneer-name">Robert Gerhard</h3>
                     <p class="pioneer-dates">1896, Valls (Tarragona) — 1970, Cambridge</p>
-                    <p class="pioneer-text">Únic alumne espanyol d'Arnold Schönberg. Considerat el compositor espanyol més rellevant del segle XX juntament amb Manuel de Falla. Exiliat a Anglaterra des de 1939, esdevingué el primer compositor de música electrònica a Gran Bretanya, creant més de 20 obres per cinta entre 1954 i 1967.</p>
+                    <p class="pioneer-text i18n" data-en="Arnold Schönberg's only Spanish pupil. Considered, alongside Manuel de Falla, Spain's most important 20th-century composer. Exiled in England from 1939, he became Britain's first composer of electronic music, creating over 20 tape works between 1954 and 1967 for the BBC Radiophonic Workshop.">Únic alumne espanyol d'Arnold Schönberg. Considerat el compositor espanyol més rellevant del segle XX juntament amb Manuel de Falla. Exiliat a Anglaterra des de 1939, esdevingué el primer compositor de música electrònica a Gran Bretanya, creant més de 20 obres per cinta entre 1954 i 1967.</p>
                     <ul class="pioneer-works">
-                        <li><strong>The Prisoner</strong> (1954): Primera obra de teatre amb música electrònica anglesa.</li>
-                        <li><strong>King Lear</strong> (1955): Partitura revolucionària per a la Royal Shakespeare Co.</li>
-                        <li><strong>Sinfonia nº 3 "Collages"</strong> (1960): Cinta magnètica i orquestra.</li>
-                        <li><strong>The Anger of Achilles</strong> (1964): Col·laboració amb Delia Derbyshire (BBC). Prix Italia 1965.</li>
+                        <li class="i18n-html" data-en-html="<strong>The Prisoner</strong> (1954): first English theatre work with electronic music."><strong>The Prisoner</strong> (1954): Primera obra de teatre amb música electrònica anglesa.</li>
+                        <li class="i18n-html" data-en-html="<strong>King Lear</strong> (1955): revolutionary score for the Royal Shakespeare Company."><strong>King Lear</strong> (1955): Partitura revolucionària per a la Royal Shakespeare Co.</li>
+                        <li class="i18n-html" data-en-html="<strong>Symphony No. 3 &quot;Collages&quot;</strong> (1960): tape and orchestra, one of the world's first works to integrate the two."><strong>Sinfonia nº 3 "Collages"</strong> (1960): Cinta magnètica i orquestra.</li>
+                        <li class="i18n-html" data-en-html="<strong>The Anger of Achilles</strong> (1964): collaboration with Delia Derbyshire (BBC). Prix Italia 1965."><strong>The Anger of Achilles</strong> (1964): Col·laboració amb Delia Derbyshire (BBC). Prix Italia 1965.</li>
+                        <li class="i18n-html" data-en-html="<strong>Audiomobiles 1–3</strong> (1958–67): abstract tape-only pieces, incl. &quot;DNA&quot; (soundtrack for Len Lye) and &quot;Sculpture&quot; (John Youngman's sound sculpture)."><strong>Audiomobiles 1–3</strong> (1958–67): peces abstractes només per a cinta, inclou "DNA" (banda sonora per a Len Lye) i "Sculpture" (escultura sonora de John Youngman).</li>
+                        <li class="i18n-html" data-en-html="<strong>Caligula</strong>, <strong>The Overcoat</strong>, <strong>Asylum Diary</strong> (1959–61): BBC radio-drama scores, incorporating recorded sculpture sound and radiophonic effects."><strong>Caligula</strong>, <strong>The Overcoat</strong>, <strong>Asylum Diary</strong> (1959–61): partitures per a drames radiofònics de la BBC.</li>
                     </ul>
-                    <a href="#laboratoris" class="pioneer-link">Veure col·laboració BBC →</a>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <a href="#laboratoris" class="pioneer-link i18n" data-en="See BBC collaboration →">Veure col·laboració BBC →</a>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Formació</h4>
                         <p>Nascut a Valls el 25 de setembre de 1896 (Valls, Tarragona), de pare suïssa-alemany i mare alsaciana. El 1912 va abandonar els estudis comercials (estudi d'harmonia amb Hugo Strauss a Lausanne) i va ingressar a l'Acadèmia Reial de Música de Múnic (1913). A causa de la Primera Guerra Mundial (1914), va tornar a Barcelona, on va estudiar piano amb Enrique Granados (1915–16) i Frank Marshall, i composició amb Felip Pedrell (1916–20), que va inculcar-li un amor profund per la música popular espanyola i la síntesi de tradició folklòrica i simfonia germànica primerenca.</p>
                         <p>El 21 d'octubre de 1923, després d'haver-li negat l'alumnat de Falla a Granada (considerant-lo massa format), va escriure una extensa carta a Arnold Schönberg, que el va acceptar immediatament; va estudiar amb ell a Viena (1923–25) i Berlín (1925–28), on es va convertir en assistent del professor i l'únic estudiant espanyol de Schönberg. En el moment just de la creació de la sèrie de dotze tons (1921–23), estava sent exposat directament al compositor; aquesta relació es va transformar en amistat fins a la mort de Schönberg el 1951.</p>
@@ -231,33 +282,50 @@
                             <li><strong>Trilogia Zodiac</strong> (1966–69): Gemini, Libra, Leo, modernitat austera.</li>
                             <li>Sinfonia nº 5 (1970, inacabada, Fundació Fromm).</li>
                             <li><strong>Cancionero de Pedrell</strong> (1941–42): cançons populars, de l'Homenatge al mestre.</li>
+                            <li class="i18n-html" data-en-html="<strong>Concerto for Violin</strong> (1942–43) and <strong>Concerto for Piano</strong> (1951); <strong>String Quartet No.1</strong> (1950–55) and <strong>No.2</strong> (1960–62)."><strong>Concert per a violí</strong> (1942–43) i <strong>Concert per a piano</strong> (1951); <strong>Quartet de corda nº 1</strong> (1950–55) i <strong>nº 2</strong> (1960–62).</li>
+                            <li class="i18n-html" data-en-html="<strong>Capriccio</strong> for solo flute (1949): marks his shift from Spanish neoclassicism toward twelve-tone writing."><strong>Capriccio</strong> per a flauta sola (1949): marca la transició del neoclassicisme espanyol cap a la sèrie dodecafònica.</li>
+                            <li class="i18n-html" data-en-html="Complete Gerhard–Sch&ouml;nberg correspondence (81 letters) published by Akal in 2024, documenting a friendship that lasted until Sch&ouml;nberg's death in 1951."><strong>Correspondència completa Gerhard–Schönberg</strong> (81 cartes, editada per Akal el 2024), testimoni d'una amistat que va durar fins la mort de Schönberg (1951).</li>
                         </ul>
                         <h4>Arxius i reconeixements</h4>
                         <p>Bibliotecari britànic (CBE, 1967), Prix Italia 1965, Doctor Honoris Causa King's College Cambridge (1968), el 5 gener 1970 a conseqüència d'atac de cor. Més de 600 cintes i fons s'han conservat a la Universitat de Cambridge, a l'Institut d'Estudis Vallencs (Valls) i a la Biblioteca de Catalunya. Va recuperar-se el 1984 a Palau de la Música (dirigit per Ros-Marbà, 1992, òpera).</p>
                         <p>La síntesis Gerhard representa un cas únic: folclor català (Pedrell) + dodecafonisme (Schönberg) + electrònica (BBC). "El compositor nacionalista de l'era post-Pedrell continua amb la seva música; no és paral·laxi", com apunta el musicòleg Calum MacDonald.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/wiki/Robert_Gerhard" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Training under Pedrell and Sch&ouml;nberg</h4>
+<p>Born in Valls (Tarragona) on 25 September 1896 to a Swiss-German father and Alsatian mother, Gerhard abandoned business studies in Munich in 1913 for music. Forced home by WWI, he studied piano with Enric Granados (1915&ndash;16) and Frank Marshall, then composition with Felip Pedrell (1916&ndash;20), who instilled a lifelong fusion of Catalan/Spanish folk material with European symphonic tradition.</p>
+<p>After Manuel de Falla declined to teach him (considering him too advanced), Gerhard wrote to Arnold Sch&ouml;nberg in 1923 and was accepted immediately, studying in Vienna and Berlin (1923&ndash;28) as his only Spanish pupil and, later, assistant &mdash; becoming part of the Second Viennese School just as the twelve-tone method was being developed.</p>
+<h4>Republic, Civil War and exile</h4>
+<p>Back in Barcelona, his 1929 concert at the Palau de la M&uacute;sica and the 1932 Vienna ISCM premiere (conducted by Anton Webern) brought international recognition. During the Republic he directed the music department of the Biblioteca de Catalunya. In January 1939, as Barcelona fell, he fled to Cambridge, England, where he lived until his death; Franco's regime ignored his music entirely until the 1975 transition to democracy.</p>
+<h4>Britain's first electronic composer</h4>
+<p>From 1954 to 1967 Gerhard produced over 20 tape works &mdash; theatre scores, radio drama, film music and pure electroacoustic pieces &mdash; becoming the only established British composer granted regular access to the BBC Radiophonic Workshop (founded 1958), working alongside Desmond Briscoe, Delia Derbyshire and Dick Mills. His archive of 600+ tapes is held at Cambridge University Library.</p>
+<h4>Legacy</h4>
+<p>CBE (1967), Prix Italia (1965) and an honorary doctorate from Cambridge (1968) crowned a career that fused Catalan folklore, Schoenbergian dodecaphony and BBC-era electronics &mdash; a synthesis musicologist Calum MacDonald compared to B&eacute;la Bart&oacute;k's achievement in Hungary. He died in Cambridge on 5 January 1970.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Robert_Gerhard" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
                 </div>
             </article>
             <article class="pioneer-card" id="mestres">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#0d3331,#1a5c5a);">
                     <div class="pioneer-avatar">🔬</div>
-                    <span class="pioneer-era">Manresa → Barcelona</span>
+                    <span class="pioneer-era i18n" data-en="Manresa → Barcelona">Manresa → Barcelona</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus focus-aleatory">Ciència, Atzar i Gràfica</span>
+                    <span class="pioneer-focus focus-aleatory i18n" data-en="Science, Chance & Graphics">Ciència, Atzar i Gràfica</span>
                     <h3 class="pioneer-name">J.M. Mestres Quadreny</h3>
                     <p class="pioneer-dates">1929, Manresa — 2021, Barcelona</p>
-                    <p class="pioneer-text">Formació científica i artística plural. Va fusionar química, informàtica i vanguardia. Va importar l'atzar de Cage i la notació gràfica com a eina visual, creant ponts amb Miró, Tàpies i Brossa.</p>
+                    <p class="pioneer-text i18n" data-en="A plural scientific and artistic training. He fused chemistry, computing and the avant-garde, importing Cage's chance procedures and graphic notation as visual tools, building bridges to Miró, Tàpies and Brossa.">Formació científica i artística plural. Va fusionar química, informàtica i vanguardia. Va importar l'atzar de Cage i la notació gràfica com a eina visual, creant ponts amb Miró, Tàpies i Brossa.</p>
                     <ul class="pioneer-works">
-                        <li><strong>Música Oberta</strong> (1960): Primera obra aleatòria a Espanya.</li>
-                        <li><strong>Peça per a serra mecànica</strong> (1965): Primera electroacústica catalana.</li>
-                        <li><strong>Ibèmia</strong> (1969): Primera partitura per ordinador a Catalunya.</li>
-                        <li><strong>Fundació Phonos</strong> (1974): Creació del primer laboratori d'electroacústica de Catalunya.</li>
+                        <li class="i18n-html" data-en-html="<strong>M&uacute;sica Oberta</strong> (1960): the first aleatory work composed in Spain."><strong>Música Oberta</strong> (1960): Primera obra aleatòria a Espanya.</li>
+                        <li class="i18n-html" data-en-html="<strong>Pe&ccedil;a per a serra mec&agrave;nica</strong> (1965): the first Catalan electroacoustic work."><strong>Peça per a serra mecànica</strong> (1965): Primera electroacústica catalana.</li>
+                        <li class="i18n-html" data-en-html="<strong>Ib&egrave;mia</strong> (1969): the first computer-generated score in Catalonia."><strong>Ibèmia</strong> (1969): Primera partitura per ordinador a Catalunya.</li>
+                        <li class="i18n-html" data-en-html="<strong>Founding of Phonos</strong> (1974): Catalonia's first electroacoustic music laboratory."><strong>Fundació Phonos</strong> (1974): Creació del primer laboratori d'electroacústica de Catalunya.</li>
+                        <li class="i18n-html" data-en-html="<strong>Sintagmes</strong> (1963&ndash;64): the audience becomes the instrument &mdash; Spain's first participatory action-art piece."><strong>Sintagmes</strong> (1963–64): el públic esdevé l'instrument — primera obra participativa i d'art d'acció a Espanya.</li>
                     </ul>
-                    <div class="quote-block"><p>"Mestres Quadreny ha estat el compositor català més valent... sempre ha explorat tots els camins possibles sense por."</p><cite>— Carles Santos</cite></div>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <div class="quote-block"><p class="i18n" data-en="&quot;Mestres Quadreny has been the bravest Catalan composer&hellip; he has always explored every possible path, without fear.&quot;">"Mestres Quadreny ha estat el compositor català més valent... sempre ha explorat tots els camins possibles sense por."</p><cite>— Carles Santos</cite></div>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Química i Club 49</h4>
                         <p>Nascut a Manresa el 4 març 1929, va estudiar Ciències Químiques (llicenciat a la Universitat de Barcelona, 1952) i va treballar durant dècades com a químic industrial. Això li donava llibertat econòmica i, sobretot, un mètode aplicat a la música, la composició experimental: el càlcul matemàtic, els sistemes probabilístics i l'ús de procediments stocastics anticipaven la music generativa i informàtica. Com a música, autodidacta, amb classes de Cristòfor Taltabull (disciple de Max Reger, a l'escola catalana).</p>
                         <p>El 1949, integrat al Club 49 de Barcelona (grup vanguardista vinculat al surrealisme Dau al Set), es va vincular a Joan Miró, Antoni Tàpie, Joan Brossa, Joan Ponç, Modest Cuixart i també amb Carles Santos. Aquestes col·laboracions van definir el seu llenguatge multidisciplinar.</p>
@@ -276,30 +344,42 @@
                         </ul>
                         <h4>Reconeixements</h4>
                         <p>Premi Nacional de Música de Catalunya (2000), Premi Ciutat de Barcelona (2005), Medalla d'Honor del Parlament de Catalunya (2008), Creu de Sant Jordi (1992), Doctor Honoris Causa UB (2015). Va morir el 17 de gener de 2021: el seu fons es troba a la Biblioteca de Catalunya, el MACBA (Fons 05) i Phonos (UPF). Catalunya Música i RTVE, i el 2021, el Memorial Sonograma "Transitable en tres temps d'un epíleg".</p>
-                        <a class="wiki-link" href="https://ca.wikipedia.org/wiki/Josep_Maria_Mestres_Quadreny" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Chemistry and the Club 49</h4>
+<p>Born in Manresa on 4 March 1929, Mestres Quadreny trained as an industrial chemist (Universitat de Barcelona, 1952), a career that gave him the financial independence to compose freely and a taste for applying mathematics, probability and stochastic processes to music &mdash; anticipating computer-generated composition by decades. Largely self-taught, from 1949 he belonged to Barcelona's Club 49, linking him to Joan Mir&oacute;, Antoni T&agrave;pies, Joan Brossa and Carles Santos.</p>
+<h4>Chance, Darmstadt and Cage</h4>
+<p>After trips to Paris (1957) and Darmstadt (1960), and discovering John Cage's work in 1961, he became the first Spanish composer to systematically explore indeterminacy and graphic notation. His 1960 <em>M&uacute;sica Oberta</em> is considered Spain's first aleatory work; <em>Sintagmes</em> (1963&ndash;64) turned the audience itself into an instrument.</p>
+<h4>Electroacoustics and computer music</h4>
+<p>In 1965 his <em>Pe&ccedil;a per a serra mec&agrave;nica</em> &mdash; a carpenter's mechanical saw captured through contact microphones &mdash; became Catalonia's first electroacoustic work. In 1969, at the Universitat de Barcelona's computing centre, <em>Ib&egrave;mia</em> became the first Catalan score generated by an IBM computer using probability algorithms. In 1974 he co-founded the Phonos Laboratory with Andr&eacute;s Lewin-Richter and Llu&iacute;s Callejo &mdash; Catalonia's central electroacoustic institution, later absorbed into Universitat Pompeu Fabra (1994).</p>
+<h4>Graphic scores and late minimalism</h4>
+<p>His scores &mdash; using colour, collage and photography as musical parameters &mdash; have been exhibited as artworks at MNAC, MACBA and the Reina Sof&iacute;a. Later works such as <em>Tr&agrave;nsit boreal</em> (2010, an interactive piece reacting to the audience via motion sensors, composed at age 81) show a lifelong curiosity. He received the Creu de Sant Jordi (1992) and died in Barcelona on 17 January 2021, aged 91.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://ca.wikipedia.org/wiki/Josep_Maria_Mestres_Quadreny" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
-                    <a href="#laboratoris" class="pioneer-link">Veure Laboratori Phonos →</a>
+                    <a href="#laboratoris" class="pioneer-link i18n" data-en="See Phonos Laboratory →">Veure Laboratori Phonos →</a>
                 </div>
             </article>
             <article class="pioneer-card" id="depablo">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#3d1f00,#5c3a1f);">
                     <div class="pioneer-avatar">🏛️</div>
-                    <span class="pioneer-era">Bilbao → Madrid</span>
+                    <span class="pioneer-era i18n" data-en="Bilbao → Madrid">Bilbao → Madrid</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus focus-gestion">Gestió de la Vanguardia</span>
+                    <span class="pioneer-focus focus-gestion i18n" data-en="Avant-Garde Management">Gestió de la Vanguardia</span>
                     <h3 class="pioneer-name">Luis de Pablo</h3>
                     <p class="pioneer-dates">1930, Bilbao — 2021, Madrid</p>
-                    <p class="pioneer-text">No només compositor, sinó el principal gestor cultural de la renovació musical espanyola sota el franquisme. Organitzador dels <em>Encuentros de Pamplona</em> i fundador del Laboratori Alea.</p>
+                    <p class="pioneer-text i18n" data-en="Not just a composer but the chief cultural organizer of Spain's musical renewal under Franco. Organizer of the Encuentros de Pamplona and founder of the Alea Laboratory.">No només compositor, sinó el principal gestor cultural de la renovació musical espanyola sota el franquisme. Organitzador dels <em>Encuentros de Pamplona</em> i fundador del Laboratori Alea.</p>
                     <ul class="pioneer-works">
-                        <li><strong>Nueva Música</strong> (1958): Fundació del primer grup de vanguardia a Madrid.</li>
-                        <li><strong>Grupo Alea</strong> (1965): Associació concertística i laboratori amb suport de la família Huarte.</li>
-                        <li><strong>Laboratorio Alea</strong> (1965): Primer laboratori electroacústic estable i públic d'Espanya.</li>
-                        <li><strong>We</strong> (1969): Obra emblemàtica de collage documental electrònic.</li>
-                        <li><strong>Encuentros de Pamplona</strong> (1972): Festival internacional de ruptura.</li>
+                        <li class="i18n-html" data-en-html="<strong>Nueva M&uacute;sica</strong> (1958): founding of Madrid's first avant-garde group."><strong>Nueva Música</strong> (1958): Fundació del primer grup de vanguardia a Madrid.</li>
+                        <li class="i18n-html" data-en-html="<strong>Grupo Alea</strong> (1965): concert association and laboratory backed by the Huarte family."><strong>Grupo Alea</strong> (1965): Associació concertística i laboratori amb suport de la família Huarte.</li>
+                        <li class="i18n-html" data-en-html="<strong>Laboratorio Alea</strong> (1965): Spain's first stable, public electroacoustic laboratory."><strong>Laboratorio Alea</strong> (1965): Primer laboratori electroacústic estable i públic d'Espanya.</li>
+                        <li class="i18n-html" data-en-html="<strong>We</strong> (1969): an emblematic work of electronic documentary collage."><strong>We</strong> (1969): Obra emblemàtica de collage documental electrònic.</li>
+                        <li class="i18n-html" data-en-html="<strong>Encuentros de Pamplona</strong> (1972): a landmark international avant-garde festival."><strong>Encuentros de Pamplona</strong> (1972): Festival internacional de ruptura.</li>
                     </ul>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Música i Dret</h4>
                         <p>Nascut a Bilbao el 28 de gener de 1930, va estudiar música des de la infància a Hondària (Guipúzcoa, 1938), és autodidacta amb els consells del dodecafonisme per Maurice Ohana i París, així com amb Max Deutsch; a més, va estudiar Dret a la Universitat de Madrid (1952) i es va convertir en advocat del Departament Legal d'Iberia, fins que va decidir abandonar la música (principis dels 60).</p>
                         <h4>Gestor i pont amb Darmstadt</h4>
@@ -322,33 +402,46 @@
                         <h4>Cinema, òpera, ensenyament</h4>
                         <p>Ensenyament: Buffalo/Albany 1973–75, Ottawa/Montréal 1974–78, Real Conservatori Madrid (Anàlisi 1971), Torcuato di Tella (Buenos Aires), Darmstadt, Siena. Bandes sonores en 24 pel·lícules 1962–78 (La caza, Peppermint Frappé, La madriguera, El espíritu de la colmena; Erice, Saura, etc.). Óperas: Kiu (1979–83), Viajero indiscreto (1990), Señorita Cristina, El abrecartas (2021; el Real, mort abans de l'estrena). Va fundar el CDMC el 1983 (dirigent Tomás Marco). Premi Nacional de Música (1991) i belles arts, Tomás Luis de Victoria, acadèmic, honoris causa, Medalla d'Or al Rei, Cavallier Arts-Letres (1968), Grand Prix du Disque Charles Cros (1969).</p>
                         <p>Més de 300 obres i un impuls decidit per vanguardisme durant l'aïllament franquista. Va morir a Madrid, el 10 d'octubre de 2021.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/wiki/Luis_de_Pablo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Music and Law</h4>
+<p>Born in Bilbao on 28 January 1930, De Pablo was largely self-taught, guided by Maurice Ohana and Max Deutsch in Paris, while earning a law degree in Madrid (1952) and briefly working as Iberia's in-house lawyer before devoting himself fully to music in the early 1960s.</p>
+<h4>Organizer of the Spanish avant-garde</h4>
+<p>From 1956 he attended the Darmstadt courses, meeting Boulez, Stockhausen and Maderna. He then built the institutions that brought contemporary music to Franco's Spain: the Nueva M&uacute;sica group (1958), the free "Tiempo y M&uacute;sica" concert series (1959&ndash;63), the presidency of Juventudes Musicales (1960&ndash;63), Madrid's only Biennial of Contemporary Music (1964), and above all Alea (1965&ndash;77), funded by the Huarte family, whose laboratory on Calle San Bernab&eacute; became Spain's first stable public electroacoustic studio, equipped with EMS VCS3 synthesizers.</p>
+<h4>Computer music and Pamplona</h4>
+<p>In 1966 he became the first Spanish artist to use a computer (IBM 7090) to create a musical work. In 1972, with José Luis Alexanco, he co-organized the Encuentros de Pamplona, Spain's largest avant-garde festival, bringing John Cage, David Tudor and Merce Cunningham to Spain &mdash; a politically charged event that led to ETA's kidnapping of patron Juan Huarte and the collapse of Alea's funding.</p>
+<h4>Later career</h4>
+<p>De Pablo scored over 24 films (with Saura and Erice among others), composed six operas, taught worldwide, and founded Spain's Centro para la Difusi&oacute;n de la M&uacute;sica Contempor&aacute;nea (CDMC) in 1983. He received Spain's National Music Prize (1991) and died in Madrid on 10 October 2021.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Luis_de_Pablo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
-                    <a href="#laboratoris" class="pioneer-link">Veure Laboratori Alea →</a>
+                    <a href="#laboratoris" class="pioneer-link i18n" data-en="See Alea Laboratory →">Veure Laboratori Alea →</a>
                 </div>
             </article>
             <article class="pioneer-card" id="hidalgo">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#1f0030,#3d1a5c);">
                     <div class="pioneer-avatar">🎭</div>
-                    <span class="pioneer-era">Gran Canaria → Madrid / París</span>
+                    <span class="pioneer-era i18n" data-en="Gran Canaria → Madrid / Paris">Gran Canaria → Madrid / París</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus focus-conceptual">Art Conceptual &amp; ZAJ</span>
+                    <span class="pioneer-focus focus-conceptual i18n" data-en="Conceptual Art & ZAJ">Art Conceptual &amp; ZAJ</span>
                     <h3 class="pioneer-name">Juan Hidalgo</h3>
                     <p class="pioneer-dates">1927, Las Palmas de Gran Canaria — 2018, Ayacata</p>
-                    <p class="pioneer-text">Primer compositor espanyol a participar als Cursos de Darmstadt (1957) i a crear una obra electroacústica pura a través de Pierre Schaeffer (1961). Cofundador del grup radical ZAJ (1964), va integrar música, poesia visual, objectes i performança.</p>
+                    <p class="pioneer-text i18n" data-en="First Spanish composer to take part in the Darmstadt Courses (1957) and to create a pure electroacoustic work, under Pierre Schaeffer (1961). Co-founder of the radical ZAJ group (1964), integrating music, visual poetry, objects and performance.">Primer compositor espanyol a participar als Cursos de Darmstadt (1957) i a crear una obra electroacústica pura a través de Pierre Schaeffer (1961). Cofundador del grup radical ZAJ (1964), va integrar música, poesia visual, objectes i performança.</p>
                     <ul class="pioneer-works">
-                        <li><strong>Ukanga</strong> (1957): Estrena serial-estructural a Darmstadt</li>
-                        <li><strong>Caurga</strong> (1958): Presència a Darmstadt i trobada decisiva amb John Cage i David Tudor</li>
-                        <li><strong>Étude de Stage</strong> (1961): Primera obra electroacústica d'un compositor espanyol</li>
-                        <li><strong>Grup ZAJ</strong> (1964): Col·lectiu d'accions, concerts i objectes</li>
+                        <li class="i18n-html" data-en-html="<strong>Ukanga</strong> (1957): serial-structural premiere at Darmstadt"><strong>Ukanga</strong> (1957): Estrena serial-estructural a Darmstadt</li>
+                        <li class="i18n-html" data-en-html="<strong>Caurga</strong> (1958): back at Darmstadt, a decisive meeting with John Cage and David Tudor"><strong>Caurga</strong> (1958): Presència a Darmstadt i trobada decisiva amb John Cage i David Tudor</li>
+                        <li class="i18n-html" data-en-html="<strong>&Eacute;tude de Stage</strong> (1961): the first electroacoustic work by a Spanish composer"><strong>Étude de Stage</strong> (1961): Primera obra electroacústica d'un compositor espanyol</li>
+                        <li class="i18n-html" data-en-html="<strong>Grupo ZAJ</strong> (1964): collective of actions, concerts and objects"><strong>Grup ZAJ</strong> (1964): Col·lectiu d'accions, concerts i objectes</li>
+                        <li class="i18n-html" data-en-html="<strong>Jornadas de Nueva M&uacute;sica</strong> (1959, Las Palmas): Spain's first avant-garde music festival, a year before Barcelona's manifesto."><strong>Jornades de Nova Música</strong> (1959, Las Palmas): primer festival d'avantguarda musical de l'Estat, un any abans del manifest de Barcelona.</li>
                     </ul>
                     <div class="quote-block">
                         <p>"ZAJ és com un bar: la gent entra, surt, està; es pren una copa i deixa una propina."</p>
                         <cite>— Autotext ZAJ, 1965</cite>
                     </div>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Itinerari formatiu</h4>
                         <p>Nascut a Las Palmas de Gran Canaria, el 14 d'octubre de 1927, en una família burgesa que li va permetré viure els primers anys entre Las Palmas, Barcelona, París i Milà, cosa que va marcar la seva temprana apertura internacional. Va estudiar piano amb Luis Prieto, Carmen Pérez, Frank Marshall, Gabriel Abréu, Pierre Lucas, Santiago Riera i Louis Hiltbrand, i composició amb Xavier Montsalvatge i Pablo Garrido a Barcelona, Nadia Boulanger a París, F.A. Marescotti a Ginebra (on el 1955 va guanyar el II Premi d'Orquestració del Conservatori) i Bruno Maderna a Milà.</p>
                         <p>Dos fets de Milà van ser decisius: el 1956 va conèixer el compositor italià Walter Marchetti, company de via tota una vida, i en l'edició 1957 dels Cursos de Darmstadt hi va presentar <strong>"Ukanga" per a cinc conjunts de càmera</strong> serial, convertint-se en el primer compositor espanyol a participar-hi. El 1958 hi va presentar "Caurga" i hi va conèixer John Cage i David Tudor: un xoc que transformaria tota la seva obra posterior. Entre 1962 i 64 va estudiar xinès i japonès als instituts de Milà i Roma i va incorporar la filosofia zen a la seva estètica.</p>
@@ -364,34 +457,46 @@
                             <li><strong>Objectes i instal·lacions (1970-2018)</strong>: "Balls" (1966), "Bomba ZAi" (1970–89), "El Ou de Colom" (2001), escultures públiques a Gran Canaria ("Idiograma").</li>
                         </ul>
                         <p>ZAJ es va dissoldre el 1996, l'any de la gran retrospectiva a l'MNCARS. Va rebre el Premi Nacional d'Arts Plàstiques (2016), i el seu fons es conserva al CAAM, al Reina Sofía, a l'MOMA, a l'IVAM i a l'Artium. Va morir el 26 de febrer de 2018 a Ayacata (Gran Canaria), als 91 anys. Tomás Marco va lamentar que "condicions de creador sonor important es derivessin cap a fets menys tangibles"; el seu paper com a primer dels primers, però, és indiscutible.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/wiki/Juan_Hidalgo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Formation across four cities</h4>
+<p>Born in Las Palmas de Gran Canaria on 14 October 1927, Hidalgo grew up between Las Palmas, Barcelona, Paris and Milan. He studied composition with Xavier Montsalvatge and Pablo Garrido in Barcelona, Nadia Boulanger in Paris, and Bruno Maderna in Milan. In 1957 he became the first Spanish composer to appear at Darmstadt, premiering <em>Ukanga</em>; in 1958 he met John Cage and David Tudor there, an encounter that reshaped his entire output. Between 1962&ndash;64 he studied Chinese and Japanese and absorbed Zen philosophy.</p>
+<h4>First Spanish electroacoustic composer</h4>
+<p>In 1961, during a six-month placement at ORTF Paris under Pierre Schaeffer (one of the inventors of musique concr&egrave;te), Hidalgo composed <em>&Eacute;tude de Stage</em> &mdash; four channels of concrete music from four independent sources &mdash; considered the first electroacoustic work by a Spanish composer. In 1959, with Walter Marchetti, he had already organized the Jornadas de Nueva M&uacute;sica in Las Palmas, Spain's first avant-garde music festival.</p>
+<h4>ZAJ: radical vanguard</h4>
+<p>In December 1964, Hidalgo, Marchetti and Ram&oacute;n Barce founded ZAJ in Madrid, one of the most radical collectives in 20th-century Spanish art, blending Cage, Duchamp, Zen and Fluxus influences. Esther Ferrer joined in 1967&ndash;68. Its most scandalous concert, at Madrid's Teatro de la Infanta Beatriz (February 1967), included Hidalgo mixing his own blood with champagne and toasting the audience; most spectators walked out.</p>
+<h4>Later work and legacy</h4>
+<p>From the 1970s Hidalgo moved into objects, mail art and photography ("etc&eacute;teras", akin to Zen koans). ZAJ dissolved in 1996, the year of its retrospective at the Reina Sof&iacute;a. He received Spain's National Fine Arts Prize (2016) and died in Ayacata, Gran Canaria, on 26 February 2018, aged 91.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Juan_Hidalgo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
-                    <a href="#genealogia" class="pioneer-link">Veure relació amb Cage, Duchamp i Polonio →</a>
+                    <a href="#genealogia" class="pioneer-link i18n" data-en="See connection to Cage, Duchamp and Polonio →">Veure relació amb Cage, Duchamp i Polonio →</a>
                 </div>
             </article>
 
             <article class="pioneer-card" id="polonio">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#2d2d0a,#4a4a1a);">
                     <div class="pioneer-avatar">🌿</div>
-                    <span class="pioneer-era">Madrid → Gant → Barcelona</span>
+                    <span class="pioneer-era i18n" data-en="Madrid → Ghent → Barcelona">Madrid → Gant → Barcelona</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus focus-minimal">Minimalisme &amp; Resistència</span>
+                    <span class="pioneer-focus focus-minimal i18n" data-en="Minimalism & Persistence">Minimalisme &amp; Resistència</span>
                     <h3 class="pioneer-name">Eduardo Polonio</h3>
                     <p class="pioneer-dates">1941, Madrid — 2024, Valverde del Camino</p>
-                    <p class="pioneer-text">Figura fonamental per connectar la vanguardia espanyola amb el minimalisme nord-americà de Terry Riley i amb les experiències del laboratori IPEM de Gant. Després de treballar al Laboratori Alea, es va integrar a Phonos. La seva música privilegia la meditació, els ambients i una estètica no comercial.</p>
+                    <p class="pioneer-text i18n" data-en="A key figure linking the Spanish avant-garde to Terry Riley's American minimalism and to the IPEM laboratory in Ghent. After working at the Alea Laboratory, he joined Phonos. His music favors meditation, ambience and a non-commercial aesthetic.">Figura fonamental per connectar la vanguardia espanyola amb el minimalisme nord-americà de Terry Riley i amb les experiències del laboratori IPEM de Gant. Després de treballar al Laboratori Alea, es va integrar a Phonos. La seva música privilegia la meditació, els ambients i una estètica no comercial.</p>
                     <ul class="pioneer-works">
-                        <li><strong>Movimiento Ostinato</strong> (1965): primera obra d'un llenguatge de la repetició.
-                        <li><strong>Fantaisie Impromptu</strong> (1969): primera obra electroacústica plena, IPEM Gant.</li>
-                        <li><strong>It / Viaje</strong> (1976): primera publicació discogràfica de música electrònica a l'Estat.</li>
-                        <li><strong>Acaricia la mañana</strong> (1978): clau del minimalisme mediterrani; reeditada el 2016.</li>
+                        <li class="i18n-html" data-en-html="<strong>Movimiento Ostinato</strong> (1965): his first work in a repetition-based language."><strong>Movimiento Ostinato</strong> (1965): primera obra d'un llenguatge de la repetició.</li>
+                        <li class="i18n-html" data-en-html="<strong>Fantaisie Impromptu</strong> (1969): his first fully-realized electroacoustic work, made at IPEM Ghent."><strong>Fantaisie Impromptu</strong> (1969): primera obra electroacústica plena, IPEM Gant.</li>
+                        <li class="i18n-html" data-en-html="<strong>It / Viaje</strong> (1976): Spain's first electronic-music record release."><strong>It / Viaje</strong> (1976): primera publicació discogràfica de música electrònica a l'Estat.</li>
+                        <li class="i18n-html" data-en-html="<strong>Acaricia la ma&ntilde;ana</strong> (1978): a key work of Mediterranean minimalism; reissued in 2016."><strong>Acaricia la mañana</strong> (1978): clau del minimalisme mediterrani; reeditada el 2016.</li>
                     </ul>
                     <div class="quote-block" style="border-color:var(--accent-minimal)">
-                        <p>"El 1969 jo ja feia música repetitiva i minimal. No hi havia ningú a Espanya que ho fes."</p>
+                        <p class="i18n" data-en="&quot;By 1969 I was already making repetitive, minimal music. There was nobody else in Spain doing it.&quot;">"El 1969 jo ja feia música repetitiva i minimal. No hi havia ningú a Espanya que ho fes."</p>
                         <cite>— Eduardo Polonio</cite>
                     </div>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Autodidactisme i conservatismes</h4>
                         <p>Nascut a Madrid el 5 de gener de 1941 en una família de tradició musical (pare cantant de zarzuela, mare pianista), va descobrir la vocació amb un llibre d'acústica el 1956, fascinats per la seva parentela amb les matemàtiques. Va abandonar Telecomunicacions per estudiar piano, harmonia, contrapunt i composició al Reial Conservatori Superior, amb títol de professor el 1968. El 1964 va començar amb Cristóbal Halffter, el seu "antídot" contra el conservatorisme ("a Madrid hi havia un escàndol per posar Bartók a una audició. Qui tenia inquietuds havia de marxar") i després va ser deixeble de Gombau i Calés. Això marca el seu "Movimiento Ostinato" (1965): un mode de construcció per un únic element, com la xacona, que el seguiria tota la vida.</p>
                         <h4>Darmstadt, Gant, Koan, ZAJ</h4>
@@ -401,7 +506,7 @@
                         <h4>Crisi, renascement a Phonos i Barcelona</h4>
                         <p>Amb la mort de Franco i la fi del patrocini Huarte va deixar la música els anys 1972–75; vagabundeig per Europa i norte d'Àfrica; i un concert a Zeleste (1973). L'hivern 1975–76 contacta a Phonos amb Lewin-Richter i Mestres Quadreny i amb Exil xilè Gabriel Brnčić: tornada a la creació. Després d'un accident greu (1977), de Barcelona (1978) serà professor de música a l'ESO: "el minimalisme havia estat ben acollit a Barcelona"; i va trobar afinitats amb Carles Santos, Javier Navarrete, Alberto Iglesias i Brnčić. L'accident el va deixar en llit però va ser una "metamorfosi interior".</p>
                         <ul class="pioneer-works">
-                            <li><strong>"Oficio"</strong> (1969) improv. en directe amb dos generadors i un ampli modificat.
+                            <li><strong>"Oficio"</strong> (1969) improv. en directe amb dos generadors i un ampli modificat.</li>
                             <li><strong>Autodidaktische Phantasie und Fugue</strong> (1969): cinta que amaga la locució de l'estat d'excepció.</li>
                             <li><strong>El reclinatorio en el tejado de la lejana abadía</strong> (1971): paisatge sonor imaginari.</li>
                             <li><strong>"Me voy a tomar el Orient Express"</strong> (1976), <strong>Valverde</strong> (1981, guitarra flamenca + bulerías), Flautas, voces, animales... (1981).</li>
@@ -411,30 +516,43 @@
                         <h4>Gestor cultural incansable</h4>
                         <p>Al costat de Rafael Santamaría funda Obert-Art Actual (1983) i organitza el festival Sis Dies d'Art Actual (1983–85); crea el grup Multimúsica (1985, en electroacústica en viu); és president d'AMEE (1988–94), director dels estudis Diaphan i de la Càtedra (amb Brnčić i Zulian); "Punt de Trobada" (Madrid), "Confluencias" (Huelva). <strong>Magisterium del Gran Premi Internacional de Música Electroacústica i Bèlgica de Bourges (IMEB, 1994)</strong>, la màxima distinció del gènere. Membre de l'AIME. Instal·lat a Valverde del Camino des de 2004–05, amb estudi propi, hi va morir el 25 de desembre de 2024, als 83 anys.</p>
                         <p>Després de la mort: "Edición Antológica 1969–2014" (2 DVDs, Luscinia, 10 hores, 48 obres, un documental), "Del serialismo al multimedia" (llibre + CD, 2021, textos de José Iges, Adolfo Núñez, Berenguer), i el doble LP "Obra Electroacústica 1969–1981" (Buh Records/AMEE, 2025) restaurat a partir de les cintes mares. Polonio va donar un "seriós" però sense "carta intel·lectual". Un "sense edat" (Iges) que mai va deixar cap batalla per l'electrònica en la qual no es veiés involucrat: "no en un gir, sinó quedant-se anys i integrant-se a Madrid, Barcelona, Andalusia.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/w/index.php?search=Eduardo+Polonio+compositor" target="_blank" rel="noopener">Consultar a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Self-taught against convention</h4>
+<p>Born in Madrid on 5 January 1941, Polonio abandoned telecommunications engineering for music, studying at the Real Conservatorio de Madrid (composition diploma, 1968) under Crist&oacute;bal Halffter, whom he called an "antidote" to a deeply conservative institution.</p>
+<h4>Darmstadt, Ghent and the Grupo Koan</h4>
+<p>Attending Darmstadt from 1966&ndash;70, he took part in the controversial 1969 performance of Terry Riley's <em>In C</em>, the founding minimalist work: "by 1969 I was already making repetitive music &mdash; nobody else in Spain was." A 1969 Fundaci&oacute;n Juan March grant sent him to the IPEM laboratory in Ghent, where he composed <em>Fantaisie Impromptu</em>. From 1967&ndash;70 he was part of the Grupo Koan, performing Cage and Earle Brown.</p>
+<h4>Alea and Spain's first electronic record</h4>
+<p>Back in Madrid, Polonio joined Luis de Pablo's Alea Laboratory; with Argentine composer Horacio Vaggione he formed "Alea M&uacute;sica Electr&oacute;nica Libre", Spain's first live electroacoustic-performance ensemble. Their improvisations, later released as the LP <em>It / Viaje</em> (1976), constitute Spain's first electronic-music record.</p>
+<h4>Barcelona, Phonos and later years</h4>
+<p>After a fallow period travelling Europe and North Africa (1972&ndash;75), Polonio settled in Barcelona in 1978, finding a creative home at the Phonos Laboratory alongside Andr&eacute;s Lewin-Richter, Mestres Quadreny and Gabriel Brn&#269;i&#263;. He received the Bourges International Electroacoustic Music Competition's Magisterium (1994), Europe's top prize in the field, and died in Valverde del Camino (Huelva) on 25 December 2024, aged 83.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/w/index.php?search=Eduardo+Polonio+compositor" target="_blank" rel="noopener">Consultar a Viquipèdia ↗</a>
                     </div>
-                    <a href="#laboratoris" class="pioneer-link">Història a Alea i Phonos →</a>
+                    <a href="#laboratoris" class="pioneer-link i18n" data-en="History at Alea and Phonos →">Història a Alea i Phonos →</a>
                 </div>
             </article>
 
             <article class="pioneer-card" id="halffter">
                 <div class="pioneer-portrait" style="background:linear-gradient(135deg,#1a1a1a,#333);">
                     <div class="pioneer-avatar">🎻</div>
-                    <span class="pioneer-era">Madrid → Darmstadt / Friburg</span>
+                    <span class="pioneer-era i18n" data-en="Madrid → Darmstadt / Freiburg">Madrid → Darmstadt / Friburg</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus" style="background:rgba(255,255,255,.08); color:var(--text-primary)">Instrument i Cinta</span>
+                    <span class="pioneer-focus i18n" style="background:rgba(255,255,255,.08); color:var(--text-primary)" data-en="Instrument & Tape">Instrument i Cinta</span>
                     <h3 class="pioneer-name">Cristóbal Halffter</h3>
                     <p class="pioneer-dates">1930, Madrid — 2021, Villafranca del Bierzo</p>
-                    <p class="pioneer-text">Punt de ruptura entre el públic i l'avantguarda sota el franquisme, amb la memòria històrica en els concerts sinfònics madrilenys. No va fer electrònica pura: sempre va considerar essencial la mediació humana de l'intèrpret, però va ser un dels grans integradors híbrids i director d'un dels laboratoris europeus de referència a Friburg.</p>
+                    <p class="pioneer-text i18n" data-en="A breaking point between the public and the avant-garde under Franco, remembered in Madrid's symphonic concert history. He never wrote pure electronic music — he always considered the performer's human mediation essential — but became a master of instrument-tape hybrids and director of one of Europe's reference electronic-music studios, in Freiburg.">Punt de ruptura entre el públic i l'avantguarda sota el franquisme, amb la memòria històrica en els concerts sinfònics madrilenys. No va fer electrònica pura: sempre va considerar essencial la mediació humana de l'intèrpret, però va ser un dels grans integradors híbrids i director d'un dels laboratoris europeus de referència a Friburg.</p>
                     <ul class="pioneer-works">
-                        <li><strong>Cinc Microformas</strong> (1961): l'escàndol que va obrir la porta al serialisme al concert sinfònic.</li>
-                        <li><strong>Espejos</strong> (1963–64): 4 percussió i cinta "en temps diferit".</li>
-                        <li><strong>Líneas y Puntos</strong> (1966): 20 vents i cinta, timbre sense fisuras.</li>
-                        <li><strong>Noche Pasiva del Sentido</strong> (1970–71): soprano, percussionista i dos cintes en retard (quadrifònica).</li>
+                        <li class="i18n-html" data-en-html="<strong>Cinco Microformas</strong> (1961): the scandal that opened the door to serialism in the symphonic hall."><strong>Cinc Microformas</strong> (1961): l'escàndol que va obrir la porta al serialisme al concert sinfònic.</li>
+                        <li class="i18n-html" data-en-html="<strong>Espejos</strong> (1963&ndash;64): 4 percussionists and tape, playing &quot;out of time&quot; with themselves."><strong>Espejos</strong> (1963–64): 4 percussió i cinta "en temps diferit".</li>
+                        <li class="i18n-html" data-en-html="<strong>L&iacute;neas y Puntos</strong> (1966): 20 winds and tape, a seamless acoustic&ndash;electronic continuum."><strong>Líneas y Puntos</strong> (1966): 20 vents i cinta, timbre sense fisuras.</li>
+                        <li class="i18n-html" data-en-html="<strong>Noche Pasiva del Sentido</strong> (1970&ndash;71): soprano, percussion and two delay tapes, in quadraphonic sound."><strong>Noche Pasiva del Sentido</strong> (1970–71): soprano, percussionista i dos cintes en retard (quadrifònica).</li>
+                        <li class="i18n-html" data-en-html="Director of the Experimentalstudio f&uuml;r akustische Kunst (1979), Freiburg &mdash; one of Europe's leading electronic-music studios."><strong>Director de l'Experimentalstudio de Friburg</strong> (1979): un dels grans laboratoris electrònics europeus.</li>
                     </ul>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Familia, exili i formació</h4>
                         <p>Nascut a Madrid, 24 de març de 1930, de la familia Halffter: els seus oncles Rodolfo (1900–87) i Ernesto (1905–89) van ser compositors, membres de la Generació del 27. Quan va comença la Guerra Civil (1936), la familia va fugar a la Alemanya nazi: estudi primària a Baviera (1936–39), una experiència que va marcar la seva biografia. De tornada, amb Conrado del Campo al Real Conservatori de Madrid (Premi Extraordinari de Composició el 1951 amb un "Scherzo") i en fora, Tansman i Jolivet. Des de 1957, Darmstadt (Stockausen, Boulez, Maderna, Nono, Berio, Ligeti, Adorno) i titular de la Càtedra de Composició (1976–78).</p>
                         <h4>El escàndol de "Microformas"</h4>
@@ -447,13 +565,24 @@
                         <ul class="pioneer-works">
                             <li><strong>"Yes, Speak Out, Yes"</strong> (1968): encara de les Nacions Unides (20 anys de la Declaració Universal), per a bariton, cor i orquestra.</li>
                             <li><strong>Gaudium et Spes–Beúnza</strong> (1972): homenatge al primer objent de consciencia espanyol (Pepe Beúnza); colònia de 1972, no es va tocar a Madrid fins 1977.</li>
-                            <li><strong>Elegías</strong> a Machado, Hernández i García Lorca (1975).
+                            <li><strong>Elegías</strong> a Machado, Hernández i García Lorca (1975).</li>
                             <li><strong>Réquiem por la libertad imaginada</strong> (1971), <strong>Officium Defunctorum</strong> (1979, Les Invalides, París).</li>
                             <li>Operes tardanes: <strong>"Don Quijote"</strong> (1996–99, Teatre Real, 2000; Kiel 2004); <strong>Lázaro</strong> (Kiel, 2008); <strong>"Schachnovelle"</strong> (2013, Kiel, Stefan Zweig, el totalitarisme).</li>
                         </ul>
                         <p>Director de les Filharmòniques de Berlin, Viena i London; Banda Sonora con Carlos Saura, Víctor Erice, Portabella; docència: Universitat de Navarra (1970–78), Conservatori de Berna (1986–89), catedràtic de Darmstadt, president de la secció espanyola del ISCM (1976–78). Premis: Nacional de Música (1953, 1989), Medalla d'Or de Belles Arts (1981), Premi Fundación BBVA "Fronteras del Conocimiento" (primera edició, 2009–10) — el premi més important de la música contemporània.</p>
                         <p>Va morir el 23 de maig de 2021 a casa seva a Villafranca del Bierzo (Lleó) amb 91 anys. Com va dir Tomás Marco: "un creador singular de personalitat arrolladora; va cremar etapes, va fusionar tècniques i estètiques per a aconseguir llenguatge propi amb arrels espanyoles que va portar per al món".</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/wiki/Crist%C3%B3bal_Halffter" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>Family, exile and training</h4>
+<p>Born in Madrid on 24 March 1930 into the Halffter family &mdash; his uncles Rodolfo and Ernesto were prominent Generaci&oacute;n del 27 composers &mdash; Crist&oacute;bal fled with his family to Nazi Germany at the outbreak of the Civil War (1936&ndash;39). Back in Madrid he studied with Conrado del Campo, and from 1957 attended Darmstadt, later holding its Composition Chair (1976&ndash;78).</p>
+<h4>The "Microformas" scandal</h4>
+<p>On 23 February 1961, the Orquesta Nacional's premiere of his fully dodecaphonic <em>Cinco Microformas</em> triggered a 20-minute uproar in Madrid's Palacio de la M&uacute;sica &mdash; one of the defining episodes of 20th-century Spanish music, after which new-music premieres in Spain carried real political weight.</p>
+<h4>Electronics as "mirror"</h4>
+<p>Unlike his peers, Halffter never composed pure electronic music, insisting on the performer's human presence. Instead he pioneered tape-instrument hybrids: <em>Espejos</em> (1963&ndash;64) has four percussionists play live while a tape records and later plays back the first half, creating a "temporal mirror"; <em>L&iacute;neas y Puntos</em> (1966) fuses 20 wind instruments with pre-recorded electronic sound into one seamless continuum. In 1979 he became artistic director of Freiburg's Experimentalstudio, one of Europe's leading electronic-music studios.</p>
+<h4>Human-rights commitment and legacy</h4>
+<p>Deeply engaged politically, he wrote works honoring war victims, conscientious objectors and murdered or exiled poets (Machado, Hern&aacute;ndez, Garc&iacute;a Lorca). He later composed three operas and received Spain's National Music Prize twice (1953, 1989) and the BBVA Foundation's Frontiers of Knowledge Award (2009&ndash;10). He died in Villafranca del Bierzo (Le&oacute;n) on 23 May 2021, aged 91.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Crist%C3%B3bal_Halffter" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
                 </div>
             </article>
@@ -461,26 +590,36 @@
             <article class="pioneer-card" id="castillejo">
                 <div class="pioneer-portrait" style="background: linear-gradient(135deg, #3b0d1e, #4d0f1e);">
                     <div class="pioneer-avatar">⚡</div>
-                    <span class="pioneer-era">Barcelona · 1933–1944</span>
+                    <span class="pioneer-era i18n" data-en="Barcelona · 1933–1944">Barcelona · 1933–1944</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus" style="background:rgba(255,107,53,.15); color:#ffb17f;">Pre-electrònica i patents</span>
+                    <span class="pioneer-focus i18n" style="background:rgba(255,107,53,.15); color:#ffb17f;" data-en="Pre-electronics & patents">Pre-electrònica i patents</span>
                     <h3 class="pioneer-name">Juan García Castillejo</h3>
                     <p class="pioneer-dates">actiu entre 1933 i 1944 (el precursor)</p>
-                    <p class="pioneer-text">La figura menys coneguda i necessari per explicar l'origen remot: amb el seu "Electrocompositor Musical" presentat el 1933 i les seves publicacions de 1944 sobre música elèctrica y telegrafía, va anticipar conceptes d'automatització musical i distribució remota de lo sonor dècades abans d'Internet</p>
+                    <p class="pioneer-text i18n" data-en="The least-known figure, and the essential starting point of this story: with his &quot;Electrocompositor Musical&quot; presented in 1933 and his 1944 publications on electric music and telegraphy, he anticipated concepts of automated composition and remote sound distribution decades before the Internet.">La figura menys coneguda i necessari per explicar l'origen remot: amb el seu "Electrocompositor Musical" presentat el 1933 i les seves publicacions de 1944 sobre música elèctrica y telegrafía, va anticipar conceptes d'automatització musical i distribució remota de lo sonor dècades abans d'Internet</p>
                     <ul class="pioneer-works">
-                        <li><strong>Electrocompositor musical</strong> (1933): dispositiu experimental.</li>
-                        <li><strong>"Música Eléctrica y Telegrafía"</strong> (1944): llibre sobre automatisme, distància, síntesi elèctrica.</li>
+                        <li class="i18n-html" data-en-html="<strong>Electrocompositor musical</strong> (1933): an experimental device for automated composition."><strong>Electrocompositor musical</strong> (1933): dispositiu experimental.</li>
+                        <li class="i18n-html" data-en-html="<strong>&quot;M&uacute;sica El&eacute;ctrica y Telegraf&iacute;a&quot;</strong> (1944): book on automation, remote distribution and electric synthesis of sound."><strong>"Música Eléctrica y Telegrafía"</strong> (1944): llibre sobre automatisme, distància, síntesi elèctrica.</li>
                     </ul>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>El precursor silenciosa</h4>
                         <p>L'estudi historiogràfic recent ha portat del tot a l'oblit a Juan García Castillejo, ara reconegut com el pioner espanyol del primer terç del segle XX, i probablement el més important d'abans de la Segona Guerra Mundial. El seu discurs és el contrari al d'un "compositor": no escriu per a una escena, sinó que construeix aparells i escriu un llibre de teories quan a Espanya la "música elèctrica" no tenia ni un públic ni cap institució.</p>
                         <p>El 1933 presenta el seu <strong>"Electrocompositor Musical"</strong>, un aparell per a la composició i generació automàtica de música mitjançant processos elèctrics. En el seu "libre sobre Música Eléctrica y Telegrafía" (1944) desenvolupa conceptes com la composició automàtica, l'ús creatiu de la electricitat aplicada al so, i fins i tot la distribució remota — la transmissió per cables i telegrafía del so a distància — dècades abans de streaming i la síntesi elèctrica.</p>
                         <h4>Per què és pioner si no com va fer "obres" compositivas?</h4>
                         <p>Perquè el criteri dels pioners inclou els inventors i teòrics: Castillejo és el precedent directe a Espanya de lo que després serà una praxi de la música electrònica: l'ús d'un automatisme, la transmissió distància, la síntesi elèctrica. La documentació del període 1910–1960 incló patents d'òrgans elèctrics, dispositius de gravació, generadors i sistemes automàtics encara en bona part per investigar. El seu perfil es complementa amb la necessitat d'anar als arxius industrials i de recerca.</p>
                         <p>Fonts de consulta: articles acadèmics recents sobre la seva "Electrocompositor Musical" (1933–1944) i l'obra d'Adolfo Núñez "Pioners de la música electrònica". En el fons: Biblioteca de Catalunya, Oficina de patents i arxius tècnics.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/w/index.php?search=Juan+Garc%C3%ADa+Castillejo" target="_blank" rel="noopener">Consultar Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>The silent precursor</h4>
+<p>Recent historiographical research has rescued Juan Garc&iacute;a Castillejo from near-total obscurity, now recognized as Spain's key pioneer of the early 20th century and probably the country's most important figure before World War II. Unlike a "composer" in the usual sense, he built devices and wrote theory at a time when "electric music" had neither an audience nor an institution in Spain.</p>
+<h4>The Electrocompositor and its ideas</h4>
+<p>In 1933 he presented his <em>Electrocompositor Musical</em>, a device for automatic composition and generation of music through electrical processes. His 1944 book on electric music and telegraphy developed ideas of automated composition, the creative use of electricity applied to sound, and even remote distribution of sound over telegraph lines &mdash; decades ahead of streaming.</p>
+<h4>Why a pioneer without "works"?</h4>
+<p>Because the category of pioneer includes inventors and theorists, not only composers: Castillejo is Spain's direct precedent for automatism, remote transmission and electric synthesis in music, themes still under-researched in industrial patent archives from 1910&ndash;1960.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/w/index.php?search=Juan+Garc%C3%ADa+Castillejo" target="_blank" rel="noopener">Consultar Viquipèdia ↗</a>
                     </div>
                 </div>
             </article>
@@ -488,25 +627,33 @@
             <article class="pioneer-card" id="valdelomar">
                 <div class="pioneer-portrait" style="background: linear-gradient(135deg, #10202a, #1a3a50);">
                     <div class="pioneer-avatar">🕯️</div>
-                    <span class="pioneer-era">Granada → Madrid</span>
+                    <span class="pioneer-era i18n" data-en="Granada → Madrid">Granada → Madrid</span>
                 </div>
                 <div class="pioneer-body">
-                    <span class="pioneer-focus" style="background:rgba(0,212,255,.12); color:var(--accent-electric)">Espai sonor / audiovisual</span>
+                    <span class="pioneer-focus i18n" style="background:rgba(0,212,255,.12); color:var(--accent-electric)" data-en="Sound space / audiovisual">Espai sonor / audiovisual</span>
                     <h3 class="pioneer-name">José Val del Omar</h3>
                     <p class="pioneer-dates">1904, Granada — 1982, Madrid</p>
-                    <p class="pioneer-text">Cineasta i inventor; la seva pertinenència no és la d'un compositor electrònic pròpiament dit, sinó la d'un pioner del tractament avançat del so en imatge: el "so diafónic", la espacialització del so i la síntesi experimental audiovisual</p>
+                    <p class="pioneer-text i18n" data-en="Filmmaker and inventor; his place here is not that of an electronic composer proper, but of a pioneer of advanced sound-in-image treatment: &quot;diaphonic sound&quot;, sound spatialization and experimental audiovisual synthesis.">Cineasta i inventor; la seva pertinenència no és la d'un compositor electrònic pròpiament dit, sinó la d'un pioner del tractament avançat del so en imatge: el "so diafónic", la espacialització del so i la síntesi experimental audiovisual</p>
                     <ul class="pioneer-works">
-                        <li><strong>"So diafònic"</strong>: un mètode de projecció i expansió del so que transcendeix la pantalla.</li>
-                        <li><strong>Trilogía elemental</strong>: obres audiovisuals entre cinema, instal·lació i concert.</li>
+                        <li class="i18n-html" data-en-html="<strong>&quot;Diaphonic sound&quot;</strong>: a method of sound projection and expansion that transcends the screen."><strong>"So diafònic"</strong>: un mètode de projecció i expansió del so que transcendeix la pantalla.</li>
+                        <li class="i18n-html" data-en-html="<strong>Trilog&iacute;a elemental</strong>: audiovisual works between film, installation and concert."><strong>Trilogía elemental</strong>: obres audiovisuals entre cinema, instal·lació i concert.</li>
                     </ul>
-                    <button class="btn-expand expand-btn">Ampliar informació ⌄</button>
+                    <button class="btn-expand expand-btn i18n-toggle" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
+                        <div class="bio-lang-ca">
                         <h4>Inventor d'influències</h4>
                         <p>Va néixer a Granada el 1904 i es va traslladar a Madrid, 1982. Cineasta, però també inventor (mètodes de fotografia, de projecció, de sincronisme), és un precursor del videoart i les instal·lacions multimedia, i de l'espacialització sonora a l'Estat. Les seves peces, com l'<strong>"Acariño galo"</strong> o el cicle "Trilogia elemental" (Aguaviva de Fuego, Tierra, Agua), experimenten el ritme del so i la imatge en projectors i en la sala, anticipant el que vindria després a Europa; el cinema experimental, el concert ampliat i l'art electroacüstic.</p>
                         <p>El seu concepte de <em>"so diafònic"</em> (la difusió del so per la sala, més enllà de l'origen localitzable) és en realitat avantguardista de l'electroacüstica espacial, la idea d'ambient sonor com a obra. L'electroacüstica no consisteix nomment en cinta; per a Val del Omar el so era matèria: un component del dispositiu de captació i projecció.</p>
                         <h4>El seu lloc exacte</h4>
                         <p>En una web de "Pioneres" de la música electrònica, la seva figura s'ha d'ubicar dins del "linatge indirecte i pre-electrònic" del grup dels 30 i 40: la "línia Castillejo/Val del Omar", i no la del grup dels 50–70. És un precursor que no feia música abstracta, sinó el que vindria després (els concerts de so ampli i els concerts audiovisuals del Grup Koan, Alea i ZAJ) podrien haver-ho previst. L'establiment rigorós d'aquesta frontera metodològica, d'una altra forma, és el que fa d'una web una enciclopèdia i no un llistat.</p>
-                        <a class="wiki-link" href="https://es.wikipedia.org/wiki/Jos%C3%A9_Val_del_Omar" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
+                        </div>
+                        <div class="bio-lang-en">
+<h4>An inventor of influences</h4>
+<p>Born in Granada in 1904, Val del Omar moved to Madrid, where he died in 1982. Primarily a filmmaker, he was also an inventor of photographic, projection and synchronization methods, a forerunner of video art and multimedia installation, and of sound spatialization in Spain. Works such as <em>Acar&iacute;&ntilde;o galo</em> and the <em>Trilog&iacute;a elemental</em> (Fire, Earth, Water) experimented with the rhythm of sound and image projected into the room itself, anticipating expanded cinema and electroacoustic art.</p>
+<h4>His exact place in this story</h4>
+<p>On a site devoted to pioneers of electronic music, Val del Omar belongs to the indirect, pre-electronic lineage of the 1930s&ndash;40s &mdash; alongside Castillejo &mdash; rather than to the 1950&ndash;70 generation. He did not make abstract music, but foresaw the expanded-sound and audiovisual concerts later staged by Grupo Koan, Alea and ZAJ.</p>
+</div>
+<a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Jos%C3%A9_Val_del_Omar" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
                     </div>
                 </div>
             </article>
@@ -515,12 +662,54 @@
 
     <div class="wave-divider"><span style="height:50px"></span><span style="height:30px"></span><span style="height:55px"></span><span style="height:25px"></span><span style="height:45px"></span><span style="height:35px"></span><span style="height:60px"></span><span style="height:20px"></span><span style="height:50px"></span><span style="height:30px"></span><span style="height:55px"></span><span style="height:25px"></span></div>
 
+
+    <!-- Instruments -->
+    <section id="instruments">
+        <div class="section-header">
+            <span class="section-tag wave i18n" data-en="Technology">Tecnologia</span>
+            <h2 class="i18n" data-en="Instruments & Machines">Instruments i Màquines</h2>
+            <p class="i18n" data-en="Before there was a &quot;scene&quot;, there was hardware: from Castillejo's home-built electrocompositor to the imported synthesizers of the Alea and Phonos laboratories.">Abans que existís una "escena", hi havia maquinari: des de l'electrocompositor casolà de Castillejo fins als sintetitzadors importats dels laboratoris Alea i Phonos.</p>
+        </div>
+        <div class="labs-container">
+            <article class="lab-card">
+                <div class="lab-header">
+                    <div class="lab-icon" style="background:rgba(255,107,53,.15); color:var(--accent-analog)">⚡</div>
+                    <div><h3 class="lab-name">Electrocompositor Musical</h3><p class="lab-period i18n" data-en="Barcelona · 1933 · J. García Castillejo">Barcelona · 1933 · J. García Castillejo</p></div>
+                </div>
+                <p class="lab-desc i18n" data-en="An experimental device for automated musical composition through electrical processes — the earliest documented Spanish attempt to mechanize the act of composing.">Aparell experimental per a la composició musical automàtica mitjançant processos elèctrics — el primer intent documentat a Espanya de mecanitzar l'acte de compondre.</p>
+            </article>
+            <article class="lab-card">
+                <div class="lab-header">
+                    <div class="lab-icon" style="background:rgba(0,212,255,.15); color:var(--accent-electric)">🌀</div>
+                    <div><h3 class="lab-name i18n" data-en="EMS VCS3 Synthesizer">Sintetitzador EMS VCS3</h3><p class="lab-period i18n" data-en="UK, 1969 (P. Zinovieff) · used at Alea and Phonos">R. Unit, 1969 (P. Zinovieff) · usat a Alea i Phonos</p></div>
+                </div>
+                <p class="lab-desc i18n" data-en="A compact British synthesizer portable enough for live concerts. Two units arrived at the Alea laboratory in 1970, enabling real-time electronic performance for the first time in Spain.">Sintetitzador britànic compacte, prou portàtil per a concerts en directe. Dues unitats van arribar al laboratori Alea el 1970, permetent per primera vegada a Espanya la interpretació electrònica en temps real.</p>
+            </article>
+            <article class="lab-card">
+                <div class="lab-header">
+                    <div class="lab-icon" style="background:rgba(123,47,247,.15); color:var(--accent-wave)">🎚️</div>
+                    <div><h3 class="lab-name i18n" data-en="Revox tape recorders">Magnetòfons Revox</h3><p class="lab-period i18n" data-en="Phonos, Alea, BBC Radiophonic Workshop">Phonos, Alea, BBC Radiophonic Workshop</p></div>
+                </div>
+                <p class="lab-desc i18n" data-en="Two- and four-track reel-to-reel decks — the basic tool of every laboratory in this story, used for splicing, looping, delay and layering long before digital sampling existed.">Magnetòfons de dues i quatre pistes — l'eina bàsica de tots els laboratoris d'aquesta història, usats per a talls, bucles, retard i superposició molt abans de l'existència del sampler digital.</p>
+            </article>
+            <article class="lab-card">
+                <div class="lab-header">
+                    <div class="lab-icon" style="background:rgba(46,204,113,.15); color:var(--accent-concrete)">🖥️</div>
+                    <div><h3 class="lab-name">IBM 7090</h3><p class="lab-period i18n" data-en="Centro de Cálculo, Madrid (1966) & Barcelona (1969)">Centro de Cálculo, Madrid (1966) i Barcelona (1969)</p></div>
+                </div>
+                <p class="lab-desc i18n" data-en="Mainframe computer used by Luis de Pablo (1966) and Mestres Quadreny's Ibèmia (1969) to generate musical parameters through probability algorithms — Spain's first generation of computer-assisted scores.">Ordinador central utilitzat per Luis de Pablo (1966) i per "Ibèmia" de Mestres Quadreny (1969) per generar paràmetres musicals mitjançant algoritmes probabilístics — la primera generació de partitures assistides per ordinador a l'Estat.</p>
+            </article>
+        </div>
+    </section>
+
+    <div class="wave-divider"><span style="height:30px"></span><span style="height:55px"></span><span style="height:25px"></span><span style="height:45px"></span><span style="height:35px"></span><span style="height:60px"></span><span style="height:20px"></span><span style="height:50px"></span></div>
+
     <!-- Laboratories -->
     <section id="laboratoris">
         <div class="section-header">
-            <span class="section-tag analog">Infraestructura</span>
-            <h2>Ecosistema i Laboratoris</h2>
-            <p>Sense un estudi equipat la música electrònica era inimaginable: els laboratoris van esdevenir refugis alhora de la construcció, la docència i la llibertat.</p>
+            <span class="section-tag analog i18n" data-en="Infrastructure">Infraestructura</span>
+            <h2 class="i18n" data-en="Ecosystem & Laboratories">Ecosistema i Laboratoris</h2>
+            <p class="i18n" data-en="Without an equipped studio, electronic music was unthinkable: laboratories became refuges for building, teaching and creative freedom all at once.">Sense un estudi equipat la música electrònica era inimaginable: els laboratoris van esdevenir refugis alhora de la construcció, la docència i la llibertat.</p>
         </div>
         <div class="labs-container">
             <article class="lab-card phonos" id="phonos">
@@ -531,17 +720,17 @@
                         <p class="lab-period">1974–actualitat · Barcelona · UPF</p>
                     </div>
                 </div>
-                <p class="lab-desc">Fundat per <a href="#mestres" class="internal-link">J.M. Mestres Quadreny</a>, Andrés Lewin-Richter i Txejo Callejo. Primer estudi electroacoustic de Catalunya en ple franquisme (1974). Hi va entrar <a href="#polonio" class="internal-link">Eduardo Polonio</a> (1976–78) i Brnčić després, amb concerts i cicles i col·laboracions amb IRCAM, IPEM, GRM Colonia. El 1994 es va integrar a la UPF, sent el primer centre de la recerca i ensenyament de l'Estat; amb un fons digital de més de 40 anys. Exposició "Phonos, 40 años" al Museu de la Música (2014).</p>
+                <p class="lab-desc i18n-html" data-en-html="Founded by <a href=&quot;#mestres&quot; class=&quot;internal-link&quot;>J.M. Mestres Quadreny</a>, Andr&eacute;s Lewin-Richter and Llu&iacute;s Callejo, Catalonia's first electroacoustic studio, founded in the middle of Franco's dictatorship (1974). <a href=&quot;#polonio&quot; class=&quot;internal-link&quot;>Eduardo Polonio</a> joined later, alongside Brn&#269;i&#263;, with concert series and collaborations with IRCAM, IPEM and GRM Paris. In 1994 it joined Universitat Pompeu Fabra, becoming Spain's leading research and teaching centre in the field, with a 40+ year digital archive. The exhibition &quot;Phonos, 40 a&ntilde;os&quot; ran at Barcelona's Museu de la M&uacute;sica in 2014.">Fundat per <a href="#mestres" class="internal-link">J.M. Mestres Quadreny</a>, Andrés Lewin-Richter i Txejo Callejo. Primer estudi electroacoustic de Catalunya en ple franquisme (1974). Hi va entrar <a href="#polonio" class="internal-link">Eduardo Polonio</a> (1976–78) i Brnčić després, amb concerts i cicles i col·laboracions amb IRCAM, IPEM, GRM Colonia. El 1994 es va integrar a la UPF, sent el primer centre de la recerca i ensenyament de l'Estat; amb un fons digital de més de 40 anys. Exposició "Phonos, 40 años" al Museu de la Música (2014).</p>
                 <div class="lab-facts">
-                    <div class="lab-fact"><strong>Equipaments</strong> EMS VCS3, Minimoog, Revox, filters, anells.</div>
-                    <div class="lab-fact"><strong>Funcionalitat</strong> Producció, concerts, ensenyament.</div>
-                    <div class="lab-fact"><strong>Xarxa</strong> IRCAM, IPEM, GRM Paris, Studio Köln.</div>
-                    <div class="lab-fact"><strong>Referència</strong> El més important dels 2 dels laboratoris espanyols.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Equipment</strong> EMS VCS3, Minimoog, Revox, filters, ring modulators."><strong>Equipaments</strong> EMS VCS3, Minimoog, Revox, filters, anells.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Function</strong> Production, concerts, teaching."><strong>Funcionalitat</strong> Producció, concerts, ensenyament.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Network</strong> IRCAM, IPEM, GRM Paris, Studio K&ouml;ln."><strong>Xarxa</strong> IRCAM, IPEM, GRM Paris, Studio Köln.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Legacy</strong> One of Spain's two most important laboratories."><strong>Referència</strong> El més important dels 2 dels laboratoris espanyols.</div>
                 </div>
                 <div class="quote-block" style="margin-top:1.5rem; border-left-color:var(--accent-electric)">
-                    <p>Fundar Phonos el 1974 va ser un acte de resistència cultural: connectar Catalunya amb l'avantguarda quan encara no era possible.</p>
+                    <p class="i18n" data-en="Founding Phonos in 1974 was an act of cultural resistance: connecting Catalonia to the avant-garde when doing so was still barely possible.">Fundar Phonos el 1974 va ser un acte de resistència cultural: connectar Catalunya amb l'avantguarda quan encara no era possible.</p>
                 </div>
-                <p style="font-size:.78rem;color:var(--text-secondary);margin-top:1rem;">Nota: <a class="internal-link" href="#depablo">Luis de Pablo</a> va ser el primer que es va interessar a integrar el laboratori, ja que la documentació dels seus inicis va ser molt dispersa.</p>
+                <p class="i18n-html" style="font-size:.78rem;color:var(--text-secondary);margin-top:1rem;" data-en-html="Note: <a class=&quot;internal-link&quot; href=&quot;#depablo&quot;>Luis de Pablo</a> was among the first to help build the laboratory network, though documentation of its earliest years remains scattered.">Nota: <a class="internal-link" href="#depablo">Luis de Pablo</a> va ser el primer que es va interessar a integrar el laboratori, ja que la documentació dels seus inicis va ser molt dispersa.</p>
             </article>
 
             <article class="lab-card alea" id="alea">
@@ -552,14 +741,14 @@
                         <p class="lab-period">1965–1977 · Madrid · c/ San Bernabé</p>
                     </div>
                 </div>
-                <p class="lab-desc">Creat per <a href="#depablo" class="internal-link">Luis de Pablo</a> amb el mecenatge de la família Huarte, primer laboratori electroacüstic "estable i públic" de l'Estat, extensió de l'associ concertística Alea (1965–77): concerts gratuïts de Boulez, Stockausen, Vaggione, Polonio, Tomás Marco, Guerrero i Lewin-Richter, interdisciplinarietà amb Sempere, Utray, Molero, Ladoire. L'equip: oscil·ladors, Revox, VCS3 d'EMS —també concert en directe. I del "música electroacüstica viva"; el final va ser per la marxa de De Pablo i la crisi del Huarte (segrest ETA) després dels Encuentros.</p>
+                <p class="lab-desc i18n-html" data-en-html="Created by <a href=&quot;#depablo&quot; class=&quot;internal-link&quot;>Luis de Pablo</a> with the patronage of the Huarte family, Spain's first &quot;stable and public&quot; electroacoustic laboratory, an extension of the Alea concert association (1965&ndash;77): free concerts of Boulez and Stockhausen, and collaborations with Vaggione, Polonio, Tom&aacute;s Marco, Guerrero and Lewin-Richter, plus visual artists such as Sempere and Utray. Equipment included oscillators, Revox tape decks and EMS VCS3 synthesizers, used for live performance under the name &quot;M&uacute;sica Electr&oacute;nica Libre&quot;. It closed in 1977 after De Pablo's departure and the collapse of Huarte patronage following the Encuentros de Pamplona (ETA kidnapped patron Juan Huarte).">Creat per <a href="#depablo" class="internal-link">Luis de Pablo</a> amb el mecenatge de la família Huarte, primer laboratori electroacüstic "estable i públic" de l'Estat, extensió de l'associ concertística Alea (1965–77): concerts gratuïts de Boulez, Stockausen, Vaggione, Polonio, Tomás Marco, Guerrero i Lewin-Richter, interdisciplinarietà amb Sempere, Utray, Molero, Ladoire. L'equip: oscil·ladors, Revox, VCS3 d'EMS —també concert en directe. I del "música electroacüstica viva"; el final va ser per la marxa de De Pablo i la crisi del Huarte (segrest ETA) després dels Encuentros.</p>
                 <div class="lab-facts">
-                    <div class="lab-fact"><strong>Grup</strong "Alea, Música Electrònica Libre".</div>
-                    <div class="lab-fact"><strong>Obra</strong> We, Heterogéneo, It/Viaje.</div>
-                    <div class="lab-fact"><strong>Nodus</strong> Polonio, Vaggione, de Pablo.</div>
-                    <div class="lab-fact"><strong>Final</strong> 1977, després del tancament.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Ensemble</strong> &quot;Alea, M&uacute;sica Electr&oacute;nica Libre&quot;."><strong>Grup</strong> "Alea, Música Electrònica Libre".</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Works</strong> We, Heterog&eacute;neo, It/Viaje."><strong>Obra</strong> We, Heterogéneo, It/Viaje.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Core members</strong> Polonio, Vaggione, de Pablo."><strong>Nodus</strong> Polonio, Vaggione, de Pablo.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Closed</strong> 1977."><strong>Final</strong> 1977, després del tancament.</div>
                 </div>
-                <a href="#genealogia" class="pioneer-link" style="margin-top:1rem">Veure engranatge Alea →</a>
+                <a href="#genealogia" class="pioneer-link i18n" style="margin-top:1rem" data-en="See Alea network →">Veure engranatge Alea →</a>
             </article>
 
             <article class="lab-card bbc" id="bbc">
@@ -570,12 +759,12 @@
                         <p class="lab-period">1958–2008 · Londres · Maida Vale</p>
                     </div>
                 </div>
-                <p class="lab-desc">No era espanyola, però sense ella no s'entendria el pionerat de <a href="#gerhard" class="internal-link">Robert Gerhard</a>: va ser l'únic compositor anglès amb accés "raonable" als estudis de la BBC als 60 (amb el suport del director de música William Glock), treballant en els estudis i en el seu estudi de Cambridge amb 600 cintes magnètiques. Amb la col·laboració de Briscoe, Derbyshire i Dick Mills ("The Anger of Achilles", Sinfonia 3 i als Proms).</p>
+                <p class="lab-desc i18n-html" data-en-html="Not Spanish, but essential to understanding <a href=&quot;#gerhard&quot; class=&quot;internal-link&quot;>Robert Gerhard</a>'s pioneering work: he was the only established British composer with regular access to the BBC studios in the 1960s (backed by music director William Glock), working both there and at his own Cambridge studio with over 600 magnetic tapes, alongside Desmond Briscoe, Delia Derbyshire and Dick Mills.">No era espanyola, però sense ella no s'entendria el pionerat de <a href="#gerhard" class="internal-link">Robert Gerhard</a>: va ser l'únic compositor anglès amb accés "raonable" als estudis de la BBC als 60 (amb el suport del director de música William Glock), treballant en els estudis i en el seu estudi de Cambridge amb 600 cintes magnètiques. Amb la col·laboració de Briscoe, Derbyshire i Dick Mills ("The Anger of Achilles", Sinfonia 3 i als Proms).</p>
                 <div class="lab-facts">
-                    <div class="lab-fact"><strong>Fundada</strong> 1958 (Briscoe, Clark).</div>
-                    <div class="lab-fact"><strong>Tècnica</strong> Cinta, splicing, anells, reverberants.</div>
-                    <div class="lab-fact"><strong>Gerhard</strong> 20 obres amb cinta (1954–67) a les col·laboracions.</div>
-                    <div class="lab-fact"><strong>Impacte</strong> Doctor Who → i la cultura pop.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Founded</strong> 1958 (Briscoe, Clark)."><strong>Fundada</strong> 1958 (Briscoe, Clark).</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Technique</strong> Tape, splicing, ring loops, reverberation chambers."><strong>Tècnica</strong> Cinta, splicing, anells, reverberants.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Gerhard</strong> 20+ tape works (1954&ndash;67) among its collaborations."><strong>Gerhard</strong> 20 obres amb cinta (1954–67) a les col·laboracions.</div>
+                    <div class="lab-fact i18n-html" data-en-html="<strong>Impact</strong> Doctor Who &rarr; and mainstream pop culture."><strong>Impacte</strong> Doctor Who → i la cultura pop.</div>
                 </div>
             </article>
         </div>
@@ -584,24 +773,24 @@
     <!-- Genealogy -->
     <section id="genealogia">
         <div class="section-header">
-            <span class="section-tag concrete">Engranatge</span>
-            <h2>Mapa de Genealogia Sonora</h2>
-            <p>No eren illes: eren un circuit internacional en que el que es trobaven Darmstadt i Paris amb Madrid, Barcelona, Milà, Londres, Cambridge i Nova York.</p>
+            <span class="section-tag concrete i18n" data-en="Network">Engranatge</span>
+            <h2 class="i18n" data-en="Sound Genealogy Map">Mapa de Genealogia Sonora</h2>
+            <p class="i18n" data-en="They were not isolated islands: they formed an international circuit where Darmstadt and Paris met Madrid, Barcelona, Milan, London, Cambridge and New York.">No eren illes: eren un circuit internacional en que el que es trobaven Darmstadt i Paris amb Madrid, Barcelona, Milà, Londres, Cambridge i Nova York.</p>
         </div>
         <div class="genealogy">
-            <h3>Xarxes i connexions clau</h3>
+            <h3 class="i18n" data-en="Key networks and connections">Xarxes i connexions clau</h3>
             <div class="connections-grid">
-                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><div class="connection-label">Eix Paris–Darmstadt–Madrid–Barcelona: cada un creava (Alea/Phonos) la part de l'estudi.</div></div>
-                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label">El primer concert (1960) i el primer festival (1959) a Las Palmas, en la mateixa generació i sota el mateix xoc per Cage.</div></div>
-                <div class="connection"><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><span class="connection-arrow">⇄</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><div class="connection-label">Polonio comença a Alea (fundant ALEA Música Electrònica), amb el patrocini de Huarte.</div></div>
-                <div class="connection"><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><span class="connection-arrow">⇄</span><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><div class="connection-label">Phonos (1976) acull Polonio quan la crisi dels 70 i la transformació de la escena de Madrid.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">John Cage · David Tudor</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label">Darmstadt 58: l'atzar, el silenci, les obres obertes, la indeterminación sistemática.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">Pierre Schaeffer</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label">L' stage ORTF(1961) crea la primera obra electroacüstica espanyola.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">Delia Derbyshire · Dick Mills</span><span class="connection-arrow">→</span><a href="#gerhard" class="connection-node" style="color:var(--accent-wave)">Gerhard</a><div class="connection-label">La relació artista/tècnic del Workshop: la producció electrònica des del laboratori.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-analog)"><span class="connection-node">Bruno Maderna</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label">Formació a Milà i contacte amb el laboratori de RAI.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-minimal)"><span class="connection-node">Terry Riley · Steve Reich</span><span class="connection-arrow">→</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a><div class="connection-label">La porta del minimalisme als 1960–70 (Ritmos in C, 1969).</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">IBM / centres de càlcul</span><span class="connection-arrow">→</span><div><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label">IBM 7090 a la Universitat (1966) i a Barcelona (1969): primer generació de partitures per ordinador.</div></div>
-                <div class="connection"><span class="connection-node">Darmstadt 56–70</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a> · <a href="#halffter" class="connection-node" style="color:var(--text-primary)">Halffter</a></div><div class="connection-label">El bescanvi de la vanguardia espanyola amb Boulez, Stockausen, Ligeti, Nono, Berio.</div></div>
+                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><div class="connection-label i18n" data-en="The Paris–Darmstadt–Madrid–Barcelona axis: each built their own studio (Alea/Phonos).">Eix Paris–Darmstadt–Madrid–Barcelona: cada un creava (Alea/Phonos) la part de l'estudi.</div></div>
+                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="The first concert (1960) and the first festival (1959) in Las Palmas, the same generation shaped by the same shock of discovering Cage.">El primer concert (1960) i el primer festival (1959) a Las Palmas, en la mateixa generació i sota el mateix xoc per Cage.</div></div>
+                <div class="connection"><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><span class="connection-arrow">⇄</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><div class="connection-label i18n" data-en="Polonio began at Alea (founding ALEA Música Electrónica), under Huarte patronage.">Polonio comença a Alea (fundant ALEA Música Electrònica), amb el patrocini de Huarte.</div></div>
+                <div class="connection"><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><span class="connection-arrow">⇄</span><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><div class="connection-label i18n" data-en="Phonos (1976) welcomed Polonio amid the 1970s crisis and the transformation of the Madrid scene.">Phonos (1976) acull Polonio quan la crisi dels 70 i la transformació de la escena de Madrid.</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">John Cage · David Tudor</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label i18n" data-en="Darmstadt '58: chance, silence, open works, systematic indeterminacy.">Darmstadt 58: l'atzar, el silenci, les obres obertes, la indeterminación sistemática.</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">Pierre Schaeffer</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="The 1961 ORTF placement produced the first Spanish electroacoustic work.">L' stage ORTF(1961) crea la primera obra electroacüstica espanyola.</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">Delia Derbyshire · Dick Mills</span><span class="connection-arrow">→</span><a href="#gerhard" class="connection-node" style="color:var(--accent-wave)">Gerhard</a><div class="connection-label i18n" data-en="The artist/engineer relationship at the Workshop: electronic production from inside the lab.">La relació artista/tècnic del Workshop: la producció electrònica des del laboratori.</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-analog)"><span class="connection-node">Bruno Maderna</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="Training in Milan and contact with the RAI laboratory.">Formació a Milà i contacte amb el laboratori de RAI.</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-minimal)"><span class="connection-node">Terry Riley · Steve Reich</span><span class="connection-arrow">→</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a><div class="connection-label i18n" data-en="The gateway to minimalism in the 1960s–70s (In C, 1969).">La porta del minimalisme als 1960–70 (Ritmos in C, 1969).</div></div>
+                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">IBM / centres de càlcul</span><span class="connection-arrow">→</span><div><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label i18n" data-en="IBM 7090 at the university (1966) and in Barcelona (1969): the first generation of computer-generated scores.">IBM 7090 a la Universitat (1966) i a Barcelona (1969): primer generació de partitures per ordinador.</div></div>
+                <div class="connection"><span class="connection-node">Darmstadt 56–70</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a> · <a href="#halffter" class="connection-node" style="color:var(--text-primary)">Halffter</a></div><div class="connection-label i18n" data-en="The Spanish avant-garde's exchange with Boulez, Stockhausen, Ligeti, Nono and Berio.">El bescanvi de la vanguardia espanyola amb Boulez, Stockausen, Ligeti, Nono, Berio.</div></div>
             </div>
         </div>
     </section>
@@ -609,49 +798,115 @@
     <!-- Dibuix del So -->
     <section id="dibuix-lyss">
         <div class="section-header">
-            <span class="section-tag minimal">Visual</span>
-            <h2>El Dibuix del So</h2>
-            <p>Les partitures de Mestres Quadreny i Hidalgo són objectes visuals: una secció per si soles — la "música per als ulls" del visitant no especialista.</p>
+            <span class="section-tag minimal i18n" data-en="Visual">Visual</span>
+            <h2 class="i18n" data-en="Drawing Sound">El Dibuix del So</h2>
+            <p class="i18n" data-en="The scores of Mestres Quadreny and Hidalgo are visual objects in their own right — &quot;music for the eyes&quot; for the non-specialist visitor.">Les partitures de Mestres Quadreny i Hidalgo són objectes visuals: una secció per si soles — la "música per als ulls" del visitant no especialista.</p>
         </div>
         <div class="scores-gallery">
             <article class="score-card">
                 <div class="score-visual graphic-1"><div class="score-shapes"><div class="shape" style="top:20%;left:25%;width:60px;height:60px;border:2px dashed var(--accent-electric)"></div><div class="shape" style="width:80px;height:18px;background:rgba(255,156,18,.25);top:18%;left:55%;transform:rotate(-10deg)"></div><div class="shape-dots" style="top:68%;left:18%"></div><div class="shape shape-spiral" style="top:25%;left:70%;width:45px;height:45px"></div></div></div>
-                <div class="score-info"><h5>Música Oberta (1960) — Mestres Quadreny</h5><p>Símbols i zones: forma, color i espai com a paràmetres musicals; l'intèrpret tria l'ordre.</p></div>
+                <div class="score-info"><h5 class="i18n" data-en="Música Oberta (1960) — Mestres Quadreny">Música Oberta (1960) — Mestres Quadreny</h5><p class="i18n" data-en="Symbols and zones: shape, color and space as musical parameters; the performer chooses the order.">Símbols i zones: forma, color i espai com a paràmetres musicals; l'intèrpret tria l'ordre.</p></div>
             </article>
             <article class="score-card">
                 <div class="score-visual graphic-2"><div class="score-shapes"><div class="shape" style="width:4px;height:90px;background:rgba(0,212,255,.35);top:15%;left:25%"></div><div class="shape" style="width:140px;height:4px;background:rgba(201,69,255,.2);top:55%;left:12%"></div><div class="shape" style="width:30px;height:30px;border:2px dotted var(--accent-concrete);top:55%;left:55%"></div></div></div>
-                <div class="score-info"><h5>Concert de tardor (1962) — MestresQuadreny</h5><p>Estructura aleatòria i espacial per a conjunt de càmera.</p></div>
+                <div class="score-info"><h5 class="i18n" data-en="Concert de tardor (1962) — Mestres Quadreny">Concert de tardor (1962) — MestresQuadreny</h5><p class="i18n" data-en="Aleatory, spatial structure for chamber ensemble.">Estructura aleatòria i espacial per a conjunt de càmera.</p></div>
             </article>
             <article class="score-card">
                 <div class="score-visual graphic-3"><div class="score-shapes"><div class="shape-dots" style="width:170px;top:25%;left:20%;background:repeating-linear-gradient(90deg,var(--accent-analog) 0 4px,transparent 4px 18px);height:3px"></div><div class="shape" style="width:45px;height:45px;border:2px solid rgba(255,107,53,.35);top:18%;left:68%;border-radius:6%"></div><div class="shape" style="width:30px;height:30px;border:2px solid rgba(0,212,255,.35);top:55%;left:20%;border-radius:6%"></div></div></div>
-                <div class="score-info"><h5>Sintagmes (1963–64) — MestrèsQuadreny</h5><p>El públic com a instrument: gestos visuals de participació (aplaudiments, xiulets, colps).</p></div>
+                <div class="score-info"><h5 class="i18n" data-en="Sintagmes (1963–64) — Mestres Quadreny">Sintagmes (1963–64) — MestrèsQuadreny</h5><p class="i18n" data-en="The audience as instrument: visual cues for participation (applause, whistles, claps).">El públic com a instrument: gestos visuals de participació (aplaudiments, xiulets, colps).</p></div>
             </article>
             <article class="score-card">
                 <div class="score-visual" style="background:linear-gradient(180deg,#330f1c,#22030b)"><div class="score-shapes"><div class="shape" style="width:3px;height:110px;background:rgba(255,255,255,.16);top:10%;left:33%"></div><div class="shape" style="width:3px;height:80px;background:rgba(255,107,53,.25);top:15%;left:52%"></div><div class="shape line-dots" style="top:78%;left:25%;width:150px;height:3px;background:repeating-linear-gradient(90deg,var(--accent-wave) 0 6px,transparent 6px 14px)"></div></div></div>
-                <div class="score-info"><h5>Claustrophilia (1966) — Gerhard</h5><p>Única partitura gràfica de Gerhard, feta com a regal a John Cage per al llibre "Notations" (1969): arpes múltiples, ràdios i monitors.</p></div>
+                <div class="score-info"><h5 class="i18n" data-en="Claustrophilia (1966) — Gerhard">Claustrophilia (1966) — Gerhard</h5><p class="i18n" data-en="Gerhard's only graphic score, made as a gift to John Cage for the book "Notations" (1969): multiple harps, radios and monitors.">Única partitura gràfica de Gerhard, feta com a regal a John Cage per al llibre "Notations" (1969): arpes múltiples, ràdios i monitors.</p></div>
             </article>
             <article class="score-card">
                 <div class="score-visual" style="background:linear-gradient(180deg,#030f1a,#0d1a1f)"><div class="score-shapes"><div class="shape" style="width:40px;height:40px;border:1px solid #fff2;top:22%;left:25%;border-radius:50%;box-shadow:0 0 0 6px rgba(46,204,113,.28)"></div><div class="shape" style="width:2px;height:100px;background:rgba(46,204,113,.4);top:20%;left:40%"></div><div class="shape" style="width:65px;height:26px;background:rgba(0,212,255,.18);top:56%;left:68%"></div></div></div>
-                <div class="score-info"><h5>Etcéteras / POEMs visuals — Hidalgo/ZAJ</h5><p>Poesia visual, receptes per a accions: partitures que són instruccions, objectes i fotografies.</p></div>
+                <div class="score-info"><h5 class="i18n" data-en="Etcéteras / Visual poems — Hidalgo/ZAJ">Etcéteras / POEMs visuals — Hidalgo/ZAJ</h5><p class="i18n" data-en="Visual poetry, recipes for actions: scores that are instructions, objects and photographs.">Poesia visual, receptes per a accions: partitures que són instruccions, objectes i fotografies.</p></div>
             </article>
         </div>
     </section>
 
+
+    <!-- International Context -->
+    <section id="context">
+        <div class="section-header">
+            <span class="section-tag analog i18n" data-en="Comparison">Comparació</span>
+            <h2 class="i18n" data-en="International Context">Context Internacional</h2>
+            <p class="i18n" data-en="Between 1900 and 1950 no Spanish musicians appear in the international history of electronic music: the Civil War, Franco's dictatorship and lack of access to recording and synthesis technology delayed Spain by roughly two decades against its neighbors.">Entre 1900 i 1950 no hi ha músics espanyols reconeguts a la història internacional de la música electrònica: la Guerra Civil, la dictadura franquista i la manca d'accés a tecnologia de gravació i síntesi van retardar l'Estat espanyol prop de dues dècades respecte als seus veïns.</p>
+        </div>
+        <div class="transition-content">
+            <article class="transition-card"><h4>🇫🇷 France</h4><p class="i18n" data-en="Pierre Schaeffer founds musique concrète at the ORTF studio (1948–50); the GRM becomes the reference lab where Juan Hidalgo trained in 1961.">Pierre Schaeffer funda la música concreta a l'estudi de l'ORTF (1948–50); el GRM esdevé el laboratori de referència on Juan Hidalgo es va formar el 1961.</p></article>
+            <article class="transition-card"><h4>🇩🇪 Germany</h4><p class="i18n" data-en="The WDR studio in Cologne (1951) and the Darmstadt Summer Courses become the meeting point for the entire Spanish generation — Hidalgo, de Pablo, Halffter and Polonio all passed through.">L'estudi de la WDR a Colònia (1951) i els Cursos de Darmstadt esdevenen el punt de trobada de tota la generació espanyola — Hidalgo, de Pablo, Halffter i Polonio hi van passar tots.</p></article>
+            <article class="transition-card"><h4>🇬🇧 United Kingdom</h4><p class="i18n" data-en="The BBC Radiophonic Workshop opens in 1958; Robert Gerhard, a Spanish exile, becomes its only regularly-admitted established composer.">El BBC Radiophonic Workshop obre el 1958; Robert Gerhard, exiliat espanyol, en serà l'únic compositor establert amb accés regular.</p></article>
+            <article class="transition-card"><h4>🇧🇪 Belgium</h4><p class="i18n" data-en="The IPEM institute in Ghent hosts Eduardo Polonio's 1969 residency, his gateway into fully-developed electroacoustic composition.">L'institut IPEM de Gant acull la residència de 1969 d'Eduardo Polonio, la seva porta d'entrada a la composició electroacústica plenament desenvolupada.</p></article>
+            <article class="transition-card"><h4>🇺🇸 United States</h4><p class="i18n" data-en="Terry Riley's minimalism (In C, 1964) and John Cage's indeterminacy reach Spain via Darmstadt, shaping Polonio, Hidalgo and Mestres Quadreny.">El minimalisme de Terry Riley (In C, 1964) i la indeterminació de John Cage arriben a Espanya via Darmstadt, i marquen Polonio, Hidalgo i Mestres Quadreny.</p></article>
+            <article class="transition-card"><h4 class="i18n" data-en="🇪🇸 Spain">🇪🇸 Espanya</h4><p class="i18n" data-en="No institutional studio existed until Alea (1965) and Phonos (1974) — roughly 15–25 years after France, Germany and the UK.">Cap estudi institucional va existir fins a Alea (1965) i Phonos (1974) — uns 15–25 anys després de França, Alemanya i el Regne Unit.</p></article>
+        </div>
+    </section>
+
+    <div class="wave-divider"><span style="height:40px"></span><span style="height:20px"></span><span style="height:55px"></span><span style="height:30px"></span><span style="height:50px"></span><span style="height:25px"></span><span style="height:45px"></span></div>
+
+    <!-- Glossary -->
+    <section id="glossari">
+        <div class="section-header">
+            <span class="section-tag concrete i18n" data-en="Terms">Termes</span>
+            <h2 class="i18n" data-en="Glossary">Glossari</h2>
+            <p class="i18n" data-en="Basic terminology for the non-specialist visitor.">Terminologia bàsica per al visitant no especialista.</p>
+        </div>
+        <div class="labs-container">
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Musique concrète">Música concreta</h3>
+                <p class="lab-desc i18n" data-en="Composition made from recorded real-world sounds, manipulated on tape — developed by Pierre Schaeffer in Paris from 1948.">Composició feta a partir de sons reals gravats, manipulats en cinta — desenvolupada per Pierre Schaeffer a París des de 1948.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Electronic music">Música electrònica</h3>
+                <p class="lab-desc i18n" data-en="Music produced or transformed using electronic devices — oscillators, synthesizers, tape machines, computers.">Música produïda o transformada mitjançant dispositius electrònics — oscil·ladors, sintetitzadors, magnetòfons, ordinadors.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Electroacoustic">Electroacústica</h3>
+                <p class="lab-desc i18n" data-en="Umbrella term covering both concrete and electronic music, and any hybrid of live instruments with electronic means.">Terme general que cobreix tant la música concreta com l'electrònica, i qualsevol híbrid d'instruments en viu amb mitjans electrònics.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Oscillator">Oscil·lador</h3>
+                <p class="lab-desc i18n" data-en="A device generating a periodic electronic signal (sine, square, sawtooth wave) used as a raw sound source.">Dispositiu que genera un senyal elèctric periòdic (ona sinusoïdal, quadrada, dent de serra) usat com a font sonora bàsica.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Tape recorder">Magnetòfon</h3>
+                <p class="lab-desc i18n" data-en="A machine recording sound onto magnetic tape, allowing cutting, splicing, looping and speed changes.">Màquina que grava el so en cinta magnètica, permetent talls, empalmaments, bucles i canvis de velocitat.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Reverberation">Reverberació</h3>
+                <p class="lab-desc i18n" data-en="The persistence of sound after its source stops, simulated electronically with plates, springs or digital algorithms.">Persistència del so després que la font s'atura, simulada electrònicament amb plaques, molles o algoritmes digitals.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Synthesis">Síntesi</h3>
+                <p class="lab-desc i18n" data-en="The generation of sound from scratch by electronic or computational means, rather than recording an existing source.">Generació de so des de zero per mitjans electrònics o computacionals, en comptes d'enregistrar una font existent.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="White noise">Soroll blanc</h3>
+                <p class="lab-desc i18n" data-en="A signal containing all audible frequencies at equal intensity, widely used as raw material in early electronic studios.">Senyal que conté totes les freqüències audibles amb igual intensitat, molt utilitzat com a matèria primera als primers estudis electrònics.</p>
+            </article>
+        </div>
+    </section>
+
+    <div class="wave-divider"><span style="height:25px"></span><span style="height:50px"></span><span style="height:35px"></span><span style="height:55px"></span><span style="height:20px"></span><span style="height:45px"></span></div>
+
     <!-- Transition -->
     <section id="transition">
         <div class="section-header">
-            <span class="section-tag analog">1980</span>
-            <h2>La Transició: del laboratori al club</h2>
-            <p>La terminologia de la web separa les etapes: PIONERS (1950–70) i <em>PRIMERA GENERACIÓ D'ESCENA MODERNA (80)</em> — respectuant el pes històric.</p>
+            <span class="section-tag analog i18n" data-en="1980s">1980</span>
+            <h2 class="i18n" data-en="The Transition: from lab to club">La Transició: del laboratori al club</h2>
+            <p class="i18n-html" data-en-html="This site's terminology keeps the stages distinct: PIONEERS (1900&ndash;70) and <em>FIRST GENERATION OF THE MODERN SCENE (80s)</em> &mdash; respecting historical weight.">La terminologia de la web separa les etapes: PIONERS (1950–70) i <em>PRIMERA GENERACIÓ D'ESCENA MODERNA (80)</em> — respectuant el pes històric.</p>
         </div>
         <div class="transition-content">
-            <article class="transition-card"><h4>De l'acadèmia a la democràcia</h4><p>Franco mor (1975); CDMC fundat per De Pablo (1983); festivals com "Sis Dies d'Art Actual" (Polonio, 1983–85) obren nous circuits per la nova escena.</p></article>
-            <article class="transition-card"><h4>Tecnologia barata</h4><p>Sintititzadors digitals i sequençadors baixen de costos: la creació electrònica s'escapa dels laboratoris i arriba a estudiants, artistes joves i clubs.</p></article>
-            <article class="transition-card"><h4>El circuit de l'oci nocturn</h4><p>Ruta del Bakalao (València) i Barcelona, el naixement del techno/pop electrònic i la "Ruta del Bakalao" en la segona part d'aquesta narrativa. Aquí es presenta amb rigor terminologic.</p></article>
+            <article class="transition-card"><h4 class="i18n" data-en="From academy to democracy">De l'acadèmia a la democràcia</h4><p class="i18n" data-en="Franco dies (1975); the CDMC is founded by De Pablo (1983); festivals such as &quot;Sis Dies d'Art Actual&quot; (Polonio, 1983&ndash;85) open new circuits for the new scene.">Franco mor (1975); CDMC fundat per De Pablo (1983); festivals com "Sis Dies d'Art Actual" (Polonio, 1983–85) obren nous circuits per la nova escena.</p></article>
+            <article class="transition-card"><h4 class="i18n" data-en="Cheap technology">Tecnologia barata</h4><p class="i18n" data-en="Digital synthesizers and sequencers drop in price: electronic creation escapes the laboratories and reaches students, young artists and clubs.">Sintititzadors digitals i sequençadors baixen de costos: la creació electrònica s'escapa dels laboratoris i arriba a estudiants, artistes joves i clubs.</p></article>
+            <article class="transition-card"><h4 class="i18n" data-en="The nightlife circuit">El circuit de l'oci nocturn</h4><p class="i18n" data-en="The Ruta del Bakalao (Valencia) and Barcelona: the birth of techno/pop electr&oacute;nica, covered with terminological rigor in the second part of this story.">Ruta del Bakalao (València) i Barcelona, el naixement del techno/pop electrònic i la "Ruta del Bakalao" en la segona part d'aquesta narrativa. Aquí es presenta amb rigor terminologic.</p></article>
+            <article class="transition-card"><h4 class="i18n" data-en="Electronics around the world in the &#39;70s">L'electrònica al món als anys 70</h4><p class="i18n" data-en="Before the clubs: mass-produced synthesizers (Minimoog, ARP, Roland) reach musicians outside the laboratories, and the movement expands globally through prog, kraut and early electronic pop.">Abans dels clubs: els sintetitzadors de fabricació en sèrie (Minimoog, ARP, Roland) arriben a músics fora dels laboratoris, i el moviment s'expandeix globalment a través del prog, el krautrock i el primer pop electrònic.</p><a class="pioneer-link i18n" href="https://ondes70.vercel.app/" target="_blank" rel="noopener" data-en="Explore Ondes 70 →">Explorar Ondes 70 →</a></article>
         </div>
         <div class="quote-block" style="margin-top:3rem; border-color:var(--accent-electric)">
-            <p>Mantindr un "sticky player" mentre l'usuari llegeix: és el que fa que la música es conegui per ser escoltada, no a la història de la música només.</p>
-            <cite>— Principi editor de la secció</cite>
+            <p class="i18n" data-en="This is the hinge decade: the lab's tools become instruments anyone can buy, and &quot;electronic music&quot; stops being an academic category and becomes a popular one.">Aquesta és la dècada frontissa: les eines del laboratori esdevenen instruments que qualsevol pot comprar, i la "música electrònica" deixa de ser una categoria acadèmica per esdevenir-ne una de popular.</p>
+            <cite class="i18n" data-en="— Section editorial principle">— Principi editor de la secció</cite>
         </div>
     </section>
 
@@ -660,50 +915,158 @@
     <!-- Fonoteca -->
     <section id="fonoteca">
         <div class="section-header">
-            <span class="section-tag concrete">Àudio</span>
-            <h2>Fonoteca (demo)</h2>
-            <p>Aquest selector de peces és funcional com a interfície: a la versió en producció s'usarà el fitxer so autoritzat i arxiu restaurat.</p>
+            <span class="section-tag concrete i18n" data-en="Audio">Àudio</span>
+            <h2>Fonoteca</h2>
+            <p class="i18n" data-en="A curated selection of works by the pioneers on this site, hosted on their original external platforms — Bandcamp, YouTube and digital archives.">Selecció curada d'obres dels pioners d'aquesta web, allotjades a les seves plataformes externes originals — Bandcamp, YouTube i arxius digitals.</p>
         </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border-subtle),border-radius:6px;overflow:hidden">
-            <div class="fonoteca-table" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);border-bottom:1px solid var(--border-subtle)">
-                <span>Obra</span><span>Any</span><span>Arxiu</span><span>Escoltar</span>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);font-size:.85rem;align-items:center">
-                <span><strong>Étude de Stage</strong> · Juan Hidalgo</span><span>1961</span><span>ORTF/Schaeffer</span><button class="player-btn" data-title="Étude de Stage" data-artist="Juan Hidalgo" data-source="ORTF 1961">▶</button>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);font-size:.85rem;align-items:center">
-                <span><strong>The Anger of Achilles</strong> · Gerhard/Derbyshire</span><span>1964</span><span>BBC</span><button class="player-btn" data-title="The Anger of Achilles" data-artist="Robert Gerhard" data-source="BBC Radiophonic">▶</button>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);font-size:.85rem;align-items:center">
-                <span><strong>We</strong> · Luis de Pablo</span><span>1969</span><span>Alea/Cuenca</span><button class="player-btn" data-title="We" data-artist="Luis de Pablo" data-source="Conservatori de Cuenca">▶</button>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);font-size:.85rem;align-items:center">
-                <span><strong>Acaricia la mañana</strong> · Eduardo Polonio</span><span>1978</span><span>Phonos/Munster</span><button class="player-btn" data-title="Acaricia la mañana" data-artist="Eduardo Polonio" data-source="Phonos">▶</button>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border-subtle);font-size:.85rem;align-items:center">
-                <span><strong>Espejos</strong> · Cristóbal Halffter</span><span>1964</span><span>cinta+percusió</span><button class="player-btn" data-title="Espejos" data-artist="Cristóbal Halffter" data-source="Percussion + cinta">▶</button>
-            </div>
-            <div class="fonoteca-row" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;padding:0 1.5rem 1rem;font-size:.76rem;color:var(--text-secondary)">
-                <span>Criteris: arxius autoritzats (Cambridge, Phonos, CDMC, CAAM, RTVE) i restauració de cintes mares (Buh/Aguado): demo funcional.</span>
-            </div>
+        <div class="labs-container">
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-bandcamp">Bandcamp</span>
+                <h3 class="lab-name">Étude de Stage <span class="i18n" data-en="(1961)">(1961)</span></h3>
+                <p class="lab-period">Juan Hidalgo · ORTF, París</p>
+                <p class="lab-desc i18n" data-en="His first electroacoustic work, made at Pierre Schaeffer's research service. Reissued by Sub Rosa.">La seva primera obra electroacústica, feta al servei de recerca de Pierre Schaeffer. Reeditada per Sub Rosa.</p>
+                <a class="pioneer-link i18n" href="https://subrosalabel.bandcamp.com/track/tude-de-stage-1961-juan-hidalgo" target="_blank" rel="noopener" data-en="Listen on Bandcamp →">Escoltar a Bandcamp →</a>
+            </article>
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-archive i18n" data-en="Digital archive">Arxiu digital</span>
+                <h3 class="lab-name i18n" data-en="Digital archives">Arxius digitals</h3>
+                <p class="lab-period">Robert Gerhard · Heritage Quay, University of Huddersfield</p>
+                <p class="lab-desc i18n" data-en="The GER collection: manuscripts, correspondence and recordings from Gerhard's personal archive, catalogued and digitised.">La col·lecció GER: manuscrits, correspondència i enregistraments de l'arxiu personal de Gerhard, catalogats i digitalitzats.</p>
+                <a class="pioneer-link i18n" href="https://heritagequay.org/archives/GER/" target="_blank" rel="noopener" data-en="Browse the archive →">Consultar l'arxiu →</a>
+            </article>
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-youtube">YouTube</span>
+                <h3 class="lab-name">We <span class="i18n" data-en="(1969)">(1969)</span></h3>
+                <p class="lab-period">Luis de Pablo · Laboratori Alea / Cuenca</p>
+                <p class="lab-desc i18n" data-en="Text-sound composition and documentary collage — one of the emblematic works of Spanish electroacoustic music.">Composició de text-so i collage documental — una de les obres emblemàtiques de la música electroacústica espanyola.</p>
+                <a class="pioneer-link i18n" href="https://youtu.be/zHPPNwYWsjk?si=kfyrS_j9dBYA28No" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-bandcamp">Bandcamp</span>
+                <h3 class="lab-name">Acaricia la mañana <span class="i18n" data-en="(1978)">(1978)</span></h3>
+                <p class="lab-period">Eduardo Polonio · Phonos / Munster Records</p>
+                <p class="lab-desc i18n" data-en="A key work of Mediterranean minimalism, reissued in 2016 by Munster Records.">Obra clau del minimalisme mediterrani, reeditada el 2016 per Munster Records.</p>
+                <a class="pioneer-link i18n" href="https://munsterrecords.bandcamp.com/album/acaricia-la-ma-ana" target="_blank" rel="noopener" data-en="Listen on Bandcamp →">Escoltar a Bandcamp →</a>
+            </article>
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-archive i18n" data-en="Article & archive">Article i arxiu</span>
+                <h3 class="lab-name">Espejos <span class="i18n" data-en="(1963–64)">(1963–64)</span></h3>
+                <p class="lab-period">Cristóbal Halffter · <span class="i18n" data-en="for 4 percussionists & tape">per a 4 percussionistes i cinta magnètica</span></p>
+                <p class="lab-desc i18n" data-en="Detailed analysis of the work and its &quot;temporal mirror&quot; technique, on the tea-tron.com sound-art archive.">Anàlisi detallada de l'obra i la seva tècnica de "mirall temporal", a l'arxiu de tea-tron.com.</p>
+                <a class="pioneer-link i18n" href="https://www.tea-tron.com/katsunori/blog/2021/02/23/espejos/" target="_blank" rel="noopener" data-en="Read the article →">Llegir l'article →</a>
+            </article>
+            <article class="lab-card fono-card">
+                <span class="source-badge badge-youtube">YouTube</span>
+                <h3 class="lab-name">Espaces Sonores Nº1</h3>
+                <p class="lab-period">Josep Maria Mestres Quadreny</p>
+                <p class="lab-desc i18n" data-en="A recording of one of Mestres Quadreny's electroacoustic and spatial pieces.">Enregistrament d'una de les peces electroacústiques i espacials de Mestres Quadreny.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=BImJvAHy2Jc" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
         </div>
     </section>
 
-    <footer>
-        <p><strong>Arquitectura "Mapa de Genealogia Sonor" </strong> — no un llistat, sinó una xarxa que respecta la cronologia i el pes històric: Castillejo i Val del Omar (linatge indirecte/30s); Gerhard a Londres, i Mestres, de Pablo, Hidalgo, Polonio i Halffter, al circuit de l'Estat (1950–70) amb Phonos, Alea i la BBC.</p>
-        <div class="footer-credits">Web conceptual sobre els Pioners de la Música Electrònica a l'Estat espanyol · 1930–1980 · Termini "pioner" en el sentit historiogràfic estricte (pre-consolidació) vs. "generació de l'escena moderna" (80). Bibliografia: Calum MacDonald, Tomás Marco, Carles Santos, José Iges, Adolfo Núñez.</div>
-    </footer>
-
-    <!-- Audio player -->
-    <div class="audio-player" id="audio-player">
-        <button class="player-btn" id="global-play"><span id="global-play-icon">▶</span></button>
-        <div class="player-info">
-            <div class="player-title" id="player-title">Selecciona una obra</div>
-            <div class="player-artist" id="player-artist">Fonoteca en línia — el player es va mantenir mentre llegeixes.</div>
+    <!-- Bibliography & Media -->
+    <section id="biblioteca">
+        <div class="section-header">
+            <span class="section-tag wave i18n" data-en="Further reading & viewing">Per aprofundir</span>
+            <h2 class="i18n" data-en="Recommended Bibliography & Documentaries">Bibliografia Recomanada i Documentals</h2>
+            <p class="i18n" data-en="Books, editions and institutions to go deeper into each figure covered here, plus documentaries and interviews freely available on YouTube.">Llibres, edicions i institucions per aprofundir en cada figura d'aquesta web, més documentals i entrevistes disponibles lliurement a YouTube.</p>
         </div>
-        <div class="player-progress"><div class="player-progress-fill" id="player-progress"></div></div>
-        <button class="player-btn" id="global-stop" style="font-size:.8rem">■</button>
-    </div>
+
+        <h3 style="font-size:1.05rem; margin-bottom:1.2rem; color:var(--accent-electric);" class="i18n" data-en="Books & editions">Llibres i edicions</h3>
+        <div class="labs-container" style="margin-bottom:3rem;">
+            <article class="lab-card">
+                <h3 class="lab-name">Adolfo Núñez — <span class="i18n" data-en="&quot;Pioneros de la música electrónica&quot;">"Pioneros de la música electrónica"</span></h3>
+                <p class="lab-desc i18n" data-en="A classic Spanish-language reference on the origins of electronic music worldwide, with attention to the Spanish case.">Obra clàssica de referència en castellà sobre els orígens de la música electrònica al món, amb atenció al cas espanyol.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Loops: una historia de la música electrónica&quot;">"Loops: una historia de la música electrónica"</h3>
+                <p class="lab-desc i18n" data-en="General history of the genre, used here to confirm the absence of internationally-recognized Spanish figures before 1950.">Història general del gènere, usada aquí per confirmar l'absència de figures espanyoles reconegudes internacionalment abans de 1950.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Gerhard–Schönberg correspondence (Akal, 2024)">Correspondència Gerhard–Schönberg (Akal, 2024)</h3>
+                <p class="lab-desc i18n" data-en="Complete edition of the 81 letters between master and pupil, documenting a friendship lasting from 1923 to Schönberg's death in 1951.">Edició completa de les 81 cartes entre mestre i deixeble, testimoni d'una amistat que va durar des de 1923 fins a la mort de Schönberg (1951).</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;La obra gráfica de Mestres Quadreny en el contexto de las vanguardias&quot; (2010)">"La obra gràfica de Mestres Quadreny en el context de les avantguardes" (2010)</h3>
+                <p class="lab-desc i18n" data-en="Study published by the Reial Acadèmia Catalana de Belles Arts de Sant Jordi on his graphic scores and their links to Dada, Surrealism and Conceptual Art.">Estudi publicat per la Reial Acadèmia Catalana de Belles Arts de Sant Jordi sobre les seves partitures gràfiques i el seu vincle amb el dadaisme, el surrealisme i l'art conceptual.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Eduardo Polonio: del serialismo al multimedia&quot; (book + CD, 2021)">"Eduardo Polonio: del serialismo al multimedia" (llibre + CD, 2021)</h3>
+                <p class="lab-desc i18n" data-en="196-page bilingual (Spanish/English) monograph published by María de Alvear World Edition for his 80th birthday, with a CD of recent works (2015–21).">Monografia bilingüe (castellà/anglès) de 196 pàgines publicada per María de Alvear World Edition pel seu 80è aniversari, amb un CD d'obres recents (2015–21).</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Eduardo Polonio: Edición Antológica 1969–2014&quot; (2 DVDs, Luscinia Discos)">"Eduardo Polonio: Edición Antológica 1969–2014" (2 DVD, Luscinia Discos)</h3>
+                <p class="lab-desc i18n" data-en="An exhaustive compilation of 48 electroacoustic works (~10 hours) spanning 45 years, with a biographical documentary included.">Recopilació exhaustiva de 48 obres electroacústiques (~10 hores) al llarg de 45 anys, amb un documental biogràfic inclòs.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Eduardo Polonio: Obra Electroacústica 1969–1981&quot; (Buh Records, 2025)">"Eduardo Polonio: Obra Electroacústica 1969–1981" (Buh Records, 2025)</h3>
+                <p class="lab-desc i18n" data-en="Posthumous double-LP anthology released with the Asociación de Música Electroacústica de España (AMEE), remastered from the original master tapes.">Antologia pòstuma en doble LP editada amb l'Associació de Música Electroacústica d'Espanya (AMEE), remasteritzada a partir de les cintes mestres originals.</p>
+            </article>
+        </div>
+
+        <h3 style="font-size:1.05rem; margin-bottom:1.2rem; color:var(--accent-electric);" class="i18n" data-en="Foundational associations & institutions">Associacions i institucions fundacionals</h3>
+        <div class="labs-container" style="margin-bottom:3rem;">
+            <article class="lab-card">
+                <h3 class="lab-name">AMEE — <span class="i18n" data-en="Asociación de Música Electroacústica de España">Asociación de Música Electroacústica de España</span></h3>
+                <p class="lab-desc i18n" data-en="Founded 1988; Eduardo Polonio was its president from 1988 to 1994. Still Spain's main professional body for electroacoustic music.">Fundada el 1988; Eduardo Polonio en va ser president de 1988 a 1994. Encara avui és l'entitat professional de referència de la música electroacústica a Espanya.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Bourges International Academy of Electroacoustic Music">Acadèmia Internacional de Música Electroacústica de Bourges</h3>
+                <p class="lab-desc i18n" data-en="France's Institut International de Musique Électroacoustique de Bourges (IMEB) awards the Magisterium, the field's most prestigious prize — won by Polonio in 1994.">L'Institut International de Musique Électroacoustique de Bourges (IMEB) atorga el Magisterium, el premi més prestigiós del gènere — guanyat per Polonio el 1994.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="GRM — Groupe de Recherches Musicales (Paris)">GRM — Groupe de Recherches Musicales (París)</h3>
+                <p class="lab-desc i18n" data-en="Pierre Schaeffer's research group at ORTF, birthplace of musique concrète (1948–50) and the studio where Juan Hidalgo trained in 1961.">Grup de recerca de Pierre Schaeffer a l'ORTF, bressol de la música concreta (1948–50) i l'estudi on Juan Hidalgo es va formar el 1961.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="CDMC — Centro para la Difusión de la Música Contemporánea">CDMC — Centro para la Difusión de la Música Contemporánea</h3>
+                <p class="lab-desc i18n" data-en="Founded by Luis de Pablo in 1983, later led by Tomás Marco — Spain's official institution for promoting contemporary music.">Fundat per Luis de Pablo el 1983, més tard dirigit per Tomás Marco — la institució oficial espanyola per a la promoció de la música contemporània.</p>
+            </article>
+        </div>
+
+        <h3 style="font-size:1.05rem; margin-bottom:1.2rem; color:var(--accent-electric);" class="i18n" data-en="Documentaries & interviews on YouTube">Documentals i entrevistes a YouTube</h3>
+        <div class="labs-container">
+            <article class="lab-card">
+                <h3 class="lab-name">"El Laboratorio Phonos"</h3>
+                <p class="lab-desc i18n" data-en="A short film on the history and legacy of Barcelona's Phonos laboratory.">Curtmetratge sobre la història i el llegat del laboratori Phonos de Barcelona.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=ikx-Uhnh_d8" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="MACBA: &quot;Fons #05 — Josep Maria Mestres Quadreny&quot; (playlist)">MACBA: "Fons #05 — Josep Maria Mestres Quadreny" (playlist)</h3>
+                <p class="lab-desc i18n" data-en="A series of interviews and working-process videos from the MACBA collection's audiovisual archive on the composer.">Sèrie d'entrevistes i vídeos de procés de treball de l'arxiu audiovisual del MACBA sobre el compositor.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/playlist?list=PL4yzDqrslxsSMaC5Vkwmf7kpU86gEh1ws" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Una posible entrevista con Eduardo Polonio&quot;">"Una posible entrevista con Eduardo Polonio"</h3>
+                <p class="lab-desc i18n" data-en="Music critic Ismael G. Cabral talks with Polonio about his work, part of the #ElOídoExtendido series (Universidad de Zaragoza).">El crític musical Ismael G. Cabral conversa amb Polonio sobre la seva obra, dins la sèrie #ElOídoExtendido (Universitat de Saragossa).</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=vOsn6nlylrU" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Eduardo Polonio: protagonista de una época&quot;">"Eduardo Polonio: protagonista de una época"</h3>
+                <p class="lab-desc i18n" data-en="A compilation of video testimonies in which Polonio revisits key moments of his career, published after his death.">Recull de testimonis en vídeo en què Polonio repassa moments clau de la seva carrera, publicat després de la seva mort.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=44uuOJecPy8" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Pioneers Of Sound&quot;: the story of the BBC Radiophonic Workshop">"Pioneers Of Sound": la història del BBC Radiophonic Workshop</h3>
+                <p class="lab-desc i18n" data-en="A short documentary on the history and influence of the BBC's pioneering electronic-sound studio, where Robert Gerhard worked.">Curt documental sobre la història i la influència de l'estudi pioner de so electrònic de la BBC, on va treballar Robert Gerhard.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=YW8TdMgSxaQ" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="BBC Archive: &quot;The Evolution of the Radiophonic Workshop&quot; (1983)">BBC Archive: "The Evolution of the Radiophonic Workshop" (1983)</h3>
+                <p class="lab-desc i18n" data-en="Archival BBC report on the Workshop's methods and impact, from the Nationwide programme.">Reportatge d'arxiu de la BBC sobre els mètodes i l'impacte del Workshop, del programa Nationwide.</p>
+                <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=97N8fkfNjfs" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+        </div>
+    </section>
+
+    <div class="wave-divider"><span style="height:35px"></span><span style="height:55px"></span><span style="height:25px"></span><span style="height:45px"></span><span style="height:30px"></span><span style="height:50px"></span></div>
+
+
+    <footer>
+        <p class="i18n-html" data-en-html="<strong>&quot;Sound Genealogy Map&quot; architecture</strong> &mdash; not a list but a network that respects chronology and historical weight: Castillejo and Val del Omar (indirect lineage, 1930s&ndash;40s); Gerhard in London; and Mestres, de Pablo, Hidalgo, Polonio and Halffter within Spain's own circuit (1950&ndash;70), built around Phonos, Alea and the BBC."><strong>Arquitectura "Mapa de Genealogia Sonor" </strong> — no un llistat, sinó una xarxa que respecta la cronologia i el pes històric: Castillejo i Val del Omar (linatge indirecte/30s); Gerhard a Londres, i Mestres, de Pablo, Hidalgo, Polonio i Halffter, al circuit de l'Estat (1950–70) amb Phonos, Alea i la BBC.</p>
+        <div class="footer-credits i18n" data-en="Conceptual site on the Pioneers of Electronic Music in Spain · 1900–1980 · &quot;Pioneer&quot; used in the strict historiographical sense (pre-consolidation) vs. &quot;first generation of the modern scene&quot; (80s). Bibliography: Calum MacDonald, Tom&aacute;s Marco, Carles Santos, Jos&eacute; Iges, Adolfo N&uacute;&ntilde;ez.">Web conceptual sobre els Pioners de la Música Electrònica a l'Estat espanyol · 1930–1980 · Termini "pioner" en el sentit historiogràfic estricte (pre-consolidació) vs. "generació de l'escena moderna" (80). Bibliografia: Calum MacDonald, Tomás Marco, Carles Santos, José Iges, Adolfo Núñez.</div>
+    </footer>
 
     <script>
         // Waveform background
@@ -718,25 +1081,49 @@
         // Smooth anchor
         document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', ev => { const t = document.querySelector(a.getAttribute('href')); if (t) { ev.preventDefault(); t.scrollIntoView({ behavior: "smooth" }); t.parentElement.style.outline = "1px solid #00d4ff33"; setTimeout(()=>t.parentElement.style.outline="", 1200); } }));
 
+        // Mobile nav toggle
+        const navLinks = document.getElementById("nav-links");
+        document.getElementById("nav-toggle-btn").addEventListener("click", () => navLinks.classList.toggle("open"));
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+        // Language toggle (CA default / EN)
+        const langBtn = document.getElementById("lang-toggle-btn");
+        function applyLang(lang) {
+            document.documentElement.setAttribute("data-lang", lang);
+            document.documentElement.lang = lang;
+            document.querySelectorAll('.i18n[data-en]').forEach(el => {
+                if (el.dataset.ca === undefined) el.dataset.ca = el.textContent;
+                el.textContent = lang === "en" ? el.dataset.en : el.dataset.ca;
+            });
+            document.querySelectorAll('.i18n-html[data-en-html]').forEach(el => {
+                if (el.dataset.caHtml === undefined) el.dataset.caHtml = el.innerHTML;
+                el.innerHTML = lang === "en" ? el.dataset.enHtml : el.dataset.caHtml;
+            });
+            document.querySelectorAll('.i18n-toggle').forEach(el => {
+                const open = el.parentElement.querySelector('.bio-extra')?.classList.contains('open');
+                const key = lang === "en" ? (open ? "data-en-expanded" : "data-en-collapsed") : null;
+                if (key) el.textContent = el.getAttribute(key);
+                else el.textContent = open ? "Tancar informació ⌃" : "Ampliar informació ⌄";
+            });
+            langBtn.textContent = lang === "en" ? "CA" : "EN";
+        }
+        let currentLang = "ca";
+        langBtn.addEventListener("click", () => { currentLang = currentLang === "ca" ? "en" : "ca"; applyLang(currentLang); });
+
         // Expand
         document.querySelectorAll('.btn-expand').forEach(btn => {
             const box = btn.parentElement.querySelector('.bio-extra');
             btn.addEventListener('click', () => {
                 const o = box.classList.toggle("open");
-                btn.textContent = o ? "Tancar informació ⌃" : "Ampliar informació ⌄";
+                if (currentLang === "en") {
+                    btn.textContent = o ? btn.getAttribute("data-en-expanded") : btn.getAttribute("data-en-collapsed");
+                } else {
+                    btn.textContent = o ? "Tancar informació ⌃" : "Ampliar informació ⌄";
+                }
                 if (o) setTimeout(() => box.scrollIntoView({ behavior:"smooth", block:"nearest" }), 80);
             });
         });
 
-        // Player mock
-        const playBtns = [...document.querySelectorAll("button[data-title]")];
-        const tEl = document.getElementById("player-title"), aEl = document.getElementById("player-artist"), gBtn = document.getElementById("global-play"), gIc = document.getElementById("global-play-icon"), fill = document.getElementById("player-progress"), stopBtn = document.getElementById("global-stop");
-        let t = null, playing = false, last = null;
-        function stopAll() { clearInterval(t); playing = false; gIc.textContent = "▶"; if (last) last.textContent = "▶"; fill.style.width = "0%"; }
-        function playTitle(title, artist, source, btn) { tEl.textContent = title; aEl.textContent = artist + " · " + source; [...playBtns].forEach(b => { if (b !== btn) b.textContent = "▶"; }); btn.textContent = "❚❚"; }
-        playBtns.forEach(btn => btn.addEventListener("click", () => { playing = ! (btn.textContent === "❚❚" && playing === false) ? false : true; const nowPlaying = btn.textContent === "❚❚"; playing = !nowPlaying; if (!playing) stopAll(); else { playTitle(btn.dataset.title, btn.dataset.artist, btn.dataset.source, btn); gIc.textContent = "❚❚"; clearInterval(t); fill.style.width = "0%"; t = setInterval(() => { let w = parseFloat(fill.style.width || 0) + 0.09; if (w > 100) { stopAll(); return; } fill.style.width = w + "%"; }, 60); } }));
-        gBtn.addEventListener("click", () => { if (!last) return; playing = !playing; if (playing) { gIc.textContent = "❚❚"; clearInterval(t); t = setInterval(() => { let w = parseFloat(fill.style.width || 0) + 0.09; if (w > 100) { stopAll(); return; } fill.style.width = w + "%"; }, 60); } else { gIc.textContent = "▶"; clearInterval(t); } });
-        stopBtn.addEventListener("click", () => { tEl.textContent = "Selecciona una obra"; gIc.textContent = "▶"; stopAll(); });
     </script>
 </body>
 </html>
