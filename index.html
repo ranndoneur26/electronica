@@ -19,7 +19,7 @@
         .nav-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:72px; padding-top:.5cm; box-sizing:border-box; }
         .nav-logo { font-size:.9rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent-electric); }
         .nav-links { display:flex; gap:1.5rem; list-style:none; flex-wrap:wrap; }
-        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; transition:color .3s; }
+        .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:.62rem; text-transform:uppercase; letter-spacing:1px; transition:color .3s; }
         .nav-links a:hover { color:var(--accent-electric); }
         .hero { width:100%; min-height:100vh; min-height:100svh; background:#000; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:6rem 2rem 4rem; }
         .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,.05), transparent), radial-gradient(ellipse at 80% 20%, rgba(123,47,247,.05), transparent), radial-gradient(ellipse at 50% 80%, rgba(255,107,53,.03), transparent); }
@@ -160,7 +160,7 @@
             .pioneers-grid, .labs-container, .scores-gallery{grid-template-columns:repeat(auto-fit, minmax(320px,1fr));}
         }
         @media (max-width:900px){
-            .nav-links{position:fixed; top:72px; left:0; right:0; background:rgba(10,10,15,.98); flex-direction:column; gap:0; padding:1rem 2rem 1.5rem; display:none; border-bottom:1px solid var(--border-subtle);}
+            .nav-links a{font-size:.72rem;} .nav-links{position:fixed; top:72px; left:0; right:0; background:rgba(10,10,15,.98); flex-direction:column; gap:0; padding:1rem 2rem 1.5rem; display:none; border-bottom:1px solid var(--border-subtle);}
             .nav-links.open{display:flex;}
             .nav-links li{padding:.7rem 0; border-bottom:1px solid var(--border-subtle);}
             .nav-toggle-btn{display:flex;}
@@ -898,6 +898,42 @@
                 <h3 class="lab-name i18n" data-en="White noise">Soroll blanc</h3>
                 <p class="lab-desc i18n" data-en="A signal containing all audible frequencies at equal intensity, widely used as raw material in early electronic studios.">Senyal que conté totes les freqüències audibles amb igual intensitat, molt utilitzat com a matèria primera als primers estudis electrònics.</p>
             </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Voltage control (VCO / VCF / VCA)">Control per voltatge (VCO / VCF / VCA)</h3>
+                <p class="lab-desc i18n" data-en="The principle behind 1960s–70s analog synthesizers: an electrical voltage controls pitch (VCO), filter (VCF) and amplitude (VCA).">Principi dels sintetitzadors analògics dels anys 60-70: una tensió elèctrica controla la freqüència (VCO), el filtre (VCF) i el volum (VCA) del so.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Modular synthesizer">Sintetitzador modular</h3>
+                <p class="lab-desc i18n" data-en="A synthesizer built from independent modules joined with patch cables. Moog and Buchla were its great pioneers.">Sintetitzador format per mòduls independents connectats amb cables de connexió (patch). Moog i Buchla en van ser els grans pioners.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Sequencer">Seqüenciador</h3>
+                <p class="lab-desc i18n" data-en="A device that stores and automatically replays a series of notes or voltages; key to the repetitive electronic music of the 1970s.">Dispositiu que emmagatzema i reprodueix automàticament una successió de notes o de voltatges; clau en la música repetitiva i electrònica dels 70.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Polyphonic synthesizer">Sintetitzador polifònic</h3>
+                <p class="lab-desc i18n" data-en="A synthesizer able to sound several notes at once. The Prophet-5 (1978) popularised programmable sounds stored in memory.">Sintetitzador capaç de sonar amb diverses notes alhora. El Prophet-5 (1978) va popularitzar els sons programables guardats en memòria.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Drum machine">Caixa de ritmes</h3>
+                <p class="lab-desc i18n" data-en="An electronic device that generates rhythm patterns. In the 1970s it moved from home organs to pop and electronic bands.">Aparell electrònic que genera patrons rítmics. Als anys 70 va passar dels orgues domèstics als grups pop i electrònics.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Vocoder">Vocoder</h3>
+                <p class="lab-desc i18n" data-en="An effect that analyses the voice and combines it with a synthesizer to create a robotic vocal sound; popularised in the 1970s by groups such as Kraftwerk.">Efecte que analitza la veu i la combina amb un sintetitzador, creant una veu robòtica; popularitzat als 70 per grups com Kraftwerk.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Krautrock / Kosmische Musik">Krautrock / Kosmische Musik</h3>
+                <p class="lab-desc i18n" data-en="German movement (c. 1968–77) of Can, Neu!, Cluster, Tangerine Dream or Kraftwerk, fusing experimental rock with electronics.">Moviment alemany (c. 1968-77) de Can, Neu!, Cluster, Tangerine Dream o Kraftwerk, que va fusionar rock experimental i electrònica.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Ambient">Ambient</h3>
+                <p class="lab-desc i18n" data-en="A genre of atmospheric, non-intrusive music, formulated by Brian Eno in the late 1970s (Ambient 1: Music for Airports, 1978).">Gènere de música atmosfèrica i no intrusiva, formulat per Brian Eno a finals dels 70 (Ambient 1: Music for Airports, 1978).</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Minimalism / repetitive music">Minimalisme / música repetitiva</h3>
+                <p class="lab-desc i18n" data-en="An aesthetic based on repetition and gradual change, led by Terry Riley, Steve Reich and Philip Glass; widely present in 1970s electronics.">Estètica basada en la repetició i el canvi gradual, amb Terry Riley, Steve Reich i Philip Glass; molt present en l'electrònica dels 70.</p>
+            </article>
         </div>
     </section>
 
@@ -1017,6 +1053,31 @@
             </article>
         </div>
 
+        <h3 style="font-size:1.05rem; margin-bottom:1.2rem; color:var(--accent-electric);" class="i18n" data-en="International reference books (synthesizers &amp; the 1970s)">Llibres de referència internacionals (sintetitzadors i anys 70)</h3>
+        <div class="labs-container" style="margin-bottom:3rem;">
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Thom Holmes — Electronic and Experimental Music (Routledge, 6th ed. 2020)">Thom Holmes — Electronic and Experimental Music (Routledge, 6a ed. 2020)</h3>
+                <p class="lab-desc i18n" data-en="The standard reference: from early experiments to musique concrète, European and American studios, synthesizers and computer music.">Manual de referència: de les primeres experiències a la música concreta, els estudis europeus i americans, els sintetitzadors i la música per ordinador.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="Trevor Pinch &amp; Frank Trocco — Analog Days (Harvard University Press, 2002)">Trevor Pinch i Frank Trocco — Analog Days (Harvard University Press, 2002)</h3>
+                <p class="lab-desc i18n" data-en="The story of the Moog synthesizer's invention and cultural impact from the mid-1960s to the mid-1970s, with interviews with Moog, Buchla and Eno.">Història de la invenció del sintetitzador Moog i del seu impacte cultural entre mitjans dels 60 i mitjans dels 70, amb entrevistes a Moog, Buchla i Eno.</p>
+                <a class="pioneer-link i18n" href="https://search.worldcat.org/oclc/432671362" target="_blank" rel="noopener" data-en="View catalogue entry ↗">Veure fitxa ↗</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="David Stubbs — Future Days: Krautrock and the Building of Modern Germany (Faber, 2014)">David Stubbs — Future Days: Krautrock and the Building of Modern Germany (Faber, 2014)</h3>
+                <p class="lab-desc i18n" data-en="An in-depth study of krautrock (Can, Neu!, Cluster, Kraftwerk...) and its social and political context, essential to understanding 1970s electronics.">Estudi a fons del krautrock (Can, Neu!, Cluster, Kraftwerk...) i del seu context social i polític, clau per entendre l'electrònica dels 70.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="David Stubbs — Future Sounds: The Story of Electronic Music from Stockhausen to Skrillex (Faber, 2018)">David Stubbs — Future Sounds: The Story of Electronic Music from Stockhausen to Skrillex (Faber, 2018)</h3>
+                <p class="lab-desc i18n" data-en="A narrative overview of electronic music from Stockhausen to the present, useful for placing the pioneers in a global history.">Panorama narratiu de la música electrònica des de Stockhausen fins a l'actualitat, útil per situar els pioners en una història global.</p>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="David Toop — Ocean of Sound (Serpent's Tail, 1995)">David Toop — Ocean of Sound (Serpent's Tail, 1995)</h3>
+                <p class="lab-desc i18n" data-en="An essay on ambient sound and listening in the 20th century, from Debussy and Satie to Brian Eno, Kraftwerk and ambient music.">Assaig sobre el so ambiental i l'escolta al segle XX, de Debussy i Satie fins a Brian Eno, Kraftwerk i l'ambient.</p>
+            </article>
+        </div>
+
         <h3 style="font-size:1.05rem; margin-bottom:1.2rem; color:var(--accent-electric);" class="i18n" data-en="Foundational associations & institutions">Associacions i institucions fundacionals</h3>
         <div class="labs-container" style="margin-bottom:3rem;">
             <article class="lab-card">
@@ -1068,6 +1129,30 @@
                 <h3 class="lab-name i18n" data-en="BBC Archive: &quot;The Evolution of the Radiophonic Workshop&quot; (1983)">BBC Archive: "The Evolution of the Radiophonic Workshop" (1983)</h3>
                 <p class="lab-desc i18n" data-en="Archival BBC report on the Workshop's methods and impact, from the Nationwide programme.">Reportatge d'arxiu de la BBC sobre els mètodes i l'impacte del Workshop, del programa Nationwide.</p>
                 <a class="pioneer-link i18n" href="https://www.youtube.com/watch?v=97N8fkfNjfs" target="_blank" rel="noopener" data-en="Watch on YouTube →">Veure a YouTube →</a>
+            </article>
+        </div>
+
+        <h3 style="font-size:1.05rem; margin:3rem 0 1.2rem; color:var(--accent-electric);" class="i18n" data-en="International documentaries">Documentals internacionals</h3>
+        <div class="labs-container">
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Sisters with Transistors&quot; (Lisa Rovner, 2020)">"Sisters with Transistors" (Lisa Rovner, 2020)</h3>
+                <p class="lab-desc i18n" data-en="The story of electronic music's female pioneers (Daphne Oram, Delia Derbyshire, Bebe Barron, Pauline Oliveros...), narrated by Laurie Anderson.">Història de les dones pioneres de la música electrònica (Daphne Oram, Delia Derbyshire, Bebe Barron, Pauline Oliveros...), amb narració de Laurie Anderson.</p>
+                <a class="pioneer-link i18n" href="https://www.imdb.com/title/tt6744250" target="_blank" rel="noopener" data-en="View film page ↗">Veure fitxa ↗</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;I Dream of Wires&quot; (Robert Fantinatto, 2014)">"I Dream of Wires" (Robert Fantinatto, 2014)</h3>
+                <p class="lab-desc i18n" data-en="A tour of the rise, fall and rebirth of the modular synthesizer, from Moog and Buchla to the present day.">Recorregut per l'auge, la caiguda i el renaixement del sintetitzador modular, des de Moog i Buchla fins a l'actualitat.</p>
+                <a class="pioneer-link i18n" href="https://vimeo.com/97374616" target="_blank" rel="noopener" data-en="Watch trailer on Vimeo ↗">Veure tràiler a Vimeo ↗</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Krautrock: The Rebirth of Germany&quot; (BBC Four, 2009)">"Krautrock: The Rebirth of Germany" (BBC Four, 2009)</h3>
+                <p class="lab-desc i18n" data-en="A documentary on the German generation (1968–77) of Can, Neu!, Faust, Tangerine Dream and Kraftwerk, who forged a new musical identity.">Documental sobre la generació alemanya (1968-77) de Can, Neu!, Faust, Tangerine Dream i Kraftwerk, que va crear una nova identitat musical.</p>
+                <a class="pioneer-link i18n" href="https://www.imdb.com/title/tt2033290" target="_blank" rel="noopener" data-en="View film page ↗">Veure fitxa ↗</a>
+            </article>
+            <article class="lab-card">
+                <h3 class="lab-name i18n" data-en="&quot;Moog&quot; (Hans Fjellestad, 2004)">"Moog" (Hans Fjellestad, 2004)</h3>
+                <p class="lab-desc i18n" data-en="A portrait of Robert Moog, inventor of the synthesizer, with musicians such as Keith Emerson, Rick Wakeman and Jean-Jacques Perrey.">Retrat de Robert Moog, inventor del sintetitzador, amb músics com Keith Emerson, Rick Wakeman i Jean-Jacques Perrey.</p>
+                <a class="pioneer-link i18n" href="https://www.hustwit.com/moog" target="_blank" rel="noopener" data-en="Official page ↗">Veure pàgina oficial ↗</a>
             </article>
         </div>
     </section>
