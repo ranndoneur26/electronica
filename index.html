@@ -21,7 +21,7 @@
         .nav-links { display:flex; gap:1.5rem; list-style:none; flex-wrap:wrap; }
         .nav-links a { color:var(--text-secondary); text-decoration:none; font-size:.8rem; text-transform:uppercase; letter-spacing:1px; transition:color .3s; }
         .nav-links a:hover { color:var(--accent-electric); }
-        .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:6rem 2rem 4rem; }
+        .hero { width:100%; min-height:100vh; min-height:100svh; background:#000; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:6rem 2rem 4rem; }
         .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 20% 50%, rgba(0,212,255,.05), transparent), radial-gradient(ellipse at 80% 20%, rgba(123,47,247,.05), transparent), radial-gradient(ellipse at 50% 80%, rgba(255,107,53,.03), transparent); }
         .waveform-bg { position:absolute; top:50%; left:0; right:0; height:200px; opacity:.08; display:flex; align-items:center; justify-content:center; }
         .waveform-bar { width:3px; margin:0 2px; background:var(--accent-electric); border-radius:2px; animation:wave 2s ease-in-out infinite; }
@@ -30,8 +30,13 @@
         .hero-subtitle { font-size:.85rem; text-transform:uppercase; letter-spacing:5px; color:var(--accent-wave); margin-bottom:1.5rem; }
         .hero h1 { font-size:clamp(2.2rem,5vw,4rem); font-weight:300; line-height:1.2; margin-bottom:2rem; background:linear-gradient(135deg, var(--text-primary) 0%, var(--accent-electric) 50%, var(--accent-wave) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
         .hero-manifest { font-size:1.1rem; color:var(--text-secondary); font-style:italic; line-height:1.9; margin:0 auto 3rem; max-width:700px; }
-        .hero-loop { width:100%; max-width:760px; margin:2rem auto 2.2rem; border-radius:10px; overflow:hidden; border:1px solid var(--border-subtle); box-shadow:0 18px 50px rgba(0,0,0,.45); line-height:0; }
-        .hero-loop video { width:100%; height:auto; display:block; }
+        .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; }
+        .hero-overlay { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(10,10,15,.72) 0%, rgba(10,10,15,.45) 45%, rgba(10,10,15,.85) 100%); }
+        .hero::before { z-index:1; }
+        .waveform-bg { z-index:1; }
+        .hero-content { padding:0 1rem; }
+        .hero-subtitle, .hero h1, .hero-manifest { text-shadow:0 2px 18px rgba(0,0,0,.7); }
+        .hero-manifest { color:rgba(236,236,242,.92); }
         .hero-cta { display:inline-flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; }
         .btn { padding:.9rem 2.2rem; border:1px solid var(--accent-electric); color:var(--accent-electric); text-decoration:none; font-size:.8rem; text-transform:uppercase; letter-spacing:2px; transition:all .3s; border-radius:2px; cursor:pointer; background:transparent; font-family:inherit; }
         .btn:hover { background:var(--accent-electric); color:var(--bg-primary); }
@@ -173,6 +178,11 @@
             .hero h1{font-size:1.7rem;}
             .hero-subtitle{letter-spacing:3px; font-size:.7rem;}
             .hero-manifest{font-size:.95rem;}
+            .hero{padding:6rem 1rem 3rem; align-items:center;}
+            .hero-video{object-position:60% center;}
+            .hero-manifest{line-height:1.7; margin-bottom:2rem;}
+            .hero-cta{width:100%; flex-direction:column; align-items:stretch; gap:.8rem;}
+            .hero-cta .btn{text-align:center;}
             .section-header h2{font-size:1.5rem;}
             .pioneer-body, .lab-card, .transition-card{padding:1.2rem;}
             .pioneer-portrait{height:170px;}
@@ -204,12 +214,13 @@
         </div>
     </nav>
     <header class="hero">
+        <video class="hero-video" src="ones.mp4" autoplay loop muted playsinline preload="auto" aria-hidden="true"></video>
+        <div class="hero-overlay"></div>
         <div class="waveform-bg" id="waveform-bg"></div>
         <div class="hero-content">
             <p class="hero-subtitle i18n" data-en="Spain · 1900–1980">Estat Espanyol · 1930–1980</p>
             <h1 class="i18n" data-en="Pioneers of Electronic Music">Pioners de la Música Electrònica</h1>
             <p class="hero-manifest i18n" data-en="A composer is a &quot;pioneer&quot; when working before the language is consolidated, before institutional infrastructure or a mass audience exist. In Spain, that meant creating under Franco's dictatorship, isolated from the European circuit, with tape, oscillators and a radical will to renew — from Castillejo's 1933 electrocompositor to the founding of the Phonos and Alea laboratories.">Un compositor és "pioner" quan treballa abans que el llenguatge estigui consolidat, quan no existeix infraestructura institucional ni públic massiu. A l'Estat espanyol, significà crear en ple franquisme, aïllats del circuit europeu, amb cintes, oscil·ladors i una voluntat radical de renovació.</p>
-            <div class="hero-loop"><video src="ones.mp4" autoplay loop muted playsinline preload="auto" aria-hidden="true"></video></div>
             <div class="hero-cta">
                 <a href="#pioners" class="btn btn-filled i18n" data-en="Explore Pioneers">Explorar Pioners</a>
                 <a href="#cronologia" class="btn i18n" data-en="Timeline">Línia del Temps</a>
