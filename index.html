@@ -30,6 +30,8 @@
         .hero-subtitle { font-size:.85rem; text-transform:uppercase; letter-spacing:5px; color:var(--accent-wave); margin-bottom:1.5rem; }
         .hero h1 { font-size:clamp(2.2rem,5vw,4rem); font-weight:300; line-height:1.2; margin-bottom:2rem; background:linear-gradient(135deg, var(--text-primary) 0%, var(--accent-electric) 50%, var(--accent-wave) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
         .hero-manifest { font-size:1.1rem; color:var(--text-secondary); font-style:italic; line-height:1.9; margin:0 auto 3rem; max-width:700px; }
+        .hero-loop { width:100%; max-width:760px; margin:2rem auto 2.2rem; border-radius:10px; overflow:hidden; border:1px solid var(--border-subtle); box-shadow:0 18px 50px rgba(0,0,0,.45); line-height:0; }
+        .hero-loop video { width:100%; height:auto; display:block; }
         .hero-cta { display:inline-flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; }
         .btn { padding:.9rem 2.2rem; border:1px solid var(--accent-electric); color:var(--accent-electric); text-decoration:none; font-size:.8rem; text-transform:uppercase; letter-spacing:2px; transition:all .3s; border-radius:2px; cursor:pointer; background:transparent; font-family:inherit; }
         .btn:hover { background:var(--accent-electric); color:var(--bg-primary); }
@@ -207,6 +209,7 @@
             <p class="hero-subtitle i18n" data-en="Spain · 1900–1980">Estat Espanyol · 1930–1980</p>
             <h1 class="i18n" data-en="Pioneers of Electronic Music">Pioners de la Música Electrònica</h1>
             <p class="hero-manifest i18n" data-en="A composer is a &quot;pioneer&quot; when working before the language is consolidated, before institutional infrastructure or a mass audience exist. In Spain, that meant creating under Franco's dictatorship, isolated from the European circuit, with tape, oscillators and a radical will to renew — from Castillejo's 1933 electrocompositor to the founding of the Phonos and Alea laboratories.">Un compositor és "pioner" quan treballa abans que el llenguatge estigui consolidat, quan no existeix infraestructura institucional ni públic massiu. A l'Estat espanyol, significà crear en ple franquisme, aïllats del circuit europeu, amb cintes, oscil·ladors i una voluntat radical de renovació.</p>
+            <div class="hero-loop"><video src="ones.mp4" autoplay loop muted playsinline preload="auto" aria-hidden="true"></video></div>
             <div class="hero-cta">
                 <a href="#pioners" class="btn btn-filled i18n" data-en="Explore Pioneers">Explorar Pioners</a>
                 <a href="#cronologia" class="btn i18n" data-en="Timeline">Línia del Temps</a>
