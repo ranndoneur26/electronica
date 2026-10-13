@@ -721,6 +721,109 @@ footer p strong { color: var(--accent-ink); }
 }
 .back-to-top:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset: 3px; }
 
+/* ===== Reproductor de música ambiental ===== */
+.audio-control {
+  position: fixed; bottom: 1.5rem; left: 1.5rem;
+  z-index: 950;
+  display: flex; align-items: center; gap: .55rem;
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: .4rem .65rem .4rem .5rem;
+  box-shadow: var(--shadow-card);
+  max-width: calc(100vw - 3rem);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.audio-control.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+.audio-btn, .audio-mute {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--accent-ink); color: var(--bg-primary);
+  border: none; cursor: pointer;
+  display: flex; align-items:center; justify-content:center;
+  transition: background .2s var(--ease), transform .15s var(--ease);
+  flex-shrink: 0;
+}
+.audio-btn:hover, .audio-mute:hover { background: var(--accent-terracota); transform: scale(1.06); }
+.audio-btn:focus-visible, .audio-mute:focus-visible {
+  outline: 2px solid var(--accent-terracota); outline-offset: 2px;
+}
+.audio-btn[aria-pressed="true"] { background: var(--accent-terracota); }
+.audio-mute[aria-pressed="true"] { background: var(--accent-olive); }
+
+/* Volume slider estilitzat */
+.audio-volume {
+  -webkit-appearance: none; appearance: none;
+  width: 90px; height: 4px; border-radius: 999px;
+  background: var(--border-subtle);
+  outline: none; cursor: pointer;
+  flex-shrink: 1;
+}
+.audio-volume::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent-terracota);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 1px 3px rgba(0,0,0,.18);
+  cursor: pointer; transition: transform .15s var(--ease);
+}
+.audio-volume::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.audio-volume::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent-terracota); border: 2px solid var(--bg-card);
+  cursor: pointer;
+}
+.audio-volume:focus-visible { box-shadow: 0 0 0 3px rgba(185,87,61,.25); }
+.audio-volume::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; }
+.audio-volume::-moz-range-track { height: 4px; border-radius: 999px; }
+
+/* Info cançó */
+.audio-info {
+  display: flex; flex-direction: column; line-height: 1.1;
+  padding-right: .25rem;
+}
+.audio-title {
+  font-family: 'Instrument Serif', serif; font-size: .82rem;
+  color: var(--accent-ink); font-style: italic;
+}
+.audio-author {
+  font-family: 'IBM Plex Mono', monospace; font-size: .58rem;
+  color: var(--text-muted); letter-spacing: .04em;
+}
+
+/* Notificació inicial */
+.audio-hint {
+  position: fixed; bottom: 5.5rem; left: 1.5rem; z-index: 950;
+  background: var(--accent-ink); color: var(--bg-primary);
+  padding: .6rem .9rem; border-radius: 6px;
+  font-size: .72rem; letter-spacing: .04em;
+  box-shadow: var(--shadow-card); max-width: 240px;
+  animation: audioHintIn .35s var(--ease);
+}
+.audio-hint::after {
+  content: ""; position: absolute; bottom: -6px; left: 18px;
+  width: 0; height: 0; border-left: 6px solid transparent;
+  border-right: 6px solid transparent; border-top: 6px solid var(--accent-ink);
+}
+.audio-hint.hide { animation: audioHintOut .25s var(--ease) forwards; }
+@keyframes audioHintIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes audioHintOut { from { opacity: 1; } to { opacity: 0; transform: translateY(8px); } }
+
+@media (max-width: 768px) {
+  .audio-control { padding: .35rem .55rem .35rem .4rem; gap: .45rem; }
+  .audio-volume { width: 70px; }
+  .audio-info { display: none; }  /* amagar info en mòbil per estalviar espai */
+  .audio-hint { max-width: 180px; font-size: .68rem; bottom: 4.5rem; }
+}
+@media (max-width: 480px) {
+  .audio-control { bottom: 1rem; left: 1rem; }
+  .audio-volume { width: 60px; }
+}
+@media print {
+  .audio-control, .audio-hint { display: none !important; }
+}
+
 /* ===== Responsive ===== */
 img, svg, video { max-width:100%; height:auto; }
 @media (max-width: 1024px) {
@@ -1931,8 +2034,34 @@ img, svg, video { max-width:100%; height:auto; }
     <button class="back-to-top" id="back-to-top" aria-label="Torna amunt" title="Torna amunt">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
+
+<!-- ===== Reproductor de música ambiental ===== -->
+<audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+    <source src="diaphanous.ogg" type="audio/ogg; codecs=opus">
+    <source src="diaphanous.mp3" type="audio/mpeg">
+</audio>
+<div class="audio-control" id="audio-control" role="region" aria-label="Reproductor de música ambiental">
+    <button class="audio-btn" id="audio-btn" aria-label="Reprodueix / pausa la música" aria-pressed="false">
+        <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+    </button>
+    <button class="audio-mute" id="audio-mute" aria-label="Silencia o activa el so" aria-pressed="false">
+        <svg class="icon-vol-high" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.06A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <svg class="icon-vol-muted" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.17v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+    </button>
+    <input type="range" class="audio-volume" id="audio-volume" min="0" max="1" step="0.01" value="0.5" aria-label="Volum de la música" aria-valuenow="50" aria-valuetext="50%">
+    <div class="audio-info">
+        <span class="audio-title">Diaphanous</span>
+        <span class="audio-author">Shane Ivers</span>
+    </div>
+</div>
+
 <footer>
         <p class="i18n-html" data-en-html="<strong>&quot;Sound Genealogy Map&quot; architecture</strong> &mdash; not a list but a network that respects chronology and historical weight: Castillejo and Val del Omar (indirect lineage, 1930s&ndash;40s); Gerhard in London; and Mestres, de Pablo, Hidalgo, Polonio and Halffter within Spain's own circuit (1950&ndash;70), built around Phonos, Alea and the BBC."><strong>Arquitectura "Mapa de Genealogia Sonor" </strong> — no un llistat, sinó una xarxa que respecta la cronologia i el pes històric: Castillejo i Val del Omar (linatge indirecte/30s); Gerhard a Londres, i Mestres, de Pablo, Hidalgo, Polonio i Halffter, al circuit de l'Estat (1950–70) amb Phonos, Alea i la BBC.</p>
+        <p style="font-size:.78rem; color:var(--text-muted); margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle);">
+            Song <em style="font-family:'Instrument Serif', serif; font-style:italic; color:var(--accent-terracota); font-size:.95rem;">Diaphanous</em> © 2016 by Shane Ivers —
+            <a href="https://www.silvermansound.com" target="_blank" rel="noopener" style="color:var(--accent-terracota); text-decoration:none; border-bottom:1px solid currentColor;">silvermansound.com</a>
+        </p>
         <div class="footer-credits i18n" data-en="Conceptual site on the Pioneers of Electronic Music in Spain · 1900–1980 · &quot;Pioneer&quot; used in the strict historiographical sense (pre-consolidation) vs. &quot;first generation of the modern scene&quot; (80s). Bibliography: Calum MacDonald, Tom&aacute;s Marco, Carles Santos, Jos&eacute; Iges, Adolfo N&uacute;&ntilde;ez.">Web conceptual sobre els Pioners de la Música Electrònica a l'Estat espanyol · 1930–1980 · Termini "pioner" en el sentit historiogràfic estricte (pre-consolidació) vs. "generació de l'escena moderna" (80). Bibliografia: Calum MacDonald, Tomás Marco, Carles Santos, José Iges, Adolfo Núñez.</div>
     </footer>
 
@@ -2176,6 +2305,162 @@ img, svg, video { max-width:100%; height:auto; }
         };
         window.addEventListener('scroll', toggleBtt, { passive: true });
         btt.addEventListener('click', () => window.scrollTo({ top:0, behavior: 'smooth' }));
+    }
+
+    /* ----- Música ambiental (Diaphanous © Shane Ivers 2016) ----- */
+    const bgAudio = document.getElementById('bg-music');
+    const audioBtn = document.getElementById('audio-btn');
+    const audioMute = document.getElementById('audio-mute');
+    const audioVolume = document.getElementById('audio-volume');
+
+    if (bgAudio && audioBtn && audioMute && audioVolume) {
+        const iconPlay = audioBtn.querySelector('.icon-play');
+        const iconPause = audioBtn.querySelector('.icon-pause');
+        const iconVolHigh = audioMute.querySelector('.icon-vol-high');
+        const iconVolMuted = audioMute.querySelector('.icon-vol-muted');
+
+        // Volumen inicial 0.5 (50%) — audible però no intrusiu
+        bgAudio.volume = parseFloat(audioVolume.value) || 0.5;
+        let lastVolume = bgAudio.volume;
+        let hintShown = false;
+        let interactionListener = null;
+
+        function showHint(msg) {
+            if (hintShown) return;
+            hintShown = true;
+            const hint = document.createElement('div');
+            hint.className = 'audio-hint';
+            hint.textContent = msg;
+            hint.setAttribute('role', 'status');
+            document.body.appendChild(hint);
+            setTimeout(() => {
+                hint.classList.add('hide');
+                setTimeout(() => hint.remove(), 300);
+            }, 5500);
+        }
+
+        function updatePlayUI(playing) {
+            audioBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+            iconPlay.style.display = playing ? 'none' : '';
+            iconPause.style.display = playing ? '' : 'none';
+        }
+
+        function updateMuteUI(muted) {
+            audioMute.setAttribute('aria-pressed', muted ? 'true' : 'false');
+            iconVolHigh.style.display = muted ? 'none' : '';
+            iconVolMuted.style.display = muted ? '' : 'none';
+        }
+
+        // Intenem autoplay amb so (els navegadors el bloquegen fins a la 1a interacció)
+        function attemptAutoplay() {
+            const p = bgAudio.play();
+            if (p && typeof p.then === 'function') {
+                p.then(() => {
+                    updatePlayUI(true);
+                    showHint('♪ Diaphanous — Shane Ivers (2016)');
+                }).catch((err) => {
+                    if (err.name === 'NotAllowedError') {
+                        // Autoplay bloquejat: esperem 1a interacció
+                        showHint('Clica qualsevol lloc per escoltar la música');
+                        const startPlayback = () => {
+                            bgAudio.play().then(() => {
+                                updatePlayUI(true);
+                            }).catch(() => {});
+                            cleanup();
+                        };
+                        const cleanup = () => {
+                            document.removeEventListener('click', startPlayback);
+                            document.removeEventListener('touchstart', startPlayback);
+                            document.removeEventListener('keydown', startPlayback);
+                        };
+                        document.addEventListener('click', startPlayback, { once: false });
+                        document.addEventListener('touchstart', startPlayback, { once: false, passive: true });
+                        document.addEventListener('keydown', startPlayback, { once: false });
+                        // Cleanup automàtic als 30s si no hi ha interacció
+                        setTimeout(() => {
+                            if (bgAudio.paused) cleanup();
+                        }, 30000);
+                    }
+                });
+            } else {
+                // Navegador antic sense Promises
+                updatePlayUI(!bgAudio.paused);
+            }
+        }
+        // Timeout per assegurar carrega
+        if (bgAudio.readyState >= 2) {
+            attemptAutoplay();
+        } else {
+            bgAudio.addEventListener('canplay', attemptAutoplay, { once: true });
+            // Fallback als 3s si canplay no arriba
+            setTimeout(attemptAutoplay, 3000);
+        }
+
+        // Botó play/pause
+        audioBtn.addEventListener('click', () => {
+            if (bgAudio.paused) {
+                bgAudio.play().then(() => updatePlayUI(true)).catch(() => {});
+            } else {
+                bgAudio.pause();
+                updatePlayUI(false);
+            }
+        });
+
+        // Botó mute
+        audioMute.addEventListener('click', () => {
+            if (bgAudio.muted) {
+                bgAudio.muted = false;
+                if (bgAudio.volume === 0) {
+                    bgAudio.volume = lastVolume > 0 ? lastVolume : 0.5;
+                    audioVolume.value = bgAudio.volume;
+                }
+                updateMuteUI(false);
+            } else {
+                lastVolume = bgAudio.volume;
+                bgAudio.muted = true;
+                updateMuteUI(true);
+            }
+        });
+
+        // Slider de volum
+        audioVolume.addEventListener('input', (e) => {
+            const v = parseFloat(e.target.value);
+            bgAudio.volume = v;
+            bgAudio.muted = (v === 0);
+            updateMuteUI(v === 0);
+            audioVolume.setAttribute('aria-valuenow', Math.round(v * 100));
+            audioVolume.setAttribute('aria-valuetext', Math.round(v * 100) + '%');
+        });
+
+        // Estats d'event
+        bgAudio.addEventListener('play', () => updatePlayUI(true));
+        bgAudio.addEventListener('pause', () => updatePlayUI(false));
+        bgAudio.addEventListener('volumechange', () => updateMuteUI(bgAudio.muted));
+
+        // Atura música si l'usuari prefereix moviment reduït? No — la música no és "moviment".
+        // Però respeitem si la pestanya està oculta
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                bgAudio.pause();
+                updatePlayUI(false);
+            } else if (!bgAudio.muted && bgAudio.volume > 0) {
+                // No restaurem automàticament per no sorprendre l'usuari
+            }
+        });
+
+        // Drecera teclat: M per mute, P per play/pause
+        document.addEventListener('keydown', (e) => {
+            const t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+            if (e.key === 'm' || e.key === 'M') {
+                audioMute.click();
+                e.preventDefault();
+            }
+            if (e.key === 'p' || e.key === 'P') {
+                audioBtn.click();
+                e.preventDefault();
+            }
+        });
     }
 
     /* ----- Barra de progreso de lectura ----- */
