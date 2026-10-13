@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://electronica-spain.vercel.app/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://electronica-spain.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://electronica-spain.vercel.app/?lang=en"/>
+  </url>
+  <!-- Secciones anchor -->
+  <url><loc>https://electronica-spain.vercel.app/#cronologia</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#pioners</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#instruments</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#laboratoris</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#genealogia</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#dibuix-lyss</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#context</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#glossari</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#transition</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#fonoteca</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#biblioteca</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <!-- Perfil de pioners (cada ficha es un anchor con id único) -->
+  <url><loc>https://electronica-spain.vercel.app/#castillejo</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#gerhard</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#mestres</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#depablo</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#hidalgo</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#polonio</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#halffter</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://electronica-spain.vercel.app/#valdelomar</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+</urlset>

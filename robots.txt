@@ -1,0 +1,8 @@
+# robots.txt — Pioners de la Música Electrònica a l'Estat Espanyol
+# https://electronica-spain.vercel.app/
+
+User-agent: *
+Allow: /
+
+# Sitemap principal
+Sitemap: https://electronica-spain.vercel.app/sitemap.xml
