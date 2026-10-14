@@ -98,13 +98,39 @@ nav {
   display:flex; align-items:center; gap:1.2rem; height:72px;
 }
 .nav-logo {
-  font-size:.72rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
-  color: var(--accent-ink); text-decoration:none; white-space:nowrap;
-  display:flex; align-items:center; gap:.55rem;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.38rem;             /* 4 punts més gran que 1.05rem anterior */
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--accent-ink);
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: .55rem;
+  line-height: 1.05;
 }
-.nav-logo::before {
-  content:""; width:8px; height:8px; background:var(--accent-terracota);
-  border-radius:50%; display:inline-block;
+.nav-logo .nav-dot {
+  width: 8px; height: 8px; background: var(--accent-terracota);
+  border-radius: 50%; display: inline-block; flex-shrink: 0;
+}
+.nav-logo .nav-lines {
+  display: flex; flex-direction: column; text-align: left;
+  white-space: nowrap;
+}
+.nav-logo .nav-lines > span {
+  white-space: nowrap;
+}
+.nav-logo em {
+  font-style: italic;
+  color: var(--accent-terracota);
+}
+@media (max-width: 1024px) {
+  .nav-logo { font-size: 1.28rem; }
+}
+@media (max-width: 768px) {
+  .nav-logo { font-size: 1.15rem; gap: .4rem; }
+  .nav-logo .nav-dot { width: 6px; height: 6px; }
+}
+@media (max-width: 480px) {
+  .nav-logo { font-size: 1.02rem; gap: .35rem; }
 }
 .nav-links { display:flex; gap:1.4rem; list-style:none; flex-wrap:wrap; align-items:center; }
 .nav-links a {
@@ -979,7 +1005,6 @@ img, svg, video { max-width:100%; height:auto; }
   .pioneer-portrait { height: 200px; }
   .quote-block { padding: 1rem 1.1rem; }
   .nav-inner { padding: 0 1rem; }
-  .nav-logo { font-size:.68rem; letter-spacing:.12em; }
   .lab-name { font-size: 1.05rem; }
   .pioneer-name { font-size: 1.3rem; }
   .hero-meta { gap: 1.2rem; }
@@ -1154,7 +1179,13 @@ img, svg, video { max-width:100%; height:auto; }
 </div>
     <nav>
     <div class="nav-inner">
-        <a href="#" class="nav-logo" aria-label="Inici — Pioners de la Música Electrònica">Pioners // Electrònica</a>
+        <a href="#" class="nav-logo" aria-label="Inici — Pioners de la Música Electrònica">
+            <span class="nav-dot" aria-hidden="true"></span>
+            <span class="nav-lines">
+                <span>Pioners</span>
+                <span>de la <em>Música Electrònica</em></span>
+            </span>
+        </a>
         <ul class="nav-links" id="nav-links">
             <li><a href="#cronologia" class="i18n" data-en="Timeline">Cronologia</a></li>
             <li><a href="#pioners" class="i18n" data-en="Pioneers">Pioners</a></li>
