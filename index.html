@@ -35,6 +35,7 @@
   --max-w: 1280px;
   --max-w-text: 720px;
   --ease: cubic-bezier(.4, 0, .2, 1);
+  --sidebar-width: 240px;   /* calculat dinàmicament pel JS (longest label + 20%) */
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -86,7 +87,7 @@ h1, h2, .section-header h2, .pioneer-name, .lab-name, .hero h1,
 .skip-link:focus { left:0; }
 
 /* ===== Nav fija editorial ===== */
-nav {
+nav.nav-top {
   position:fixed; top:0; left:0; right:0; z-index:1000;
   background: rgba(245,242,235,.86);
   backdrop-filter: saturate(150%) blur(14px);
@@ -132,15 +133,181 @@ nav {
 @media (max-width: 480px) {
   .nav-logo { font-size: 1.02rem; gap: .35rem; }
 }
-.nav-links { display:flex; gap:1.4rem; list-style:none; flex-wrap:wrap; align-items:center; }
-.nav-links a {
-  color: var(--text-secondary); text-decoration:none;
-  font-size:.72rem; text-transform:uppercase; letter-spacing:.1em;
-  transition: color .25s var(--ease); position:relative; padding:.4rem 0;
+/* Botó hamburguesa (sempre visible, commuta sidebar) */
+.nav-toggle-btn {
+  display:flex; flex-direction:column; gap:5px;
+  background:none; border:none; cursor:pointer; padding:.4rem; border-radius:4px;
+  width:36px; height:36px; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
-.nav-links a:hover, .nav-links a:focus-visible { color: var(--accent-terracota); }
-.nav-links a:focus-visible {
-  outline: 2px solid var(--accent-terracota); outline-offset:4px; border-radius:2px;
+.nav-toggle-btn span {
+  width:22px; height:2px; background:var(--accent-ink); display:block;
+  transition: transform .3s var(--ease), opacity .3s var(--ease), width .3s var(--ease);
+}
+.nav-toggle-btn:hover span, .nav-toggle-btn:focus-visible span { background: var(--accent-terracota); }
+.nav-toggle-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle-btn[aria-expanded="true"] span:nth-child(2) { opacity:0; transform: scaleX(0); }
+.nav-toggle-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-toggle-btn:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+
+/* ===== Sidebar lateral vertical (acordió premium) ===== */
+.sidebar {
+  position: fixed; top: 72px; left: 0; bottom: 0;
+  width: var(--sidebar-width); max-width: 85vw;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-subtle);
+  z-index: 950;
+  display: flex; flex-direction: column;
+  transition: transform .4s var(--ease), width .3s var(--ease);
+  overflow-y: auto; overflow-x: hidden;
+  box-shadow: 1px 0 0 var(--border-subtle);
+}
+.sidebar.collapsed { transform: translateX(-100%); }
+.sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 1.5rem .9rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky; top: 0;
+  background: var(--bg-card);
+  z-index: 2;
+}
+.sidebar-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--accent-terracota);
+  font-weight: 500;
+}
+.sidebar-close {
+  width: 32px; height: 32px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .25s var(--ease);
+}
+.sidebar-close:hover, .sidebar-close:focus-visible {
+  background: var(--accent-ink); color: var(--bg-primary);
+  border-color: var(--accent-ink); transform: rotate(90deg);
+}
+.sidebar-close:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset: 2px; }
+
+.sidebar-nav { flex: 1; }
+.sidebar-list {
+  list-style: none; padding: 1rem 0; margin: 0;
+}
+.sidebar-list li { margin: 0; }
+.sidebar-list a {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding: .9rem 1.5rem .9rem 1.4rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: all .25s var(--ease);
+  position: relative;
+  border-left: 3px solid transparent;
+  font-size: .92rem;
+  line-height: 1.3;
+}
+.sidebar-list a .num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .62rem;
+  color: var(--text-muted);
+  letter-spacing: .12em;
+  min-width: 24px;
+  transition: color .25s var(--ease);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sidebar-list a .label {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  transition: color .25s var(--ease);
+  white-space: nowrap;
+}
+.sidebar-list a:hover, .sidebar-list a:focus-visible {
+  background: var(--bg-soft);
+  color: var(--accent-terracota);
+  border-left-color: var(--accent-terracota);
+}
+.sidebar-list a:hover .num,
+.sidebar-list a:focus-visible .num { color: var(--accent-terracota); }
+.sidebar-list a:focus-visible {
+  outline: 2px solid var(--accent-terracota); outline-offset: -2px;
+}
+.sidebar-list a.active {
+  background: var(--bg-soft);
+  color: var(--accent-ink);
+  border-left-color: var(--accent-terracota);
+}
+.sidebar-list a.active .num { color: var(--accent-terracota); }
+.sidebar-list a.active .label { color: var(--accent-ink); }
+
+.sidebar-footer {
+  padding: 1rem 1.5rem 1.4rem;
+  border-top: 1px solid var(--border-subtle);
+  position: sticky; bottom: 0;
+  background: var(--bg-card);
+}
+.sidebar-footnote {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Backdrop (per a mòbil quan sidebar està oberta sobre contingut) */
+.sidebar-backdrop {
+  position: fixed; inset: 0; top: 72px;
+  background: rgba(31, 34, 24, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 940;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s var(--ease);
+}
+.sidebar-backdrop.show {
+  opacity: 1; pointer-events: auto;
+}
+
+/* Desplaçament del contingut quan sidebar és visible (desktop) */
+@media (min-width: 1025px) {
+  body:not(.sidebar-collapsed) .hero,
+  body:not(.sidebar-collapsed) section,
+  body:not(.sidebar-collapsed) .wave-divider,
+  body:not(.sidebar-collapsed) footer {
+    margin-left: var(--sidebar-width);
+  }
+  body:not(.sidebar-collapsed) section { max-width: calc(var(--max-w) - var(--sidebar-width)); }
+  body:not(.sidebar-collapsed) .wave-divider { max-width: var(--max-w); padding-left: 1.5rem; padding-right: 1.5rem; box-sizing: border-box; }
+  body:not(.sidebar-collapsed) .hero-cta,
+  body:not(.sidebar-collapsed) .audio-control { margin-left: var(--sidebar-width); }
+  /* nav (top) i sidebar togther */
+  body:not(.sidebar-collapsed) nav.nav-top { padding-left: var(--sidebar-width); box-sizing: border-box; }
+}
+
+/* Responsive: mòbil sidebar és overlay */
+@media (max-width: 1024px) {
+  .sidebar {
+    box-shadow: 4px 0 24px rgba(37,40,32,.12);
+  }
+  body:not(.sidebar-collapsed) .sidebar-backdrop { opacity: 1; pointer-events: auto; }
+}
+@media (max-width: 768px) {
+  .sidebar { max-width: 80vw; top: 64px; }
+  .sidebar-list a { padding: .75rem 1.2rem .75rem 1.1rem; font-size: .88rem; }
+  .sidebar-list a .label { font-size: 1.05rem; }
+  .sidebar-header { padding: 1rem 1.2rem .7rem; }
+  .sidebar-footer { padding: .8rem 1.2rem 1rem; }
+  .sidebar-backdrop { top: 64px; }
+}
+@media (max-width: 480px) {
+  .sidebar-list a { padding: .65rem 1rem .65rem .9rem; gap: .7rem; }
+  .sidebar-list a .label { font-size: .98rem; }
 }
 
 .nav-search-wrap {
@@ -169,18 +336,7 @@ nav {
 }
 .lang-toggle:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:3px; }
 
-.nav-toggle-btn {
-  display:none; flex-direction:column; gap:5px;
-  background:none; border:none; cursor:pointer; padding:.4rem; border-radius:4px;
-}
-.nav-toggle-btn span {
-  width:22px; height:2px; background:var(--accent-ink); display:block;
-  transition: transform .25s var(--ease), opacity .25s var(--ease);
-}
-.nav-toggle-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-toggle-btn[aria-expanded="true"] span:nth-child(2) { opacity:0; }
-.nav-toggle-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.nav-toggle-btn:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+/* (estils nav-toggle-btn moguts a la secció anterior) */
 
 /* Search results dropdown */
 .search-results {
@@ -218,6 +374,7 @@ nav {
   position: relative; overflow:hidden;
   background: var(--bg-primary);
   display: grid; place-items:center;
+  isolation: isolate;  /* crea stacking context → sidebar fixed queda fora i per sobre */
 }
 .hero::before {
   content:""; position:absolute; inset:0;
@@ -965,16 +1122,7 @@ img, svg, video { max-width:100%; height:auto; }
   .pioneers-grid, .labs-container, .scores-gallery { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 }
 @media (max-width: 900px) {
-  .nav-links {
-    position: fixed; top: 72px; left: 0; right: 0;
-    background: var(--bg-primary); flex-direction:column; gap:0;
-    padding: 1rem 1.5rem 1.5rem; display:none;
-    border-bottom: 1px solid var(--border-subtle);
-    max-height: calc(100vh - 72px); overflow-y: auto;
-  }
-  .nav-links.open { display:flex; }
-  .nav-links li { padding:.7rem 0; border-bottom:1px solid var(--border-subtle); }
-  .nav-toggle-btn { display:flex; }
+  /* nav-links ja gestionat pel sidebar lateral */
   .nav-search-wrap { margin-left: auto; }
   .search-input { width: 130px; max-width: 35vw; }
   .search-input:focus { width: 180px; }
@@ -1075,10 +1223,10 @@ img, svg, video { max-width:100%; height:auto; }
 
 /* ===== Estilos de impresión (uso académico / archivístico) ===== */
 @media print {
-  nav, .nav-toggle-btn, .nav-search-wrap, .lang-toggle,
+  nav.nav-top, .nav-toggle-btn, .nav-search-wrap, .lang-toggle,
   .skip-link, .back-to-top, .toc-fab, .toc-panel,
   .reading-progress, .waveform-bg, .hero-cta,
-  .audio-control, .audio-hint, .lightbox, .lightbox-close { display: none !important; }
+  .audio-control, .audio-hint, .lightbox, .lightbox-close, .sidebar, .sidebar-backdrop { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; line-height: 1.5; }
   section { padding: 1.5rem 0; max-width: none; page-break-inside: avoid; }
   .hero { min-height: auto; padding: 1rem 0; }
@@ -1177,8 +1325,9 @@ img, svg, video { max-width:100%; height:auto; }
         <li><a href="#biblioteca">Bibliografia</a></li>
     </ol>
 </div>
-    <nav>
+    <nav class="nav-top">
     <div class="nav-inner">
+        <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Mostra o amaga el menú lateral" aria-expanded="true" aria-controls="sidebar"><span></span><span></span><span></span></button>
         <a href="#" class="nav-logo" aria-label="Inici — Pioners de la Música Electrònica">
             <span class="nav-dot" aria-hidden="true"></span>
             <span class="nav-lines">
@@ -1186,28 +1335,43 @@ img, svg, video { max-width:100%; height:auto; }
                 <span>de la <em>Música Electrònica</em></span>
             </span>
         </a>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#cronologia" class="i18n" data-en="Timeline">Cronologia</a></li>
-            <li><a href="#pioners" class="i18n" data-en="Pioneers">Pioners</a></li>
-            <li><a href="#instruments" class="i18n" data-en="Instruments">Instruments</a></li>
-            <li><a href="#laboratoris" class="i18n" data-en="Laboratories">Laboratoris</a></li>
-            <li><a href="#genealogia" class="i18n" data-en="Genealogy">Genealogia</a></li>
-            <li><a href="#dibuix-lyss" class="i18n" data-en="Sound Drawing">Dibuix del So</a></li>
-            <li><a href="#context" class="i18n" data-en="Intl. Context">Context Intl.</a></li>
-            <li><a href="#glossari" class="i18n" data-en="Glossary">Glossari</a></li>
-            <li><a href="#transition" class="i18n" data-en="80s Transition">Transició 80</a></li>
-            <li><a href="#fonoteca" class="i18n" data-en="Sound Archive">Fonoteca</a></li>
-            <li><a href="#biblioteca" class="i18n" data-en="Bibliography">Bibliografia</a></li>
-        </ul>
         <div class="nav-search-wrap">
             <label for="global-search" class="skip-link" style="position:absolute;left:-9999px;">Cerca</label>
             <input type="search" id="global-search" class="search-input" placeholder="Cerca..." autocomplete="off" aria-label="Cerca global de persones, obres, instruments, laboratoris i documents">
             <div class="search-results" id="search-results" role="listbox" aria-label="Resultats de cerca"></div>
         </div>
         <button class="lang-toggle" id="lang-toggle-btn" aria-label="Canvia d'idioma">EN</button>
-        <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Menú de navegació" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
     </div>
 </nav>
+
+<!-- ===== Sidebar vertical (acordió premium) ===== -->
+<aside class="sidebar" id="sidebar" aria-label="Menú lateral de navegació">
+    <div class="sidebar-header">
+        <span class="sidebar-label i18n" data-en="Index">Índex</span>
+        <button class="sidebar-close" id="sidebar-close" aria-label="Replegar el menú">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ol class="sidebar-list" id="nav-links">
+            <li><a href="#cronologia"><span class="num">01</span><span class="label i18n" data-en="Timeline">Cronologia</span></a></li>
+            <li><a href="#pioners"><span class="num">02</span><span class="label i18n" data-en="Pioneers">Pioners</span></a></li>
+            <li><a href="#instruments"><span class="num">03</span><span class="label i18n" data-en="Instruments">Instruments</span></a></li>
+            <li><a href="#laboratoris"><span class="num">04</span><span class="label i18n" data-en="Laboratories">Laboratoris</span></a></li>
+            <li><a href="#genealogia"><span class="num">05</span><span class="label i18n" data-en="Genealogy">Genealogia</span></a></li>
+            <li><a href="#dibuix-lyss"><span class="num">06</span><span class="label i18n" data-en="Sound Drawing">Dibuix del So</span></a></li>
+            <li><a href="#context"><span class="num">07</span><span class="label i18n" data-en="Intl. Context">Context Intl.</span></a></li>
+            <li><a href="#glossari"><span class="num">08</span><span class="label i18n" data-en="Glossary">Glossari</span></a></li>
+            <li><a href="#transition"><span class="num">09</span><span class="label i18n" data-en="80s Transition">Transició 80</span></a></li>
+            <li><a href="#fonoteca"><span class="num">10</span><span class="label i18n" data-en="Sound Archive">Fonoteca</span></a></li>
+            <li><a href="#biblioteca"><span class="num">11</span><span class="label i18n" data-en="Bibliography">Bibliografia</span></a></li>
+        </ol>
+    </nav>
+    <div class="sidebar-footer">
+        <span class="sidebar-footnote i18n" data-en="Spain · 1930–1980">Estat Espanyol · 1930–1980</span>
+    </div>
+</aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
     <header class="hero">
     <video class="hero-video-banner" src="ones.mp4" autoplay loop muted playsinline preload="auto" aria-hidden="true"></video>
     <div class="waveform-bg" id="waveform-bg" aria-hidden="true"></div>
@@ -2270,18 +2434,163 @@ img, svg, video { max-width:100%; height:auto; }
         });
     });
 
-    /* ----- Mobile nav toggle ----- */
-    const navLinks = document.getElementById("nav-links");
+    /* ----- Sidebar lateral (acordió premium) ----- */
+    const sidebar = document.getElementById("sidebar");
+    const sidebarClose = document.getElementById("sidebar-close");
+    const sidebarBackdrop = document.getElementById("sidebar-backdrop");
     const navToggle = document.getElementById("nav-toggle-btn");
-    if (navToggle && navLinks) {
-        navToggle.addEventListener("click", () => {
-            const open = navLinks.classList.toggle("open");
-            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    const navLinks = document.getElementById("nav-links"); // ara dins el sidebar
+
+    // Estat inicial: sidebar obert a desktop, tancat a mòbil
+    const isMobile = () => window.matchMedia('(max-width: 1024px)').matches;
+    let sidebarOpen = !isMobile();
+    
+    // Calcula amplaria del sidebar: label més llarg + 20%
+    function adjustSidebarWidth() {
+        if (!sidebar) return;
+        const labels = sidebar.querySelectorAll('.sidebar-list .label');
+        if (!labels.length) return;
+        
+        // Usa canvas API per mesurar amplaria real del text (sense interferències de layout)
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let maxLabelW = 0;
+        
+        labels.forEach(label => {
+            // Construeix la font completa: "italic 400 17.6px Instrument Serif, Georgia, serif"
+            const cs = getComputedStyle(label);
+            const fontStr = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+            ctx.font = fontStr;
+            const text = label.textContent;
+            // width inclou padding/spacing real del navegador
+            const w = ctx.measureText(text).width;
+            if (w > maxLabelW) maxLabelW = w;
         });
+        
+        // Si no s'ha pogut mesurar, fallback
+        if (maxLabelW === 0) return;
+        
+        // Calcula amplaria estructural: padding + num + gap
+        const firstLink = sidebar.querySelector('.sidebar-list a');
+        if (!firstLink) return;
+        const cs = getComputedStyle(firstLink);
+        const pL = parseFloat(cs.paddingLeft) || 0;
+        const pR = parseFloat(cs.paddingRight) || 0;
+        const gap = parseFloat(cs.gap) || 16;
+        // Amplaria del num (text + min-width)
+        const numEl = firstLink.querySelector('.num');
+        const numTextW = numEl ? (() => {
+            const numCs = getComputedStyle(numEl);
+            ctx.font = `${numCs.fontStyle} ${numCs.fontWeight} ${numCs.fontSize} ${numCs.fontFamily}`;
+            return ctx.measureText(numEl.textContent).width;
+        })() : 24;
+        const numMinW = parseFloat(getComputedStyle(numEl).minWidth) || 24;
+        const numW = Math.max(numTextW, numMinW);
+        
+        // Label + 20% buffer
+        const labelExpanded = maxLabelW * 1.2;
+        // Amplaria total
+        const targetWidth = Math.round(pL + numW + gap + labelExpanded + pR);
+        
+        // Mínim raonable
+        const minWidth = 180;
+        const finalWidth = Math.max(minWidth, targetWidth);
+        
+        // Aplica via CSS variable (utilitzada per sidebar + margin-left + padding-left)
+        document.documentElement.style.setProperty('--sidebar-width', finalWidth + 'px');
+    }
+    
+    function setSidebar(open) {
+        sidebarOpen = open;
+        if (open) {
+            sidebar.classList.remove('collapsed');
+            document.body.classList.remove('sidebar-collapsed');
+            if (isMobile()) sidebarBackdrop.classList.add('show');
+            else sidebarBackdrop.classList.remove('show');
+        } else {
+            sidebar.classList.add('collapsed');
+            document.body.classList.add('sidebar-collapsed');
+            sidebarBackdrop.classList.remove('show');
+        }
+        if (navToggle) navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    
+    // Calcula amplaria inicialment
+    adjustSidebarWidth();
+    
+    // Inicialitza estat
+    setSidebar(sidebarOpen);
+    
+    if (navToggle) {
+        navToggle.addEventListener("click", () => setSidebar(!sidebarOpen));
+    }
+    if (sidebarClose) {
+        sidebarClose.addEventListener("click", () => setSidebar(false));
+    }
+    if (sidebarBackdrop) {
+        sidebarBackdrop.addEventListener("click", () => setSidebar(false));
+    }
+    // Tancar amb Esc
+    document.addEventListener("keydown", (e) => {
+        if (e.key === 'Escape' && sidebarOpen && isMobile()) setSidebar(false);
+    });
+    
+    // Tancar sidebar en clicar un link (només a mòbil)
+    if (navLinks) {
         navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-            navLinks.classList.remove("open");
-            navToggle.setAttribute("aria-expanded", "false");
+            if (isMobile()) setSidebar(false);
         }));
+    }
+    
+    // Reajustar amplaria i estat en redimensionar finestra
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Recalcula amplaria (pot haver canviat el padding responsive)
+            adjustSidebarWidth();
+            // Si passem de mòbil a desktop, obrir sidebar; si passem a mòbil, tancar
+            const newIsMobile = isMobile();
+            if (newIsMobile && sidebarOpen) {
+                setSidebar(false);
+            } else if (!newIsMobile && !sidebarOpen) {
+                setSidebar(true);
+            } else if (!newIsMobile && sidebarOpen) {
+                sidebarBackdrop.classList.remove('show');
+            }
+        }, 150);
+    });
+    
+    // Recalcula amplaria quan es canvia d'idioma (CA/EN tenen amplaries diferents)
+    // Ho fem reutilitzant l'observer de mutació sobre les labels
+    if (window.MutationObserver && navLinks) {
+        const mo = new MutationObserver(() => adjustSidebarWidth());
+        navLinks.querySelectorAll('.label, .num').forEach(el => {
+            mo.observe(el, { childList: true, characterData: true, subtree: true });
+        });
+    }
+    
+    // Scroll spy: destacar secció activa al sidebar
+    if (navLinks && 'IntersectionObserver' in window) {
+        const sidebarLinks = Array.from(navLinks.querySelectorAll('a'));
+        const sections = sidebarLinks
+            .map(a => document.querySelector(a.getAttribute('href')))
+            .filter(Boolean);
+        
+        if (sections.length) {
+            const spy = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        sidebarLinks.forEach(l => {
+                            const isActive = l.getAttribute('href') === '#' + id;
+                            l.classList.toggle('active', isActive);
+                        });
+                    }
+                });
+            }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+            sections.forEach(s => spy.observe(s));
+        }
     }
 
     /* ----- Language toggle (CA default / EN) ----- */
