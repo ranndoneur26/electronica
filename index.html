@@ -847,8 +847,101 @@ footer p strong { color: var(--accent-ink); }
   .audio-control { bottom: 1rem; left: 1rem; }
   .audio-volume { width: 60px; }
 }
-@media print {
-  .audio-control, .audio-hint { display: none !important; }
+/* ===== Lightbox (popup imatges ampliades) ===== */
+.lightbox {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+  background: rgba(31, 34, 24, 0.93);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: lightboxIn 0.25s var(--ease);
+  cursor: zoom-out;
+}
+.lightbox[hidden] { display: none !important; }
+@keyframes lightboxIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox { animation: none; }
+}
+.lightbox-backdrop {
+  position: absolute; inset: 0;
+  z-index: 1;
+}
+.lightbox-content {
+  position: relative; z-index: 2;
+  max-width: 92vw; max-height: 92vh;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.2rem;
+  cursor: default;
+}
+.lightbox-img {
+  max-width: 92vw; max-height: 80vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  background: var(--bg-primary);
+}
+.lightbox-caption {
+  color: var(--bg-primary);
+  font-size: 0.85rem; text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.04em;
+  max-width: 700px;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+.lightbox-caption strong {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.05rem;
+  color: var(--accent-terracota);
+  letter-spacing: 0;
+  font-weight: 400;
+  font-style: italic;
+}
+.lightbox-close {
+  position: fixed; top: 1.5rem; right: 1.5rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-primary); color: var(--accent-ink);
+  border: none; cursor: pointer; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease), color 0.25s;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+}
+.lightbox-close:hover, .lightbox-close:focus-visible {
+  background: var(--accent-terracota); color: #fff;
+  transform: rotate(90deg);
+}
+.lightbox-close:focus-visible {
+  outline: 2px solid var(--bg-primary); outline-offset: 3px;
+}
+.lightbox-hint {
+  position: fixed; bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%);
+  color: var(--bg-primary); opacity: 0.5;
+  font-size: 0.72rem;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  z-index: 2; pointer-events: none;
+}
+@media (max-width: 768px) {
+  .lightbox { padding: 1rem; }
+  .lightbox-close { top: 1rem; right: 1rem; width: 40px; height: 40px; }
+  .lightbox-hint { display: none; }
+  .lightbox-img { max-height: 70vh; }
+}
+
+/* Indicador visual: les imatges clicables mostren cursor zoom-in */
+.pioneer-photo, .lab-icon-img img, .score-visual.has-img img {
+  cursor: zoom-in;
+}
+/* Hover suau per indicar interactivitat */
+.pioneer-portrait:hover .pioneer-photo,
+.lab-icon-img:hover img,
+.score-visual.has-img:hover img {
+  opacity: 0.92;
 }
 
 /* ===== Responsive ===== */
@@ -970,7 +1063,8 @@ img, svg, video { max-width:100%; height:auto; }
 @media print {
   nav, .nav-toggle-btn, .nav-search-wrap, .lang-toggle,
   .skip-link, .back-to-top, .toc-fab, .toc-panel,
-  .reading-progress, .waveform-bg, .hero-cta { display: none !important; }
+  .reading-progress, .waveform-bg, .hero-cta,
+  .audio-control, .audio-hint, .lightbox, .lightbox-close { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; line-height: 1.5; }
   section { padding: 1.5rem 0; max-width: none; page-break-inside: avoid; }
   .hero { min-height: auto; padding: 1rem 0; }
@@ -2083,6 +2177,19 @@ img, svg, video { max-width:100%; height:auto; }
     </div>
 </div>
 
+<!-- ===== Lightbox (popup imatges ampliades) ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imatge ampliada" hidden>
+    <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Tancar imatge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="lightbox-content">
+        <img class="lightbox-img" id="lightbox-img" alt="">
+        <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+    <div class="lightbox-hint">Clica a la dreta o prem Esc per tancar</div>
+</div>
+
 <footer>
         <p class="i18n-html" data-en-html="<strong>&quot;Sound Genealogy Map&quot; architecture</strong> &mdash; not a list but a network that respects chronology and historical weight: Castillejo and Val del Omar (indirect lineage, 1930s&ndash;40s); Gerhard in London; and Mestres, de Pablo, Hidalgo, Polonio and Halffter within Spain's own circuit (1950&ndash;70), built around Phonos, Alea and the BBC."><strong>Arquitectura "Mapa de Genealogia Sonor" </strong> — no un llistat, sinó una xarxa que respecta la cronologia i el pes històric: Castillejo i Val del Omar (linatge indirecte/30s); Gerhard a Londres, i Mestres, de Pablo, Hidalgo, Polonio i Halffter, al circuit de l'Estat (1950–70) amb Phonos, Alea i la BBC.</p>
         <p style="font-size:.78rem; color:var(--text-muted); margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle);">
@@ -2490,6 +2597,122 @@ img, svg, video { max-width:100%; height:auto; }
                 audioBtn.click();
                 e.preventDefault();
             }
+        });
+    }
+
+    /* ----- Lightbox: ampliar imatges de Pioners, Instruments i Dibuix del So ----- */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+    let lastFocused = null;
+
+    if (lightbox && lightboxImg && lightboxClose) {
+        function openLightbox(src, alt, captionHTML) {
+            lightboxImg.src = src;
+            lightboxImg.alt = alt || '';
+            lightboxCaption.innerHTML = captionHTML || alt || '';
+            lightbox.hidden = false;
+            document.body.style.overflow = 'hidden';
+            lastFocused = document.activeElement;
+            setTimeout(() => lightboxClose.focus(), 50);
+        }
+        function closeLightbox() {
+            lightbox.hidden = true;
+            lightboxImg.src = '';
+            lightboxCaption.innerHTML = '';
+            document.body.style.overflow = '';
+            if (lastFocused) { try { lastFocused.focus(); } catch(e){} }
+        }
+
+        // Tancar: clic al backdrop (part dreta inclosa), al ×, o tecla Esc
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxBackdrop.addEventListener('click', closeLightbox);
+        // Clic directament al .lightbox (fora del contingut) també tanca
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !lightbox.hidden) {
+                closeLightbox();
+                e.preventDefault();
+            }
+            // Tab trap: si focus surt del lightbox, torna al botó tancar
+            if (e.key === 'Tab' && !lightbox.hidden) {
+                const focusable = lightboxClose;
+                if (e.shiftKey && document.activeElement === focusable) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Helper: registra una imatge per obrir el lightbox
+        function attachLightbox(img, getCaption) {
+            img.setAttribute('role', 'button');
+            img.setAttribute('tabindex', '0');
+            const handler = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const src = img.src || img.currentSrc || img.getAttribute('src');
+                if (!src) return;
+                const caption = typeof getCaption === 'function' ? getCaption(img) : img.alt;
+                openLightbox(src, img.alt, caption);
+            };
+            img.addEventListener('click', handler);
+            img.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handler(e);
+                }
+            });
+        }
+
+        // 1. Pioners (retrats de compositors)
+        document.querySelectorAll('.pioneer-photo').forEach(img => {
+            attachLightbox(img, (i) => {
+                const card = i.closest('.pioneer-card');
+                if (!card) return '';
+                const name = card.querySelector('.pioneer-name')?.textContent?.trim() || '';
+                const dates = card.querySelector('.pioneer-dates')?.textContent?.trim() || '';
+                const focus = card.querySelector('.pioneer-focus')?.textContent?.trim() || '';
+                return `<strong>${name}</strong>${dates ? ' · ' + dates : ''}${focus ? ' · ' + focus : ''}`;
+            });
+        });
+
+        // 2. Instruments (imatges de màquines)
+        document.querySelectorAll('.lab-icon-img img').forEach(img => {
+            attachLightbox(img, (i) => {
+                const card = i.closest('.lab-card');
+                if (!card) return '';
+                const name = card.querySelector('.lab-name')?.textContent?.trim() || '';
+                const period = card.querySelector('.lab-period')?.textContent?.trim() || '';
+                const desc = card.querySelector('.lab-desc')?.textContent?.trim() || '';
+                return `<strong>${name}</strong>${period ? ' · ' + period : ''}${desc ? '<br>' + desc.substring(0, 200) + (desc.length > 200 ? '…' : '') : ''}`;
+            });
+        });
+
+        // 3. Dibuix del So (partitures gràfiques)
+        document.querySelectorAll('.score-visual.has-img img').forEach(img => {
+            attachLightbox(img, (i) => {
+                const card = i.closest('.score-card');
+                if (!card) return '';
+                const titleEl = card.querySelector('h5');
+                const title = titleEl?.textContent?.trim() || '';
+                const meta = card.querySelector('.score-meta');
+                let metaHTML = '';
+                if (meta) {
+                    // Extrau els primers 4 parells dt/dd
+                    const dts = meta.querySelectorAll('dt');
+                    const dds = meta.querySelectorAll('dd');
+                    const pairs = [];
+                    for (let k = 0; k < Math.min(dts.length, dds.length, 4); k++) {
+                        pairs.push(`${dts[k].textContent?.trim()}: <strong>${dds[k].textContent?.trim()}</strong>`);
+                    }
+                    if (pairs.length) metaHTML = '<br>' + pairs.join(' · ');
+                }
+                return `<strong>${title}</strong>${metaHTML}`;
+            });
         });
     }
 
