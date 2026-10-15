@@ -1116,6 +1116,133 @@ footer p strong { color: var(--accent-ink); }
   opacity: 0.92;
 }
 
+
+/* ===== Bibliografia acadèmica (footer) ===== */
+.biblio-details {
+  margin-top: 1.8rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.biblio-summary {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--accent-terracota);
+  cursor: pointer;
+  padding: .5rem 0;
+  list-style: none;          /* treu el triangle per defecte */
+  display: flex; align-items: baseline; gap: .6rem;
+  transition: color .2s var(--ease);
+}
+.biblio-summary::-webkit-details-marker { display: none; }
+.biblio-summary::before {
+  content: "+";
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem;
+  color: var(--accent-terracota);
+  transition: transform .25s var(--ease);
+  line-height: 1;
+}
+.biblio-details[open] .biblio-summary::before {
+  content: "–";
+  transform: rotate(0deg);
+}
+.biblio-summary:hover { color: var(--accent-ink); }
+.biblio-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem;
+  color: var(--text-muted);
+  font-weight: normal;
+  letter-spacing: .08em;
+  text-transform: none;
+}
+
+.bibliography {
+  margin-top: 1.2rem;
+  font-size: .58rem;              /* cuerpo 7 (~9.3px) */
+  line-height: 1.55;
+  color: var(--text-secondary);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  letter-spacing: 0;
+}
+.biblio-section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--accent-terracota);
+  margin: 1.4rem 0 .5rem;
+  padding-bottom: .25rem;
+  border-bottom: 1px dotted var(--border-subtle);
+  font-weight: 500;
+  break-after: avoid;
+}
+.biblio-section-title:first-child { margin-top: 0; }
+
+.biblio-list {
+  list-style: none;
+  counter-reset: biblio;
+  padding: 0;
+  margin: 0 0 .8rem 0;
+  column-count: 2;               /* 2 columnes per compactar */
+  column-gap: 1.8rem;
+  column-fill: balance;
+}
+@media (max-width: 768px) {
+  .biblio-list { column-count: 1; }
+}
+.biblio-list li {
+  counter-increment: biblio;
+  margin: 0 0 .35rem 0;
+  padding-left: 1.6rem;
+  position: relative;
+  break-inside: avoid;
+  font-size: .58rem;
+  line-height: 1.5;
+}
+.biblio-list li::before {
+  content: counter(biblio, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .52rem;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+}
+.biblio-list em {
+  font-style: italic;
+  color: var(--accent-ink);
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: .68rem;            /* una mica més gran per a titols */
+}
+.biblio-list strong {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.biblio-list a {
+  color: var(--accent-terracota);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent-terracota);
+  transition: opacity .15s var(--ease);
+  font-size: .58rem;
+}
+.biblio-list a:hover, .biblio-list a:focus-visible {
+  opacity: .7;
+  border-bottom-style: solid;
+}
+.biblio-list a:focus-visible {
+  outline: 2px solid var(--accent-terracota);
+  outline-offset: 1px;
+}
+
+@media print {
+  .biblio-details, .biblio-details[open] { display: block !important; }
+  .biblio-summary { display: none; }
+  .biblio-list { column-count: 1; }
+}
+
 /* ===== Responsive ===== */
 img, svg, video { max-width:100%; height:auto; }
 @media (max-width: 1024px) {
@@ -2388,6 +2515,123 @@ img, svg, video { max-width:100%; height:auto; }
 
 <footer>
         <p class="i18n-html" data-en-html="<strong>&quot;Sound Genealogy Map&quot; architecture</strong> &mdash; not a list but a network that respects chronology and historical weight: Castillejo and Val del Omar (indirect lineage, 1930s&ndash;40s); Gerhard in London; and Mestres, de Pablo, Hidalgo, Polonio and Halffter within Spain's own circuit (1950&ndash;70), built around Phonos, Alea and the BBC."><strong>Arquitectura "Mapa de Genealogia Sonora" </strong> — no un llistat, sinó una xarxa que respecta la cronologia i el pes històric: Castillejo i Val del Omar (llinatge indirecte, anys 30–40); Gerhard a Londres, i Mestres, de Pablo, Hidalgo, Polonio i Halffter, al circuit de l'Estat (1950–70) amb Phonos, Alea i la BBC.</p>
+<details class="biblio-details" style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border-subtle);">
+<summary class="biblio-summary">Bibliografia i Fonts / Bibliography &amp; Sources <span class="biblio-count">(85 entrades verificades)</span></summary>
+<div class="bibliography" style="margin-top:1rem;">
+<h4 class="biblio-section-title">Llibres / Books</h4>
+<ol class="biblio-list">
+<li>Adkins, M., & Russ, M. (Eds.) (2024). <em>The Roberto Gerhard Companion</em> (Routledge Music Companions). London / New York: Routledge. 402 pp. ISBN 978-1-032-92049-8. <a href="https://www.abebooks.com/first-edition/ROBERTO-GERHARD-COMPANION-edited-ADKINS-Monty/31519390608/bd" target="_blank" rel="noopener">↗</a></li>
+<li>Adkins, M., & Mann, R. (Eds.) (2022). <em>Roberto Gerhard: Re-Appraising a Musical Visionary in Exile</em>. Oxford / London: Oxford University Press / The British Academy. ISBN 978-0-19-726713-4. <a href="https://pure.hud.ac.uk/en/publications/roberto-gerhard-re-appraising-a-musical-visionary-in-exile" target="_blank" rel="noopener">↗</a></li>
+<li>Adkins, M. (2014). <em>Roberto Gerhard: Electronic Explorations from his Studio + The BBC Radiophonic Workshop 1958–1967</em>. Arles: Les Presses du Réel (cat. 3787). [Llibre + àlbum] <a href="https://www.lespressesdureel.com/EN/ouvrage.php?id=3787&menu=0" target="_blank" rel="noopener">↗</a></li>
+<li>Blánquez, J., & Morera, O. (2002). <em>Loops. Una historia de la música electrónica</em>. Madrid: Reservoir Books / Mondadori. 496 pp. ISBN 978-84-397-0901-5. <a href="https://www.amazon.com/-/es/Loops-historia-m%C3%BAsica-electr%C3%B3nica-Spanish/dp/8439709013" target="_blank" rel="noopener">↗</a></li>
+<li>Blánquez, J., & Morera, O. (2021). <em>Loops 1. Una historia de la música electrónica en el siglo XX</em> (edició revisada i ampliada). Madrid: Reservoir Books. ISBN 978-84-18052-64-4. <a href="https://www.elargonauta.com/libros/loops-1-una-historia-de-la-musica-electronica-en-el-siglo-xx/978-84-18052-64-4" target="_blank" rel="noopener">↗</a></li>
+<li>Blánquez, J. (2023). <em>Loops 2: Una historia de la música electrónica en el siglo XXI</em>. Madrid: Reservoir Books. 688 pp. ISBN 978-84-188975-1-1. <a href="https://books.google.com/books/about/Loops_2.html?id=uDNVzwEACAAJ" target="_blank" rel="noopener">↗</a></li>
+<li>de Pablo, L. (1968). <em>Aproximación a una estética de la música contemporánea</em>. Madrid: Editorial Ciencia Nueva. 160 pp. <a href="https://books.google.com/books/about/Aproximaci%C3%B3n_a_una_est%C3%A9tica_de_la_m%C3%BAs.html?id=2bs5AQAAIAAJ" target="_blank" rel="noopener">↗</a></li>
+<li>Fontán del Junco, M., Iges, J., & Maire, J. L. (Eds.) (2016). <em>Escuchar con los ojos. Arte sonoro en España, 1961–2016</em> (catàleg d'exposició). Madrid: Fundación Juan March. <a href="https://dialnet.unirioja.es/servlet/libro?codigo=916112" target="_blank" rel="noopener">↗</a></li>
+<li>Holmes, T. (2020). <em>Electronic and Experimental Music: Technology, Music, and Culture</em> (6a ed.). New York / London: Routledge. ISBN 978-1-138-36546-9. <a href="https://www.routledge.com/Electronic-and-Experimental-Music-Technology-Music-and-Culture/Holmes/p/book/9781138365469" target="_blank" rel="noopener">↗</a></li>
+<li>Iges, J. M. (2018). <em>Conferencias sobre arte sonoro</em> (Vol. 1). ISBN 978-84-88020-54-6. <a href="https://www.amazon.com.be/-/en/Jos%C3%A9-Mar%C3%ADa-Iges/dp/8488020546" target="_blank" rel="noopener">↗</a></li>
+<li>Lewin-Richter, A. (1998). "La música electroacústica en España." A: Brnčić, G. (Ed.), <em>Guía profesional de laboratorios de música electroacústica</em>. Madrid. [Article original republicat al web de Phonos / Ccapitalia] <a href="https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998" target="_blank" rel="noopener">↗</a> <a href="https://www.ccapitalia.net/reso/articulos/electroacustica/electroacustica.htm" target="_blank" rel="noopener">↗</a></li>
+<li>Marco, T. ([1983] 1993). <em>Spanish Music in the Twentieth Century</em>. Trad. Cola Franzen. Cambridge, MA: Harvard University Press. ISBN 978-0-674-83102-5. (Original en castellà: <em>Historia de la música española. 6. Siglo XX</em>. Madrid: Alianza Editorial, 1983. ISBN 978-84-206-8506-9.) <a href="https://www.hup.harvard.edu/books/9780674831025" target="_blank" rel="noopener">↗</a> <a href="https://www.elargonauta.com/libros/historia-de-la-musica-espanola-6-siglo-xx/978-84-206-8506-9" target="_blank" rel="noopener">↗</a></li>
+<li>Marco, T. (1972). <em>Cristóbal Halffter</em>. Madrid: Servicio de Publicaciones del Ministerio de Educación y Ciencia. 91 pp. (Col·lecció "Artistas Españoles Contemporáneos"). <a href="https://books.google.com/books/about/Crist%C3%B3bal_Halffter.html?id=Ac8uAAAAIAAJ" target="_blank" rel="noopener">↗</a></li>
+<li>Mestres Quadreny, J. M. (2011). <em>Vida i obra de Robert Gerhard</em>. Barcelona: Centre Robert Gerhard / Fundació Privada d'Auditori i l'Orquestra. <a href="https://test.nypl.org/research/research-catalog/bib/hb990136442790203941" target="_blank" rel="noopener">↗</a></li>
+<li>Núñez, A. (1992). <em>Informática y electrónica musical</em>. Madrid: Ediciones Paraninfo. 272 pp. ISBN 978-84-283-1853-2. <a href="https://www.amazon.com/-/es/INFORMATICA-ELECTRONICA-MUSICAL-ADOLFO-NU%C3%91EZ/dp/8428318530" target="_blank" rel="noopener">↗</a></li>
+<li>Ortiz de Urbina Sobrino, P. (Ed.) (2024). <em>Schönberg y Gerhard. Correspondencia</em> (edició crítica). Madrid: Ediciones Akal (Col·lecció Akal Música). 224 pp. ISBN 978-84-460-5447-4. <a href="https://dialnet.unirioja.es/servlet/libro?codigo=974475" target="_blank" rel="noopener">↗</a></li>
+<li>Pinch, T., & Trocco, F. (2002). <em>Analog Days: The Invention and Impact of the Moog Synthesizer</em>. Cambridge, MA: Harvard University Press. 368 pp. ISBN 0-674-00889-8 (hc); 978-0-674-01617-0 (pbk 2004). <a href="https://www.hup.harvard.edu/books/9780674016170" target="_blank" rel="noopener">↗</a></li>
+<li>Polonio, E. (2021). <em>Eduardo Polonio. Del serialismo al multimedia / From Serialism to Multimedia</em>. Cologne: María de Alvear World Edition. ISBN 978-3-00-069386-1. <a href="https://www.world-edition.com/buk01-es" target="_blank" rel="noopener">↗</a> <a href="https://www.elargonauta.com/libros/eduardo-polonio-del-serialismo-al-multimedia-from-serialism-to-multimedia/978-3-00-069386-1" target="_blank" rel="noopener">↗</a></li>
+<li>Schaeffer, P. (1966). <em>Traité des objets musicaux</em>. Paris: Éditions du Seuil (Col·lecció "Pierres Vives"). (2a ed. 1977.) [Edició anglesa: <em>Treatise on Musical Objects: An Essay across Disciplines</em>. Trad. Christine North & John Dack. Oakland, CA: University of California Press, 2017.] <a href="https://monoskop.org/Pierre_Schaeffer" target="_blank" rel="noopener">↗</a> <a href="https://www.ucpress.edu/books/treatise-on-musical-objects/hardcover" target="_blank" rel="noopener">↗</a></li>
+<li>Schaeffer, P. ([1952] 2012). <em>In Search of a Concrete Music</em>. Trad. Christine North & John Dack. Berkeley: University of California Press. ISBN 978-0-520-26574-5. <a href="https://www.ucpress.edu/books/in-search-of-a-concrete-music/paper" target="_blank" rel="noopener">↗</a></li>
+<li>Stubbs, D. (2014). <em>Future Days: Krautrock and the Building of Modern Germany</em>. London: Faber & Faber. ISBN 978-0-571-28332-3. <a href="https://www.amazon.co.uk/Future-Days-Krautrock-Building-Germany/dp/0571283322" target="_blank" rel="noopener">↗</a></li>
+<li>Stubbs, D. (2018). <em>Future Sounds: The Story of Electronic Music from Stockhausen to Skrillex</em>. London: Faber & Faber. ISBN 978-0-571-34697-4. <a href="https://www.forewordreviews.com/reviews/future-sounds" target="_blank" rel="noopener">↗</a></li>
+<li>Toop, D. (1995). <em>Ocean of Sound: Aether Talk, Ambient Sound and Imaginary Worlds</em>. London: Serpent's Tail. 320 pp. ISBN 978-1-85242-743-6. <a href="https://serpentstail.com/work/ocean-of-sound" target="_blank" rel="noopener">↗</a></li>
+<li>Val del Omar, J. (2010). <em>José Val del Omar. Escritos de técnica, poética y mística</em>. Ed. Javier Ortiz-Echagüe; pròleg de Santos Zunzunegui. Madrid: Ediciones de La Central / Museo Nacional Centro de Arte Reina Sofía. 336 pp. ISBN 978-84-937511-1-1. <a href="https://www.lacentral.com/ortiz-echague-javier/jose-val-del-omar-escritos-de-tecnica-poetica-y-mistica/9788493751111" target="_blank" rel="noopener">↗</a></li>
+</ol>
+<h4 class="biblio-section-title">Articles acadèmics / Academic articles</h4>
+<ol class="biblio-list">
+<li>Adkins, M. (2014). "The Electronic Music of Roberto Gerhard." <em>Quodlibet</em> (Universitat d'Alcalá), article-monogràfic. <a href="https://erevistas.publicaciones.uah.es/ojs/index.php/quodlibet/article/download/712/358/770" target="_blank" rel="noopener">↗</a> <a href="https://info.ggkarman.de/sites/default/files/pdf/electronic-music-of-roberto-gerhard.pdf" target="_blank" rel="noopener">↗</a></li>
+<li>Adkins, M. (2022). "Gerhard Revealed: The Roberto Gerhard Digital Archive." <em>Pure Huddersfield</em> (publicació acadèmica). <a href="https://pure.hud.ac.uk/en/publications/gerhard-revealed-the-roberto-gerhard-digital-archive" target="_blank" rel="noopener">↗</a></li>
+<li>García Fernández, I. D. (2007). "La obra gráfica de Mestres Quadreny en el contexto de la vanguardia catalana: ¿música o poesía visual?." <em>Butlletí de la Reial Acadèmia Catalana de Belles Arts de Sant Jordi</em>, vol. 21, p. 137–162. <a href="https://raco.cat/index.php/ButlletiRACBASJ/article/view/219522" target="_blank" rel="noopener">↗</a></li>
+<li>Gil Noé, J. V. (2023). "La música eléctrica y el electrocompositor de Juan García Castillejo (1933–1944)." <em>Enclaves: Revista de Literatura, Música y Estudios Culturales</em>, núm. 22. <a href="https://revistascientificas.us.es/index.php/enclaves/article/view/21166" target="_blank" rel="noopener">↗</a> <a href="https://idus.us.es/items/4db05586-eb23-47d3-8596-ba6a21a1fd57" target="_blank" rel="noopener">↗</a></li>
+<li>MacDonald, C. (1972). "Sense and Sound: Gerhard's Fourth Symphony." <em>Tempo</em>, núm. 101, març 1972. <a href="https://www.semanticscholar.org/paper/Sense-and-Sound%3A-Gerhard's-Fourth-Symphony-Macdonald/7e5fe86d83c5a482dd2ba87c196d6b70c2603277" target="_blank" rel="noopener">↗</a></li>
+<li>MacDonald, C. (s.d.). "Roberto Gerhard: In Focus" (text introductori per al catàleg de l'editorial Boosey & Hawkes). <a href="https://www.boosey.com/composer/Roberto+Gerhard?ttype=INTRODUCTION" target="_blank" rel="noopener">↗</a></li>
+<li>Núñez, A. (1989, febrer). "Pioneros de la Música Electrónica." Article històric en línia publicat a Ccapitalia.net (originàriament LIEM-CDMC). Cobert: Russolo, Varèse, Schaeffer, Stockhausen, Moog. <a href="https://www.ccapitalia.net/reso/articulos/pioneros/pioneros.htm" target="_blank" rel="noopener">↗</a></li>
+<li>Sacau-Ferreira, E. (2011). <em>Performing a Political Shift: Avant-Garde Music in Cold War Spain</em> (tesi doctoral, DPhil). University of Oxford. [Cita explícitament l'escàndol del primer enregistrament de <em>Microformas</em> de Halffter a Madrid (1961) qualificat de "terrorisme" per Enrique Franco.] <a href="https://ora.ox.ac.uk/objects/uuid:df601c57-c9f0-4320-9a3a-8493ecf1101a" target="_blank" rel="noopener">↗</a></li>
+<li>"José Maria Mestres Quadreny (1929–2021)." (2022). <em>Butlletí de la Reial Acadèmia Catalana de Belles Arts de Sant Jordi</em>, vol. 36, p. 219–221 (nota necrològica). <a href="https://84.88.27.11/index.php/ButlletiRACBASJ/article/view/415630" target="_blank" rel="noopener">↗</a></li>
+<li>Martínez, A. M. (2023). "Cine total de José Val del Omar: el caso del sistema de sonido diafónico en Aguaespejo granadino. Sonido inmersivo de choque emocional." <em>Seriarte</em> (Universitat de Còrdova). <a href="https://journals.uco.es/seriarte/article/view/15520" target="_blank" rel="noopener">↗</a></li>
+<li>Rodríguez Tranche, R. A. (1995). <em>Aproximación a la obra de José Val del Omar</em> (tesi doctoral). Universidad Complutense de Madrid. <a href="https://produccioncientifica.ucm.es/documentos/5d1df63929995204f76651b5" target="_blank" rel="noopener">↗</a></li>
+<li>del Pozo Ortea, M. (2022). "Tras una idea de unidad: El cine mecamónico de José Val del Omar." <em>Revista de Estudios sobre Val del Omar</em>, núm. 20 pp. <a href="https://dialnet.unirioja.es/descarga/articulo/9079369.pdf" target="_blank" rel="noopener">↗</a></li>
+</ol>
+<h4 class="biblio-section-title">Documentals / Documentaries</h4>
+<ol class="biblio-list">
+<li>Fjellestad, H. (Director). (2004). <em>Moog</em>. Estats Units. [Documental cinematogràfic, 73 min. Guanyador del premi al Millor Documental al Barcelona In-Edit Film Festival 2004.] <a href="https://www.imdb.com/title/tt0378378" target="_blank" rel="noopener">↗</a> <a href="https://en.wikipedia.org/wiki/Moog_(film)" target="_blank" rel="noopener">↗</a></li>
+<li>Fantinatto, R. (Director). (2014). <em>I Dream of Wires</em>. Canadà. [Documental independent sobre la història, declivi i resorgiment del sintetitzador modular. 96 min.] <a href="https://www.imdb.com/title/tt3636334" target="_blank" rel="noopener">↗</a> <a href="https://www.primevideo.com/detail/0KPXBPNCH1MU1LJICUOQ034SVS" target="_blank" rel="noopener">↗</a></li>
+<li>Rovner, L. (Directora). (2020). <em>Sisters with Transistors</em>. Estats Units. [Documental, 86 min. Narrat per Laurie Anderson. Sobre les pioneres de la música electrònica: Clara Rockmore, Daphne Oram, Delia Derbyshire, Pauline Oliveros, Maryanne Amacher, Bebe Barron, Éliane Radigue, Wendy Carlos.] <a href="https://www.imdb.com/title/tt6744250" target="_blank" rel="noopener">↗</a> <a href="https://sisterswithtransistors.com" target="_blank" rel="noopener">↗</a> <a href="https://en.wikipedia.org/wiki/Sisters_with_Transistors" target="_blank" rel="noopener">↗</a></li>
+<li>Whalley, B. (Director). (2009). <em>Krautrock: The Rebirth of Germany</em>. Regne Unit: BBC Four. [Documental, 90 min. Produït per BBC per a la sèrie "Pop Britannia".] <a href="https://www.imdb.com/title/tt2033290" target="_blank" rel="noopener">↗</a> BBC: https://www.bbc.co.uk/programmes/b00nf10k.</li>
+<li><em>Kraftwerk and the Electronic Revolution</em> (2008). Director no acreditat. Estats Units. [Documental de Robodocs, 155 min.] <a href="https://www.imdb.com/title/tt1289806" target="_blank" rel="noopener">↗</a></li>
+</ol>
+<h4 class="biblio-section-title">Arxius i institucions / Archives & institutions</h4>
+<ol class="biblio-list">
+<li>Cambridge University Library — <em>Roberto Gerhard Archive</em>. Manuscrits, correspondència i biblioteca de Gerhard dipositats per la Dra. Rosemary Summers. <a href="https://www.lib.cam.ac.uk/collections/departments/music/collections/music-archives/roberto-gerhard-archive" target="_blank" rel="noopener">↗</a></li>
+<li>Heritage Quay, University of Huddersfield — <em>Roberto Gerhard Digital Collection (GER), 1954–1981</em>. Arxiu de cintes magnètiques i material de suport del seu estudi privat. <a href="https://heritagequay.org/music" target="_blank" rel="noopener">↗</a></li>
+<li>Heritage Quay, University of Huddersfield — <em>Roberto Gerhard Digital Archive (RGDA) / Projecte "Gerhard Revealed"</em>. Recurs web finançat per UKRI/AHRC per a la difusió de les gravacions electrònic-musicals de Gerhard. <a href="https://heritagequay.org/rgda/roberto-gerhard/project-page" target="_blank" rel="noopener">↗</a> <a href="https://heritagequay.org/rgda/roberto-gerhard/biography" target="_blank" rel="noopener">↗</a></li>
+<li>MACBA — Museu d'Art Contemporani de Barcelona. Col·lecció de partitures gràfiques de Josep Maria Mestres Quadreny: - <em>L'Estro Aleatorio</em> (1973–1978), reg. R.4107 — URL: https://www.macba.cat/en/obra/r4107-lestro-aleatorio - <em>Quartet de catroc</em> (1962), reg. R.4194 — URL: https://www.macba.cat/en/obra/r4194-quartet-de-catroc - <em>Homenatge a Robert Gerhard</em> (1976), reg. R.4104 — URL: https://www.macba.cat/en/obra/r4104-homenatge-a-robert-gerhard - Pàgina col·lectiva "The visual music of Josep Maria Mestres Quadreny" — URL: https://www.macba.cat/en/collectables/the-visual-music-of-josep-maria-mestres-quadreny.</li>
+<li>Phonos — Laboratori de Música Electroacústica, Universitat Pompeu Fabra (Barcelona). Fundat el 1974 per J. M. Mestres Quadreny, Andrés Lewin-Richter i Lluís Callejo. Integrat a la UPF el 1994 (Music Technology Group / MTG). 50è aniversari (1974–2024). <a href="https://www.upf.edu/en/web/phonos" target="_blank" rel="noopener">↗</a> <a href="https://www.upf.edu/en/web/phonos/presentacio/fundacio" target="_blank" rel="noopener">↗</a> <a href="https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998" target="_blank" rel="noopener">↗</a> <a href="https://www.bnc.cat/eng/Collections/Search-the-collections/Phonos-Laboratori-de-musica-electroacustica" target="_blank" rel="noopener">↗</a></li>
+<li>Alea Laboratory — Madrid (1965–1977). Fundat per Luis de Pablo amb mecenatge de la família Huarte. Primer laboratori de música electrònica a l'Estat espanyol. <a href="https://ressources.ircam.fr/en/luis-de-pablo" target="_blank" rel="noopener">↗</a> <a href="https://www.durand-salabert-eschig.com/en-GB/Composers/D/de-Pablo-Luis.aspx" target="_blank" rel="noopener">↗</a></li>
+<li>BBC Radiophonic Workshop — Londres (1958–2008). Fundat l'abril de 1958 per Daphne Oram i Desmond Briscoe als estudis Maida Vale del BBC. <a href="https://www.bbc.com/historyofthebbc/anniversaries/april/bbc-radiophonic-workshop" target="_blank" rel="noopener">↗</a> <a href="https://www.soundonsound.com/people/story-bbc-radiophonic-workshop" target="_blank" rel="noopener">↗</a></li>
+<li>Groupe de Recherches Musicales (GRM) — París. Fundat per Pierre Schaeffer (evolutivament des del <em>Groupe de la Musique Concrète</em> de 1951; nom oficial GRM el 1958). Actualment integrat a l'INA (Institut National de l'Audiovisuel). <a href="https://www.berlinerfestspiele.de/en/artist/c821314c-1dc9-4249-8f3b-2ec1e7c25b41/groupe-de-recherches-musicales" target="_blank" rel="noopener">↗</a> <a href="https://120years.net/the-grm-group-and-rtf-electronic-music-studio-pierre-schaeffer-jacques-poullin-france-1951" target="_blank" rel="noopener">↗</a></li>
+<li>IMEB — Institut International de Musique Électroacoustique de Bourges (França). Fundat el 1970 per Christian Clozier i Françoise Barrière. Organitzador del Festival Synthèse (1973–2009). Lliurà el <em>Magisterium</em> del Gran Premi Internacional de Música Electroacústica. <a href="https://www.computermusicjournal.org/reviews/24-1/99bourges.html" target="_blank" rel="noopener">↗</a> <a href="https://digital.library.unt.edu/explore/collections/MISAME" target="_blank" rel="noopener">↗</a></li>
+<li>AMEE — Asociación de Música Electroacústica y Arte Sonoro de España. Fundada el 1987 (algunes fonts indiquen 1988 com a any de constitució oficial). Presidents destacats: Eduardo Polonio (1988–1994) i José Iges (1999–2010). <a href="https://www.arteinformado.com/guia/o/asociacion-de-musica-electroacustica-y-arte-sonoro-de-espana-amee-65809" target="_blank" rel="noopener">↗</a></li>
+<li>CDMC — Centro para la Difusión de la Música Contemporánea, Madrid. Fundat el 1983 per Luis de Pablo (encàrrec del ministre de Cultura Javier Solana). Actualment integrat en el Centro Nacional de Difusión Musical (CNDM). <a href="https://www.musicadanza.es/es/fondos-documentales/fondos-de-musica/fondo-cdmc-liem/Historia%20del%20CDMC-LIEM" target="_blank" rel="noopener">↗</a> <a href="https://elpais.com/diario/1983/10/08/cultura/434415608_850215.html" target="_blank" rel="noopener">↗</a></li>
+<li>Fundación Juan March — Madrid. Institució privada sense ànim de lucre; programà l'exposició "Escuchar con los ojos. Arte sonoro en España, 1961–2016" (14 octubre 2016 – 15 gener 2017), comissariada per Manuel Fontán del Junco i José Iges. <a href="https://www.march.es/en/exhibitions/listening-eyes-sound-art-spain-1961-2016" target="_blank" rel="noopener">↗</a></li>
+<li>Museo Nacional Centro de Arte Reina Sofía (MNCARS) — Madrid. Col·lecció amb obres de Val del Omar (<em>Tríptico elemental de España</em>) i depòsit documental de la investigació. <a href="https://www.museoreinasofia.es/en/activity/jose-val-omar-elemental-triptych-spain" target="_blank" rel="noopener">↗</a></li>
+<li>Archivo de la Fundación Juan March — fitxa biogràfica de Juan Hidalgo. <a href="https://archivo.march.es/agents/people/2395" target="_blank" rel="noopener">↗</a></li>
+<li>Archivo Conz — Verona. Fons documental sobre Juan Hidalgo i el grup Zaj. <a href="https://www.archivioconz.com/collection/artists/juan-hidalgo" target="_blank" rel="noopener">↗</a></li>
+<li>Archivo Lafuente — col·lecció sobre el grup Zaj (Espanya, 1945–1989). <a href="https://www.archivolafuente.com/artistic-work/1945-1989/spain/zaj" target="_blank" rel="noopener">↗</a></li>
+</ol>
+<h4 class="biblio-section-title">Enregistraments / Recordings</h4>
+<ol class="biblio-list">
+<li>Adkins, M. (prod.) (2014). <em>Roberto Gerhard: Electronic Explorations from his Studio + The BBC Radiophonic Workshop 1958–1967</em> [LP/CD àlbum + llibre]. Arles: Les Presses du Réel (cat. 3787). 6 pistes, 38 min. <a href="https://robertogerhard.bandcamp.com/album/electronic-explorations-from-his-studio-the-bbc-radiophonic-workshop-1958-1967" target="_blank" rel="noopener">↗</a></li>
+<li>Various Artists (2024). <em>Five Spanish Pioneers of Electronic and Experimental Music 1953–1969</em> [Compilació LP]. Sub Rosa (SRV548), Bèlgica. Inclou: José Val del Omar, Eduardo Polonio, Josep Maria Mestres Quadreny, Juan Hidalgo (<em>Étude de stage</em>, 1961) i Cristóbal Halffter. <a href="https://subrosalabel.bandcamp.com/album/five-spanish-pioneers-of-electronic-and-experimental-music-1953-1969" target="_blank" rel="noopener">↗</a> <a href="https://www.discogs.com/release/30417818-Various-Five-Spanish-Pioneers-Of-Electronic-And-Experimental-Music-1953-1969" target="_blank" rel="noopener">↗</a></li>
+<li>Polonio, E. (2015). <em>Edición Antológica 1969–2014</em> [2 × DVD-A]. Luscinia Discos / La Mà de Guido (sello Ars Harmonica). Documental biogràfic de Javier A. Bedrina + selecció de 48 obres electroacústiques (aprox. 9 h 54 min). <a href="https://www.discogs.com/release/6572858-Eduardo-Polonio-Edici%C3%B3n-Antol%C3%B3gica-1969-2014" target="_blank" rel="noopener">↗</a> <a href="https://www.luscinia.org" target="_blank" rel="noopener">↗</a></li>
+<li>Polonio, E. (2025). <em>Obra Electroacústica 1969–1981</em> [2 × LP, compilació, edició limitada]. Lima / Barcelona: Buh Records (BR191). 8 composicions realitzades al Laboratorio Alea de Madrid (1969–1981). <a href="https://buhrecords.bandcamp.com/album/eduardo-polonio-obra-electroac-stica-1969-1981" target="_blank" rel="noopener">↗</a> <a href="https://www.discogs.com/release/33437657-Eduardo-Polonio-Obra-Electroac%C3%BAstica-1969-1981" target="_blank" rel="noopener">↗</a> Reseña a Pitchfork: https://pitchfork.com/reviews/albums/eduardo-polonio-obra-electroacustica-1969-1981.</li>
+<li>Hidalgo, J. (2003 [reedició]). <em>De Juan Hidalgo (1957–1997)</em> [2 × CD]. Sub Rosa. Inclou <em>Étude de Stage</em> (1961) enregistrada a l'ORTF (Service de la Recherche, sota direcció de Pierre Schaeffer), Madrid. <a href="https://www.discogs.com/release/1456453-Juan-Hidalgo-De-Juan-Hidalgo-1957-1997" target="_blank" rel="noopener">↗</a></li>
+<li>Mestres Quadreny, J. M. (1971). <em>Doble Concert / Invenció Mòbil II / Quartet de Catroc / Micos i Papallones</em> [LP]. Compost per Mestres Quadreny; notes de Montserrat Albet. <a href="https://www.discogs.com/master/808608-Josep-M-Mestres-Quadreny-Doble-Concert-Invenci%C3%B3-Movil-II-Quartet-De-Catroc-Micos-I-Papallones" target="_blank" rel="noopener">↗</a></li>
+<li>Mestres Quadreny, J. M. (s.f.). <em>L'estro aleatorio</em> [CD]. Orquestra Simfònica de Barcelona i Nacional de Catalunya, dir. Josep Vicent. <a href="https://www.amazon.com/Quadreny-Orquestra-Simf%C3%B2nica-Barcelona-Catalunya/dp/B0017RPWA8" target="_blank" rel="noopener">↗</a> <a href="https://classical.music.apple.com/in/album/278513864" target="_blank" rel="noopener">↗</a></li>
+<li>Lewin-Richter, A. (s.f.). <em>Obras electroacústicas</em> [àlbum digital]. (Available via Spotify; inclou <em>Caminando</em>, <em>Ludus Basiliensis</em>, <em>Microtonalidades</em>, <em>Ludus Allavarium</em>, <em>Viso di...</em>) <a href="https://open.spotify.com/album/09BvFq53vfTjLGvgF3AI26" target="_blank" rel="noopener">↗</a></li>
+<li>Lewin-Richter, A. (1982; reedició 2014). <em>Anna Ricci interpreta obras / Música electroacústica</em> [2 × LP, reedició 2014]. Hemis Ferio / Creel Pone. <a href="https://www.discogs.com/master/1231373-Anna-Ricci-Andr%C3%A9s-Lewin-Richter-Interpreta-Obras-Musica-Electroac%C3%BAstica" target="_blank" rel="noopener">↗</a></li>
+<li>de Pablo, L. (1971). <em>We = Nosotros</em> [LP, música electrònica]. Realitzada al Laboratorio Alea de Madrid. <a href="https://www.discogs.com/master/332749-Luis-De-Pablo-We-Nosotros" target="_blank" rel="noopener">↗</a></li>
+<li>de Pablo, L. (1971). <em>Soledad Interrumpida / Comme d'Habitude</em> [LP]. Realitzada al Laboratorio Alea de Madrid. Present a la col·lecció del MNCARS. <a href="https://www.museoreinasofia.es/en/collections/artwork/soledad-interrumpida-interrupted-solitude-0" target="_blank" rel="noopener">↗</a></li>
+</ol>
+<h4 class="biblio-section-title">Recursos web / Web resources</h4>
+<ol class="biblio-list">
+<li><em>Adolfo Núñez (composer).</em> Pàgina oficial del compositor i antic director del LIEM-CDMC (Madrid). <a href="https://adolfonunez.com" target="_blank" rel="noopener">↗</a></li>
+<li><em>Andrés Lewin-Richter: Composer.</em> Pàgina oficial UPF. <a href="https://www.upf.edu/web/andres-lewin" target="_blank" rel="noopener">↗</a></li>
+<li><em>Eduardo Polonio.</em> Pàgina oficial del compositor (arxiu de notícies i obra). <a href="http://www.eduardopolonio.com" target="_blank" rel="noopener">↗</a></li>
+<li><em>Roberto Gerhard — Composer.</em> Portal oficial mantingut pels hereus i la Universitat de Huddersfield (publicacions, arxiu, obres). <a href="https://robertogerhard.com" target="_blank" rel="noopener">↗</a></li>
+<li><em>Claustrophilia (1966)</em> — fitxa de l'obra a Heritage Quay / RGDA. Per a 8 arpes, 4 ràdios d'ones curtes i altaveus. Pàgina dedicada a John Cage. <a href="https://heritagequay.org/rgda/electronic-music/works-of-electronic-music/claustrophilia-1966" target="_blank" rel="noopener">↗</a></li>
+<li>"AVANT #6 — Eduardo Polonio. Part I." (2009). <em>Radio Web MACBA</em> (RWM). Programa/podcast biogràfic i contextual sobre la música electroacústica espanyola dels anys 60-70 al voltant de Polonio (Madrid, 1941). <a href="https://rwm.macba.cat/en/podcasts/avant-6-eduardo-polonio-part-i-2" target="_blank" rel="noopener">↗</a> <a href="https://img.macba.cat/wp-content/uploads/2024/03/Avant06_eng-1.pdf" target="_blank" rel="noopener">↗</a></li>
+<li>"Muere el compositor Eduardo Polonio, maestro español de la electroacústica." (27 desembre 2024). <em>Scherzo</em>. Necrològica. <a href="https://scherzo.es/muere-el-compositor-eduardo-polonio-maestro-espanol-de-la-electroacustica" target="_blank" rel="noopener">↗</a></li>
+<li>"Sonidos fascinados. La música electroacústica de Eduardo Polonio (1941–2024)." Exposició/homenatge, Centro Nacional de Difusión Musical — Fundación Juan March, Madrid. <a href="https://www.march.es/en/madrid/specials/fascinated-sounds-electroacoustic-music-eduardo-polonio-1941-2024" target="_blank" rel="noopener">↗</a></li>
+<li><em>José Iges — Biography.</em> Pàgina oficial del compositor i ex-president de l'AMEE. <a href="http://joseiges.com/?page_id=54" target="_blank" rel="noopener">↗</a></li>
+<li><em>José Iges | Radio Web MACBA | RWM Podcasts.</em> Monogràfic radiofònic sobre l'obra i context històric de José Iges, amb entrevistes a Concha Jerez i Miguel Álvarez-Fernández. <a href="https://rwm.macba.cat/en/taxonomy_tags_podcast/jose-iges-3" target="_blank" rel="noopener">↗</a></li>
+<li><em>José Iges — Monoskop.</em> Fitxa biogràfica i bibliogràfica. <a href="https://monoskop.org/Jos%C3%A9_Iges" target="_blank" rel="noopener">↗</a></li>
+<li><em>Carles Santos.</em> Biografia i catàleg, Viquipèdia. <a href="https://en.wikipedia.org/wiki/Carles_Santos" target="_blank" rel="noopener">↗</a></li>
+<li><em>Josep Mestres Quadreny.</em> Biografia, Viquipèdia. <a href="https://en.wikipedia.org/wiki/Josep_Mestres_Quadreny" target="_blank" rel="noopener">↗</a> <a href="https://www.wikidata.org/wiki/Q3098833" target="_blank" rel="noopener">↗</a> <a href="https://www.accompositors.com/compositores-curriculum.php?nIdioma=ing&idComp=90" target="_blank" rel="noopener">↗</a></li>
+<li><em>Luis de Pablo — Biographie.</em> Fitxa biogràfica, IRCAM (Esnor/resources). <a href="https://ressources.ircam.fr/en/luis-de-pablo" target="_blank" rel="noopener">↗</a> <a href="https://ressources.ircam.fr/en/composer/luis-de-pablo/workcourse" target="_blank" rel="noopener">↗</a></li>
+<li><em>Cristóbal Halffter.</em> Biografia, Viquipèdia (dates: Madrid 24 març 1930 – 23 maig 2021). <a href="https://en.wikipedia.org/wiki/Crist%C3%B3bal_Halffter" target="_blank" rel="noopener">↗</a> <a href="https://www.wisemusicclassical.com/composer/610/Crist%C3%B3bal-Halffter" target="_blank" rel="noopener">↗</a></li>
+<li><em>Roberto Gerhard.</em> Biografia, Viquipèdia (dates: Valls, 25 setembre 1896 – Cambridge, 5 gener 1970). <a href="https://en.wikipedia.org/wiki/Roberto_Gerhard" target="_blank" rel="noopener">↗</a></li>
+<li><em>Juan Hidalgo — Database Bio.</em> Unearthing the Music Database (Projecte europeu). <a href="http://database.unearthingthemusic.eu/Juan_Hidalgo" target="_blank" rel="noopener">↗</a> <a href="https://archivo.march.es/agents/people/2395" target="_blank" rel="noopener">↗</a></li>
+<li><em>José Val del Omar.</em> Fitxa biogràfica al CCCB. <a href="https://www.cccb.org/en/w/participants/jose-val-del-omar" target="_blank" rel="noopener">↗</a></li>
+<li>"Cinema of Sensations: The Never-Ending Screen of Val del Omar." (7 abril 2023). <em>e-flux</em>, per Eugeni Bonet. <a href="https://www.e-flux.com/criticism/532120/cinema-of-sensations-the-never-ending-screen-of-val-del-omar" target="_blank" rel="noopener">↗</a></li>
+<li><em>Val del Omar. Elemental de España.</em> (2010) Documental curt, IMDb tt14100960. <a href="https://www.imdb.com/title/tt14100960" target="_blank" rel="noopener">↗</a> <a href="https://www.gartenbergmedia.com/dvd-distribution-and-sales/experimental-narratives-avant-garde-shorts/val-del-omar-elemental-de-espaa" target="_blank" rel="noopener">↗</a></li>
+<li><em>Phonos Inèdit.</em> Segell discogràfic creat per commemorar el 50è aniversari de Phonos (1974–2024), Universitat Pompeu Fabra. <a href="https://www.upf.edu/web/mtg/news/-/asset_publisher/WM181VyAQipW/content/phonos-inedit/maximized" target="_blank" rel="noopener">↗</a></li>
+<li><em>Musiques-Recherches — Cultures électroniques 8, Bourges 1994, Magistères et Prix.</em> Llista dels premis del Gran Premi Internacional de Música Electroacústica de Bourges (Polonio va rebre el Magisterium el 1994). <a href="https://www.musiques-recherches.be/en/support/337-cultures-electroniques-8-bourges-1994-magisteres-et-prix" target="_blank" rel="noopener">↗</a></li>
+<li><em>Eduardo Polonio — EMS Network.</em> Article biogràfic i signification musical. <a href="http://www.ems-network.org/spip.php?article353" target="_blank" rel="noopener">↗</a></li>
+<li><em>Conversation with Andrés Lewin-Richter, Spanish Composer.</em> Entrevista a <em>eContact!</em>, revista oficial de la Canadian Electroacoustic Community (CEC), publicada originalment a EMF Institute 2006. <a href="https://econtact.ca/16_4/gluck_lewinrichter.html" target="_blank" rel="noopener">↗</a></li>
+<li><em>Conversación con Andrés Lewin-Richter.</em> Entrevista a <em>Sonograma Magazine</em> (29 juny 2011). <a href="https://sonograma.org/2011/06/conversacion-con-andres-lewin-richter" target="_blank" rel="noopener">↗</a></li>
+</ol>
+</div>
+</details>
+
         <p style="font-size:.78rem; color:var(--text-muted); margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle);">
             Song <em style="font-family:'Instrument Serif', serif; font-style:italic; color:var(--accent-terracota); font-size:.95rem;">Diaphanous</em> © 2016 by Shane Ivers —
             <a href="https://www.silvermansound.com" target="_blank" rel="noopener" style="color:var(--accent-terracota); text-decoration:none; border-bottom:1px solid currentColor;">silvermansound.com</a>
