@@ -1243,6 +1243,303 @@ footer p strong { color: var(--accent-ink); }
   .biblio-list { column-count: 1; }
 }
 
+
+/* ===== Mapa de grafs interactiu (Cytoscape.js) ===== */
+.graph-wrapper {
+  display: flex; flex-direction: column; gap: 1rem;
+  margin-top: 2rem; position: relative;
+}
+.graph-toolbar {
+  display: flex; flex-direction: column; gap: 1rem;
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 1.2rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+.graph-filters-row {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  align-items: flex-start;
+}
+.filter-group {
+  display: flex; flex-wrap: wrap; gap: .35rem;
+  align-items: center;
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--border-subtle);
+}
+.filter-group:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+.filter-group-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: .18em; color: var(--accent-terracota);
+  margin-right: .3rem; margin-bottom: .15rem;
+  flex-basis: 100%;
+}
+.filter-chip {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .7rem; cursor: pointer; user-select: none;
+  padding: .28rem .65rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text-primary);
+  transition: all .2s var(--ease);
+  white-space: nowrap;
+  position: relative;
+}
+.filter-chip:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent-terracota);
+}
+.filter-chip input {
+  position: absolute; opacity: 0; pointer-events: none;
+  width: 0; height: 0; margin: 0;
+}
+.filter-chip input:focus-visible + span,
+.filter-chip input:focus-visible {
+  outline: 2px solid var(--accent-terracota);
+  outline-offset: 2px;
+}
+.filter-chip.inactive {
+  opacity: 0.4;
+  background: transparent;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--text-muted);
+}
+.filter-chip.inactive:hover {
+  opacity: 0.75;
+  text-decoration: none;
+}
+.dot {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.dot-music { background: #B9573D; }
+.dot-lab { background: #737B68; }
+.dot-inst { background: #5A4A8A; }
+.dot-work { background: #A86C2A; }
+.dot-tech { background: #1F2218; }
+.dot-event { background: #3a8db5; }
+.line {
+  display: inline-block; width: 18px; height: 0; border-top: 2px solid;
+  flex-shrink: 0; vertical-align: middle;
+}
+.line-teacher { border-color: #737B68; }
+.line-influence { border-style: dashed; border-color: #B9573D; }
+.line-collab { border-style: dotted; border-color: #3a8db5; }
+.line-member { border-color: #8A8A7E; border-width: 1px; }
+.line-labwork { border-style: dashed; border-color: #737B68; }
+.line-composed { border-style: dotted; border-color: #A86C2A; }
+.line-intl { border-style: dashed; border-color: #5A4A8A; }
+
+.graph-actions {
+  display: flex; gap: .8rem; align-items: center;
+}
+.graph-search-input {
+  flex: 1; font: inherit; font-size: .78rem;
+  padding: .55rem .9rem; border: 1px solid var(--border-subtle);
+  border-radius: 999px; background: var(--bg-primary);
+  color: var(--text-primary); outline: none;
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.graph-search-input:focus {
+  border-color: var(--accent-terracota);
+  box-shadow: 0 0 0 3px rgba(185,87,61,.18);
+}
+.graph-search-input::placeholder { color: var(--text-muted); }
+.graph-reset-btn {
+  font: inherit; font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; padding: .5rem 1rem;
+  background: var(--bg-soft); border: 1px solid var(--border-subtle);
+  color: var(--accent-ink); border-radius: 999px;
+  cursor: pointer; transition: all .2s var(--ease); white-space: nowrap;
+}
+.graph-reset-btn:hover {
+  background: var(--accent-ink); color: var(--bg-primary);
+  border-color: var(--accent-ink);
+}
+.graph-toggle-all-btn {
+  font: inherit; font-size: .68rem; letter-spacing: .08em;
+  text-transform: uppercase; padding: .5rem .9rem;
+  background: var(--bg-soft); border: 1px solid var(--border-subtle);
+  color: var(--accent-terracota); border-radius: 999px;
+  cursor: pointer; transition: all .2s var(--ease); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: .35rem;
+}
+.graph-toggle-all-btn:hover {
+  background: var(--accent-terracota); color: var(--bg-primary);
+  border-color: var(--accent-terracota);
+}
+.graph-toggle-all-btn .state-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-terracota); transition: background .2s var(--ease);
+}
+.graph-toggle-all-btn.is-empty .state-dot {
+  background: var(--text-muted);
+}
+.graph-toggle-all-btn.is-empty {
+  color: var(--text-muted);
+}
+
+.graph-canvas-wrapper {
+  position: relative;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #0f0f17;
+  height: 600px;
+}
+.graph-canvas {
+  width: 100%; height: 100%; position: relative; z-index: 1;
+}
+@media (max-width: 768px) {
+  .graph-canvas-wrapper { height: 450px; }
+  .graph-filters-row { flex-direction: column; gap: 1rem; }
+  .filter-group { border-right: none; padding-right: 0; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); width: 100%; }
+  .filter-group:last-child { border-bottom: none; padding-bottom: 0; }
+  .graph-actions { flex-direction: column; }
+  .graph-search-input { width: 100%; }
+}
+
+.graph-legend {
+  position: absolute; bottom: 1rem; left: 1rem; z-index: 10;
+  background: rgba(15,15,23,.92); backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-sm);
+  padding: .8rem 1rem;
+  color: #e8e6e3; font-size: .65rem;
+  max-width: 280px; max-height: 250px; overflow-y: auto;
+}
+.legend-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: .18em; color: #B9573D;
+  display: block; margin-bottom: .5rem;
+}
+.legend-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .6rem;
+}
+.legend-section { display: flex; flex-direction: column; gap: .2rem; }
+.legend-subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .52rem; text-transform: uppercase;
+  letter-spacing: .1em; color: rgba(255,255,255,.5);
+  margin-bottom: .15rem;
+}
+.legend-item {
+  display: flex; align-items: center; gap: .35rem;
+  font-size: .6rem; color: rgba(255,255,255,.8);
+}
+@media (max-width: 768px) {
+  .graph-legend { max-width: 200px; font-size: .55rem; }
+  .legend-grid { grid-template-columns: 1fr; }
+}
+
+.graph-info-panel {
+  position: fixed; top: 72px; right: 0; bottom: 0;
+  width: 380px; max-width: 90vw;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-subtle);
+  z-index: 960; display: none; flex-direction: column;
+  box-shadow: -4px 0 24px rgba(37,40,32,.08);
+  transition: transform .35s var(--ease);
+}
+.graph-info-panel.open { display: flex; animation: graphPanelIn .3s var(--ease); }
+@keyframes graphPanelIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 768px) {
+  .graph-info-panel {
+    top: auto; bottom: 0; left: 0; right: 0;
+    width: 100%; height: 60vh;
+    border-left: none; border-top: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+}
+.graph-info-close {
+  position: absolute; top: .8rem; right: .8rem;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-soft); border: 1px solid var(--border-subtle);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; line-height: 1;
+  transition: all .25s var(--ease); z-index: 2;
+}
+.graph-info-close:hover {
+  background: var(--accent-ink); color: var(--bg-primary);
+  border-color: var(--accent-ink); transform: rotate(90deg);
+}
+.graph-info-content {
+  padding: 1.5rem 1.5rem 2rem; overflow-y: auto;
+  flex: 1;
+}
+.graph-info-hint {
+  color: var(--text-muted); font-style: italic;
+  text-align: center; padding: 2rem 1rem;
+}
+.gi-category {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: .18em; margin-bottom: .5rem;
+}
+.gi-category.cat-music { color: #B9573D; }
+.gi-category.cat-lab { color: #737B68; }
+.gi-category.cat-inst { color: #5A4A8A; }
+.gi-category.cat-work { color: #A86C2A; }
+.gi-category.cat-tech { color: #1F2218; }
+.gi-category.cat-event { color: #3a8db5; }
+.gi-name {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.4rem; font-weight: 400; line-height: 1.15;
+  color: var(--accent-ink); margin-bottom: .3rem;
+}
+.gi-dates {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .72rem; color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.gi-desc {
+  font-size: .85rem; color: var(--text-secondary);
+  line-height: 1.65; margin-bottom: 1rem;
+}
+.gi-section {
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.gi-section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: .15em; color: var(--accent-terracota);
+  margin-bottom: .5rem;
+}
+.gi-link {
+  display: inline-block; font-size: .78rem;
+  color: var(--accent-terracota); text-decoration: none;
+  border-bottom: 1px dotted var(--accent-terracota);
+  margin: .15rem .5rem .15rem 0; cursor: pointer;
+  transition: opacity .15s;
+}
+.gi-link:hover { opacity: .7; }
+.gi-link:focus-visible {
+  outline: 2px solid var(--accent-terracota);
+  outline-offset: 2px; border-radius: 2px;
+}
+.gi-verified {
+  font-size: .58rem; color: var(--accent-olive);
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .04em; margin-top: .8rem;
+  padding-top: .5rem; border-top: 1px dotted var(--border-subtle);
+}
+@media print {
+  .graph-wrapper, .graph-canvas-wrapper { display: none !important; }
+  .graph-info-panel { display: none !important; }
+}
+
 /* ===== Responsive ===== */
 img, svg, video { max-width:100%; height:auto; }
 @media (max-width: 1024px) {
@@ -1430,6 +1727,13 @@ img, svg, video { max-width:100%; height:auto; }
     {"@type": "ListItem", "position": 4, "name": "Fonoteca", "item": "https://electronica-spain.vercel.app/#fonoteca"}
   ]
 }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script>
+  // Fallback: si jsdelivr falla, prova unpkg
+  if (typeof cytoscape === "undefined") {
+    document.write('<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"><\/script>');
+  }
 </script>
 </head>
 <body>
@@ -2074,7 +2378,7 @@ img, svg, video { max-width:100%; height:auto; }
                         <p class="lab-period">1958–2008 · Londres · Maida Vale</p>
                     </div>
                 </div>
-                <p class="lab-desc i18n-html" data-en-html="Not Spanish, but essential to understanding <a href=&quot;#gerhard&quot; class=&quot;internal-link&quot;>Robert Gerhard</a>'s pioneering work: he was the only established British composer with regular access to the BBC studios in the 1960s (backed by music director William Glock), working both there and at his own Cambridge studio with over 600 magnetic tapes, alongside Desmond Briscoe, Delia Derbyshire and Dick Mills.">No era espanyola, però sense ella no s'entendria el pionerat de <a href="#gerhard" class="internal-link">Robert Gerhard</a>: va ser l'únic compositor anglès amb accés "raonable" als estudis de la BBC als 60 (amb el suport del director de música William Glock), treballant en els estudis i en el seu estudi de Cambridge amb 600 cintes magnètiques. Amb la col·laboració de Briscoe, Derbyshire i Dick Mills ("The Anger of Achilles", Sinfonia 3 i als Proms).</p>
+                <p class="lab-desc i18n-html" data-en-html="Not Spanish, but essential to understanding <a href=&quot;#gerhard&quot; class=&quot;internal-link&quot;>Robert Gerhard</a>'s pioneering work: he was the only established British composer with regular access to the BBC studios in the 1960s (backed by music director William Glock), working both there and at his own Cambridge studio with over 600 magnetic tapes, alongside Desmond Briscoe, Delia Derbyshire and Dick Mills.">No era espanyola, però sense ella no s'entendria el pionerat de <a href="#gerhard" class="internal-link">Robert Gerhard</a>: va ser l'únic compositor anglès amb accés "raonable" als estudis de la BBC als 60 (amb el suport del director de música William Glock), treballant en els estudis i en el seu estudi de Cambridge amb 600 cintes magnètiques. Amb la col·laboració de Briscoe, Derbyshire i Dick Mills (\"The Anger of Achilles\", Sinfonia 3 i als Proms).</p>
                 <div class="lab-facts">
                     <div class="lab-fact i18n-html" data-en-html="<strong>Founded</strong> 1958 (Briscoe, Clark)."><strong>Fundada</strong> 1958 (Briscoe, Clark).</div>
                     <div class="lab-fact i18n-html" data-en-html="<strong>Technique</strong> Tape, splicing, ring loops, reverberation chambers."><strong>Tècnica</strong> Cinta, splicing, anells, reverberants.</div>
@@ -2099,21 +2403,73 @@ img, svg, video { max-width:100%; height:auto; }
             <h2 class="i18n" data-en="Sound Genealogy Map">Mapa de Genealogia Sonora</h2>
             <p class="i18n" data-en="They were not isolated islands: they formed an international circuit where Darmstadt and Paris met Madrid, Barcelona, Milan, London, Cambridge and New York.">No eren illes: eren un circuit internacional en que el que es trobaven Darmstadt i París amb Madrid, Barcelona, Milà, Londres, Cambridge i Nova York.</p>
         </div>
-        <div class="genealogy">
-            <h3 class="i18n" data-en="Key networks and connections">Xarxes i connexions clau</h3>
-            <div class="connections-grid">
-                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><div class="connection-label i18n" data-en="The Paris–Darmstadt–Madrid–Barcelona axis: each built their own studio (Alea/Phonos).">Eix París–Darmstadt–Madrid–Barcelona: cada un creava (Alea/Phonos) la part de l'estudi.</div></div>
-                <div class="connection"><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><span class="connection-arrow">⇄</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="The first concert (1960) and the first festival (1959) in Las Palmas, the same generation shaped by the same shock of discovering Cage.">El primer concert (1960) i el primer festival (1959) a Las Palmas, en la mateixa generació i sota el mateix xoc per Cage.</div></div>
-                <div class="connection"><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">Luis de Pablo</a><span class="connection-arrow">⇄</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><div class="connection-label i18n" data-en="Polonio began at Alea (founding ALEA Música Electrónica), under Huarte patronage.">Polonio comença a Alea (fundant ALEA Música Electrònica), amb el patrocini de Huarte.</div></div>
-                <div class="connection"><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Eduardo Polonio</a><span class="connection-arrow">⇄</span><a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres Quadreny</a><div class="connection-label i18n" data-en="Phonos (1976) welcomed Polonio amid the 1970s crisis and the transformation of the Madrid scene.">Phonos (1976) acull Polonio quan la crisi dels 70 i la transformació de la escena de Madrid.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">John Cage · David Tudor</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label i18n" data-en="Darmstadt '58: chance, silence, open works, systematic indeterminacy.">Darmstadt 58: l'atzar, el silenci, les obres obertes, la indeterminació sistemàtica.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">Pierre Schaeffer</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="The 1961 ORTF placement produced the first Spanish electroacoustic work.">L'estada a l'ORTF (1961) crea la primera obra electroacústica espanyola.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-wave)"><span class="connection-node">Delia Derbyshire · Dick Mills</span><span class="connection-arrow">→</span><a href="#gerhard" class="connection-node" style="color:var(--accent-wave)">Gerhard</a><div class="connection-label i18n" data-en="The artist/engineer relationship at the Workshop: electronic production from inside the lab.">La relació artista/tècnic del Workshop: la producció electrònica des del laboratori.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-analog)"><span class="connection-node">Bruno Maderna</span><span class="connection-arrow">→</span><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a><div class="connection-label i18n" data-en="Training in Milan and contact with the RAI laboratory.">Formació a Milà i contacte amb el laboratori de RAI.</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-minimal)"><span class="connection-node">Terry Riley · Steve Reich</span><span class="connection-arrow">→</span><a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a><div class="connection-label i18n" data-en="The gateway to minimalism in the 1960s–70s (In C, 1969).">La porta del minimalisme als 1960–70 (In C, 1969).</div></div>
-                <div class="connection" style="border-left:2px solid var(--accent-electric)"><span class="connection-node">IBM / centres de càlcul</span><span class="connection-arrow">→</span><div><a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#mestres" class="connection-node" style="color:var(--accent-electric)">Mestres</a></div><div class="connection-label i18n" data-en="IBM 7090 at the university (1966) and in Barcelona (1969): the first generation of computer-generated scores.">IBM 7090 a la Universitat (1966) i a Barcelona (1969): primer generació de partitures per ordinador.</div></div>
-                <div class="connection"><span class="connection-node">Darmstadt 56–70</span><span class="connection-arrow">→</span><div><a href="#hidalgo" class="connection-node" style="color:#c945ff">Hidalgo</a> · <a href="#depablo" class="connection-node" style="color:var(--accent-analog)">de Pablo</a> · <a href="#polonio" class="connection-node" style="color:var(--accent-minimal)">Polonio</a> · <a href="#halffter" class="connection-node" style="color:var(--text-primary)">Halffter</a></div><div class="connection-label i18n" data-en="The Spanish avant-garde's exchange with Boulez, Stockhausen, Ligeti, Nono and Berio.">El bescanvi de la avantguarda espanyola amb Boulez, Stockhausen, Ligeti, Nono, Berio.</div></div>
+        <div class="graph-wrapper" id="graph-wrapper">
+            <!-- Barra d'eines: filtres + cerca + reset -->
+            <div class="graph-toolbar" id="graph-toolbar">
+                <div class="graph-filters-row">
+                    <div class="filter-group" role="group" aria-label="Filtra per tipus de node">
+                        <span class="filter-group-title">Nodes</span>
+                        <label class="filter-chip" data-nt="music"><input type="checkbox" checked> <span class="dot dot-music"></span> Compositors</label>
+                        <label class="filter-chip" data-nt="lab"><input type="checkbox" checked> <span class="dot dot-lab"></span> Laboratoris</label>
+                        <label class="filter-chip" data-nt="inst"><input type="checkbox" checked> <span class="dot dot-inst"></span> Institucions</label>
+                        <label class="filter-chip" data-nt="work"><input type="checkbox" checked> <span class="dot dot-work"></span> Obres</label>
+                        <label class="filter-chip" data-nt="tech"><input type="checkbox" checked> <span class="dot dot-tech"></span> Tecnologies</label>
+                        <label class="filter-chip" data-nt="event"><input type="checkbox" checked> <span class="dot dot-event"></span> Esdeveniments</label>
+                    </div>
+                    <div class="filter-group" role="group" aria-label="Filtra per tipus de relació">
+                        <span class="filter-group-title">Relacions</span>
+                        <label class="filter-chip" data-et="teacher"><input type="checkbox" checked> <span class="line line-teacher"></span> Mestre</label>
+                        <label class="filter-chip" data-et="influence"><input type="checkbox" checked> <span class="line line-influence"></span> Influència</label>
+                        <label class="filter-chip" data-et="collaboration"><input type="checkbox" checked> <span class="line line-collab"></span> Col·laboració</label>
+                        <label class="filter-chip" data-et="member"><input type="checkbox" checked> <span class="line line-member"></span> Afiliació</label>
+                        <label class="filter-chip" data-et="labwork"><input type="checkbox" checked> <span class="line line-labwork"></span> Treball al lab</label>
+                        <label class="filter-chip" data-et="composed"><input type="checkbox" checked> <span class="line line-composed"></span> Composició</label>
+                        <label class="filter-chip" data-et="international"><input type="checkbox" checked> <span class="line line-intl"></span> Intercanvi intl.</label>
+                    </div>
+                </div>
+                <div class="graph-actions">
+                    <input type="text" id="graph-search-input" class="graph-search-input" placeholder="Cerca al graf..." autocomplete="off">
+                    <button id="graph-toggle-all-btn" class="graph-toggle-all-btn" aria-label="Activa o desactiva tots els filtres" title="Mostra tot / Mostra cap">Tot / Cap</button>
+                    <button id="graph-reset-btn" class="graph-reset-btn" aria-label="Reinicia la vista">↻ Reinicia</button>
+                </div>
             </div>
+
+            <!-- Canvas del graf + llegenda -->
+            <div class="graph-canvas-wrapper">
+                <div id="cy" class="graph-canvas" role="application" aria-label="Mapa interactiu de connexions"></div>
+                <div class="graph-legend" id="graph-legend">
+                    <span class="legend-title">Llegenda</span>
+                    <div class="legend-grid">
+                        <div class="legend-section">
+                            <span class="legend-subtitle">Nodes</span>
+                            <div class="legend-item"><span class="dot dot-music"></span> Compositors</div>
+                            <div class="legend-item"><span class="dot dot-lab"></span> Laboratoris</div>
+                            <div class="legend-item"><span class="dot dot-inst"></span> Institucions</div>
+                            <div class="legend-item"><span class="dot dot-work"></span> Obres</div>
+                            <div class="legend-item"><span class="dot dot-tech"></span> Tecnologies</div>
+                            <div class="legend-item"><span class="dot dot-event"></span> Esdeveniments</div>
+                        </div>
+                        <div class="legend-section">
+                            <span class="legend-subtitle">Relacions</span>
+                            <div class="legend-item"><span class="line line-teacher"></span> Mestre/deixeble</div>
+                            <div class="legend-item"><span class="line line-influence"></span> Influència</div>
+                            <div class="legend-item"><span class="line line-collab"></span> Col·laboració</div>
+                            <div class="legend-item"><span class="line line-member"></span> Afiliació</div>
+                            <div class="legend-item"><span class="line line-labwork"></span> Treball al lab</div>
+                            <div class="legend-item"><span class="line line-composed"></span> Composició</div>
+                            <div class="legend-item"><span class="line line-intl"></span> Intercanvi intl.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panell lateral d'informació -->
+            <aside class="graph-info-panel" id="graph-info-panel" aria-label="Informació del node seleccionat">
+                <button class="graph-info-close" id="graph-info-close" aria-label="Tancar">&times;</button>
+                <div class="graph-info-content" id="graph-info-content">
+                    <p class="graph-info-hint">Clica un node del graf per veure la informació detallada.</p>
+                </div>
+            </aside>
         </div>
     </section>
 
@@ -3351,6 +3707,1548 @@ img, svg, video { max-width:100%; height:auto; }
         currentLang = 'en';
         applyLang('en');
     }
+})();
+</script>
+<script>
+// ====================================================================
+// MAPA DE GRAFS INTERACTIU — Pioners de la Música Electrònica
+// Dades reals verificades + inicialització Cytoscape.js
+// ====================================================================
+(function() {
+  "use strict";
+
+  // ---- DADES: Nodes (tots reals i verificats) ----
+  var NODES = [
+  {
+    "id": "castillejo",
+    "name": "Juan García Castillejo",
+    "cat": "music",
+    "dates": "actiu 1933–1944",
+    "loc": "Espanya",
+    "desc": "Inventor de l'Electrocompositor Musical (1933) i teòric de la música elèctrica. La seva obra \"Música Eléctrica y Telegrafía\" (1944) anticipa conceptes d'automatització musical i distribució remota del so.",
+    "role": "Precursor remot de la música electrònica a l'Estat",
+    "verified": true
+  },
+  {
+    "id": "gerhard",
+    "name": "Robert Gerhard",
+    "cat": "music",
+    "dates": "1896–1970",
+    "loc": "Valls → Cambridge",
+    "desc": "Únic alumne espanyol de Schönberg. Exiliat a Cambridge. Primer compositor britànic de música electrònica. 20+ obres amb cinta per la BBC Radiophonic Workshop.",
+    "role": "Pioner de la música electrònica britànica i connector amb l'avantguarda continental",
+    "verified": true
+  },
+  {
+    "id": "mestres",
+    "name": "J.M. Mestres Quadreny",
+    "cat": "music",
+    "dates": "1929–2021",
+    "loc": "Manresa → Barcelona",
+    "desc": "Químic i compositor. Primera obra aleatòria d'Espanya (Música Oberta, 1960). Primera obra electroacústica catalana (1965). Primera música per ordinador (Ibèmia, 1969). Fundador del Phonos (1974).",
+    "role": "Pioner de l'aleatorisme, l'electroacústica i la música per ordinador a Catalunya",
+    "verified": true
+  },
+  {
+    "id": "depablo",
+    "name": "Luis de Pablo",
+    "cat": "music",
+    "dates": "1930–2021",
+    "loc": "Bilbao → Madrid",
+    "desc": "Fundador del Laboratori Alea (1965) i del CDMC (1983). Primer espanyol a utilitzar un ordinador (IBM 7090, 1966). Organitzador dels Encuentros de Pamplona (1972).",
+    "role": "Gestor cultural i principal organitzador de l'avantguarda espanyola",
+    "verified": true
+  },
+  {
+    "id": "hidalgo",
+    "name": "Juan Hidalgo",
+    "cat": "music",
+    "dates": "1927–2018",
+    "loc": "Gran Canaria → Madrid / París",
+    "desc": "Primer compositor espanyol a Darmstadt (1957). Primera obra electroacústica espanyola (Étude de Stage, 1961, a l'ORTF amb Schaeffer). Cofundador de ZAJ (1964).",
+    "role": "Primer electroacústic espanyol i cofundador del col·lectiu més radical",
+    "verified": true
+  },
+  {
+    "id": "polonio",
+    "name": "Eduardo Polonio",
+    "cat": "music",
+    "dates": "1941–2024",
+    "loc": "Madrid → Barcelona",
+    "desc": "Membre d'Alea (1969–72) i Phonos (1976–). President de l'AMEE (1988–94). Magisterium de Bourges (1994). Primera gravació discogràfica de música electrònica espanyola (It/Viaje, 1976).",
+    "role": "Connector entre Alea i Phonos; referent del minimalisme mediterrani",
+    "verified": true
+  },
+  {
+    "id": "halffter",
+    "name": "Cristóbal Halffter",
+    "cat": "music",
+    "dates": "1930–2021",
+    "loc": "Madrid → Darmstadt",
+    "desc": "\"Microformas\" (1960) va causar un escàndol històric a Madrid. Membre de \"Nueva Música\". Vinculat a Darmstadt i a l'avantguarda europea.",
+    "role": "L'avantguarda que va trencar el franquisme cultural",
+    "verified": true
+  },
+  {
+    "id": "valdelomar",
+    "name": "José Val del Omar",
+    "cat": "music",
+    "dates": "1904–1985",
+    "loc": "Granada → Madrid",
+    "desc": "Cineasta i inventor del \"so diafònic\". Trilogia elemental: Fuego, Tierra, Agua. Precursor del cinema de sensacions i del so immersiu.",
+    "role": "Precursor del cinema experimental i del so espacial",
+    "verified": true
+  },
+  {
+    "id": "schonberg",
+    "name": "Arnold Schönberg",
+    "cat": "music",
+    "dates": "1874–1951",
+    "loc": "Viena → Los Angeles",
+    "desc": "Inventor del dodecafonisme. Mestre de Gerhard (1923–28).",
+    "role": "Font del dodecafonisme a l'Estat espanyol",
+    "verified": true
+  },
+  {
+    "id": "cage",
+    "name": "John Cage",
+    "cat": "music",
+    "dates": "1912–1992",
+    "loc": "EUA",
+    "desc": "Influència decisiva sobre Hidalgo i Mestres. Trobada a Darmstadt (1958).",
+    "role": "Catalitzador de l'aleatorisme i l'art d'acció",
+    "verified": true
+  },
+  {
+    "id": "tudor",
+    "name": "David Tudor",
+    "cat": "music",
+    "dates": "1926–1996",
+    "loc": "EUA",
+    "desc": "Pianista i compositor. Acompanyant de Cage a Darmstadt.",
+    "role": "Transmissor del cagianisme a Europa",
+    "verified": true
+  },
+  {
+    "id": "schaeffer",
+    "name": "Pierre Schaeffer",
+    "cat": "music",
+    "dates": "1910–1995",
+    "loc": "París",
+    "desc": "Inventor de la musique concrète. Fundador del GRM. Mestre de Hidalgo (1961).",
+    "role": "Font de la música concreta per a l'Estat espanyol",
+    "verified": true
+  },
+  {
+    "id": "maderna",
+    "name": "Bruno Maderna",
+    "cat": "music",
+    "dates": "1920–1973",
+    "loc": "Itàlia",
+    "desc": "Compositor i director. Mestre de Hidalgo a Milà.",
+    "role": "Pont italià cap a Hidalgo",
+    "verified": true
+  },
+  {
+    "id": "boulez",
+    "name": "Pierre Boulez",
+    "cat": "music",
+    "dates": "1925–2016",
+    "loc": "França",
+    "desc": "Compositor. Trobada amb de Pablo i Mestres a Darmstadt. Les seves obres es van interpretar als concerts \"Tiempo y Música\".",
+    "role": "Referent del serialisme integral",
+    "verified": true
+  },
+  {
+    "id": "stockhausen",
+    "name": "Karlheinz Stockhausen",
+    "cat": "music",
+    "dates": "1928–2007",
+    "loc": "Alemanya",
+    "desc": "Compositor. Trobada amb de Pablo i Mestres a Darmstadt.",
+    "role": "Model de la música electrònica europea",
+    "verified": true
+  },
+  {
+    "id": "riley",
+    "name": "Terry Riley",
+    "cat": "music",
+    "dates": "n. 1935",
+    "loc": "EUA",
+    "desc": "\"In C\" (1964). Polonio va participar en la interpretació de 1969.",
+    "role": "Font del minimalisme nord-americà",
+    "verified": true
+  },
+  {
+    "id": "derbyshire",
+    "name": "Delia Derbyshire",
+    "cat": "music",
+    "dates": "1937–2001",
+    "loc": "Regne Unit",
+    "desc": "Col·laboradora de Gerhard al BBC Workshop. Va realitzar l'enregistrament de \"The Anger of Achilles\" (1964).",
+    "role": "Enginyera musical al BBC Workshop",
+    "verified": true
+  },
+  {
+    "id": "briscoe",
+    "name": "Desmond Briscoe",
+    "cat": "music",
+    "dates": "1925–2006",
+    "loc": "Regne Unit",
+    "desc": "Cofundador del BBC Radiophonic Workshop (1958).",
+    "role": "Cofundador del BBC Workshop",
+    "verified": true
+  },
+  {
+    "id": "vaggione",
+    "name": "Horacio Vaggione",
+    "cat": "music",
+    "dates": "n. 1943",
+    "loc": "Argentina → Madrid",
+    "desc": "Compositor argentí. Membre d'Alea. Fundador d'\"Alea Música Electrònica Libre\".",
+    "role": "Membre fundador del grup electroacústic en viu",
+    "verified": true
+  },
+  {
+    "id": "brncic",
+    "name": "Gabriel Brnčić",
+    "cat": "music",
+    "dates": "n. 1942",
+    "loc": "Xile → Barcelona",
+    "desc": "Compositor xilè exiliat. Membre de Phonos.",
+    "role": "Col·laborador de Phonos",
+    "verified": true
+  },
+  {
+    "id": "marchetti",
+    "name": "Walter Marchetti",
+    "cat": "music",
+    "dates": "1932–2022",
+    "loc": "Itàlia → Madrid",
+    "desc": "Cofundador de ZAJ amb Hidalgo i Barce.",
+    "role": "Cofundador de ZAJ",
+    "verified": true
+  },
+  {
+    "id": "barce",
+    "name": "Ramón Barce",
+    "cat": "music",
+    "dates": "1928–2008",
+    "loc": "Madrid",
+    "desc": "Cofundador de ZAJ i de \"Nueva Música\".",
+    "role": "Cofundador de ZAJ i Nueva Música",
+    "verified": true
+  },
+  {
+    "id": "lewin",
+    "name": "Andrés Lewin-Richter",
+    "cat": "music",
+    "dates": "n. 1937",
+    "loc": "Barcelona",
+    "desc": "Cofundador de Phonos (1974). Autor de \"La música electroacústica en España\" (1998).",
+    "role": "Cofundador de Phonos i teòric",
+    "verified": true
+  },
+  {
+    "id": "callejo",
+    "name": "Lluís Callejo",
+    "cat": "music",
+    "dates": "actiu 1974",
+    "loc": "Barcelona",
+    "desc": "Tercer cofundador de Phonos (1974).",
+    "role": "Cofundador de Phonos",
+    "verified": true
+  },
+  {
+    "id": "santos",
+    "name": "Carles Santos",
+    "cat": "music",
+    "dates": "1940–2012",
+    "loc": "Vinaròs → Barcelona",
+    "desc": "Membre del Club 49 amb Mestres Quadreny.",
+    "role": "Col·laborador de Mestres al Club 49",
+    "verified": true
+  },
+  {
+    "id": "pedrell",
+    "name": "Felip Pedrell",
+    "cat": "music",
+    "dates": "1841–1922",
+    "loc": "Tortosa",
+    "desc": "Mestre de Gerhard (1916–20).",
+    "role": "Mestre de Gerhard",
+    "verified": true
+  },
+  {
+    "id": "taltabull",
+    "name": "Cristòfor Taltabull",
+    "cat": "music",
+    "dates": "1888–1964",
+    "loc": "Barcelona",
+    "desc": "Mestre de Mestres Quadreny.",
+    "role": "Mestre de Mestres Quadreny",
+    "verified": true
+  },
+  {
+    "id": "phonos",
+    "name": "Laboratori Phonos",
+    "cat": "lab",
+    "dates": "1974–actualitat",
+    "loc": "Barcelona · UPF",
+    "desc": "Primer estudi electroacústic de Catalunya. Fundat per Mestres Quadreny, Lewin-Richter i Callejo. Integrat a la UPF (1994).",
+    "role": "Centre de producció, ensenyament i recerca",
+    "verified": true
+  },
+  {
+    "id": "alea",
+    "name": "Laboratori Alea",
+    "cat": "lab",
+    "dates": "1965–1977",
+    "loc": "Madrid",
+    "desc": "Primer laboratori electroacústic \"estable i públic\" de l'Estat. Fundat per de Pablo amb mecenatge Huarte.",
+    "role": "Primer laboratori públic de l'Estat",
+    "verified": true
+  },
+  {
+    "id": "bbc",
+    "name": "BBC Radiophonic Workshop",
+    "cat": "lab",
+    "dates": "1958–2008",
+    "loc": "Londres",
+    "desc": "Estudi pioner de so electrònic de la BBC. Gerhard hi va treballar als anys 60.",
+    "role": "Laboratori de referència per a Gerhard",
+    "verified": true
+  },
+  {
+    "id": "grm",
+    "name": "GRM / ORTF",
+    "cat": "lab",
+    "dates": "1948–",
+    "loc": "París",
+    "desc": "Grup de Recerca Musical de Schaeffer. Hidalgo hi va fer l'stage (1961).",
+    "role": "Font de la musique concrète",
+    "verified": true
+  },
+  {
+    "id": "ipem",
+    "name": "IPEM",
+    "cat": "lab",
+    "dates": "1962–",
+    "loc": "Gant, Bèlgica",
+    "desc": "Institut de Psicoacústica. Polonio hi va treballar (1969).",
+    "role": "Laboratori de recerca per a Polonio",
+    "verified": true
+  },
+  {
+    "id": "darmstadt",
+    "name": "Cursos de Darmstadt",
+    "cat": "inst",
+    "dates": "1946–",
+    "loc": "Alemanya",
+    "desc": "Festival internacional d'avantguarda. Trobada clau: Hidalgo (1957), de Pablo (1956), Mestres (1960), Polonio (1966–70).",
+    "role": "Punt de trobada de l'avantguarda internacional",
+    "verified": true
+  },
+  {
+    "id": "ircam",
+    "name": "IRCAM",
+    "cat": "inst",
+    "dates": "1977–",
+    "loc": "París",
+    "desc": "Institut de Recerca Acústica/Musical. Col·laborador de Phonos.",
+    "role": "Col·laborador internacional de Phonos",
+    "verified": true
+  },
+  {
+    "id": "imeb",
+    "name": "IMEB Bourges",
+    "cat": "inst",
+    "dates": "1970–2009",
+    "loc": "Bourges, França",
+    "desc": "Institut Internacional de Música Electroacústica. Atorga el Magisterium (Polonio 1994).",
+    "role": "Premi internacional per a Polonio",
+    "verified": true
+  },
+  {
+    "id": "amee",
+    "name": "AMEE",
+    "cat": "inst",
+    "dates": "1987–",
+    "loc": "Estat espanyol",
+    "desc": "Associació de Música Electroacústica d'Espanya. President: Polonio (1988–94).",
+    "role": "Entitat professional de l'electroacústica",
+    "verified": true
+  },
+  {
+    "id": "cdmc",
+    "name": "CDMC",
+    "cat": "inst",
+    "dates": "1983–",
+    "loc": "Madrid",
+    "desc": "Centre per a la Difusió de la Música Contemporània. Fundat per de Pablo.",
+    "role": "Institució oficial de promoció musical",
+    "verified": true
+  },
+  {
+    "id": "macba",
+    "name": "MACBA",
+    "cat": "inst",
+    "dates": "1995–",
+    "loc": "Barcelona",
+    "desc": "Museu d'Art Contemporani. Té obres gràfiques de Mestres Quadreny.",
+    "role": "Dipositari de les partitures de Mestres",
+    "verified": true
+  },
+  {
+    "id": "club49",
+    "name": "Club 49",
+    "cat": "inst",
+    "dates": "1949–",
+    "loc": "Barcelona",
+    "desc": "Grup vanguardista vinculat al surrealisme Dau al Set.",
+    "role": "Xarxa artística de Mestres Quadreny",
+    "verified": true
+  },
+  {
+    "id": "march",
+    "name": "Fundación Juan March",
+    "cat": "inst",
+    "dates": "1955–",
+    "loc": "Madrid",
+    "desc": "Exposició \"Escuchar con los ojos\" (2016–17).",
+    "role": "Institució que ha exposat art sonor",
+    "verified": true
+  },
+  {
+    "id": "electrocompositor",
+    "name": "Electrocompositor Musical",
+    "cat": "tech",
+    "dates": "1933",
+    "loc": "Barcelona",
+    "desc": "Aparell de Castillejo per a la composició automàtica.",
+    "role": "Tecnologia pionera de Castillejo",
+    "verified": true
+  },
+  {
+    "id": "vcs3",
+    "name": "EMS VCS3",
+    "cat": "tech",
+    "dates": "1969",
+    "loc": "Regne Unit",
+    "desc": "Sintetitzador britànic compacte. Dues unitats a Alea (1970).",
+    "role": "Primer sintetitzador portàtil",
+    "verified": true
+  },
+  {
+    "id": "revox",
+    "name": "Magnetòfons Revox",
+    "cat": "tech",
+    "dates": "1960s–80s",
+    "loc": "Espanya",
+    "desc": "Magnetòfons de cinta oberta de 2 i 4 pistes.",
+    "role": "Eina essencial dels laboratoris",
+    "verified": true
+  },
+  {
+    "id": "ibm7090",
+    "name": "IBM 7090",
+    "cat": "tech",
+    "dates": "1966–1969",
+    "loc": "Madrid / Barcelona",
+    "desc": "Ordinador central usat per de Pablo (1966) i Mestres (1969).",
+    "role": "Primera generació de partitures per ordinador",
+    "verified": true
+  },
+  {
+    "id": "etude_stage",
+    "name": "Étude de Stage",
+    "cat": "work",
+    "dates": "1961",
+    "loc": "París",
+    "desc": "Primera obra electroacústica espanyola. Hidalgo, ORTF, Schaeffer.",
+    "role": "Primera obra electroacústica espanyola",
+    "verified": true
+  },
+  {
+    "id": "ibemia",
+    "name": "Ibèmia",
+    "cat": "work",
+    "dates": "1969",
+    "loc": "Barcelona",
+    "desc": "Primera música per ordinador a Catalunya. Mestres Quadreny, IBM 7090.",
+    "role": "Primera obra catalana per ordinador",
+    "verified": true
+  },
+  {
+    "id": "we",
+    "name": "We",
+    "cat": "work",
+    "dates": "1969",
+    "loc": "Madrid",
+    "desc": "Collage electrònic de de Pablo. Una de les obres més rellevants d'Alea.",
+    "role": "Obra emblemàtica d'Alea",
+    "verified": true
+  },
+  {
+    "id": "claustrophilia",
+    "name": "Claustrophilia",
+    "cat": "work",
+    "dates": "1966",
+    "loc": "Cambridge",
+    "desc": "Única partitura gràfica de Gerhard. Regal a John Cage per Notations.",
+    "role": "Única partitura gràfica de Gerhard",
+    "verified": true
+  },
+  {
+    "id": "lestro",
+    "name": "L'Estro Aleatorio",
+    "cat": "work",
+    "dates": "1973–78",
+    "loc": "Barcelona",
+    "desc": "Partitura gràfica de Mestres. Col·lecció MACBA (R.4107).",
+    "role": "Partitura gràfica al MACBA",
+    "verified": true
+  },
+  {
+    "id": "quartet_catroc",
+    "name": "Quartet de catroc",
+    "cat": "work",
+    "dates": "1962",
+    "loc": "Barcelona",
+    "desc": "Partitura gràfica de Mestres. MACBA (R.4194). Títol de Brossa.",
+    "role": "Partitura gràfica al MACBA",
+    "verified": true
+  },
+  {
+    "id": "homenatge_gerhard",
+    "name": "Homenatge a Robert Gerhard",
+    "cat": "work",
+    "dates": "1976",
+    "loc": "Barcelona",
+    "desc": "Obra gràfica de Mestres homenatjant Gerhard. MACBA (R.4104).",
+    "role": "Homenatge de Mestres a Gerhard",
+    "verified": true
+  },
+  {
+    "id": "microformas",
+    "name": "Microformas",
+    "cat": "work",
+    "dates": "1959–60",
+    "loc": "Madrid",
+    "desc": "Obra de Halffter. Estrena 1961 va causar escàndol.",
+    "role": "Obra que va trencar el franquisme cultural",
+    "verified": true
+  },
+  {
+    "id": "pamplona",
+    "name": "Encuentros de Pamplona",
+    "cat": "event",
+    "dates": "1972",
+    "loc": "Pamplona",
+    "desc": "Festival internacional d'avantguarda. Organitzat per de Pablo i Alexanco.",
+    "role": "Festival internacional de ruptura",
+    "verified": true
+  },
+  {
+    "id": "nueva_musica",
+    "name": "Jornadas de Nueva Música",
+    "cat": "event",
+    "dates": "1959",
+    "loc": "Las Palmas",
+    "desc": "Primer festival d'avantguarda de l'Estat. Organitzat per Hidalgo i Marchetti.",
+    "role": "Primer festival d'avantguarda",
+    "verified": true
+  }
+];
+
+  // ---- DADES: Relacions (totes reals i verificades) ----
+  var EDGES = [
+  {
+    "s": "schonberg",
+    "t": "gerhard",
+    "type": "teacher",
+    "label": "Mestre (1923–28)",
+    "src": "Ortiz de Urbina (2024)"
+  },
+  {
+    "s": "pedrell",
+    "t": "gerhard",
+    "type": "teacher",
+    "label": "Mestre (1916–20)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "taltabull",
+    "t": "mestres",
+    "type": "teacher",
+    "label": "Mestre",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "maderna",
+    "t": "hidalgo",
+    "type": "teacher",
+    "label": "Mestre (Milà)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "schaeffer",
+    "t": "hidalgo",
+    "type": "teacher",
+    "label": "Mestre (ORTF 1961)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "cage",
+    "t": "hidalgo",
+    "type": "influence",
+    "label": "Influència (Darmstadt 1958)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "cage",
+    "t": "mestres",
+    "type": "influence",
+    "label": "Influència (1961)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "riley",
+    "t": "polonio",
+    "type": "influence",
+    "label": "Influència (In C, 1969)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "schonberg",
+    "t": "gerhard",
+    "type": "influence",
+    "label": "Dodecafonisme",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "boulez",
+    "t": "depablo",
+    "type": "influence",
+    "label": "Influència (Darmstadt)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "stockhausen",
+    "t": "depablo",
+    "type": "influence",
+    "label": "Influència (Darmstadt)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "boulez",
+    "t": "mestres",
+    "type": "influence",
+    "label": "Influència (París 1957)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "stockhausen",
+    "t": "mestres",
+    "type": "influence",
+    "label": "Influència (Darmstadt 1960)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "maderna",
+    "t": "hidalgo",
+    "type": "influence",
+    "label": "Influència",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "tudor",
+    "t": "hidalgo",
+    "type": "influence",
+    "label": "Influència (Darmstadt)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "derbyshire",
+    "type": "collaboration",
+    "label": "Col·laboració (BBC)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "briscoe",
+    "type": "collaboration",
+    "label": "Col·laboració (BBC)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "depablo",
+    "t": "polonio",
+    "type": "collaboration",
+    "label": "Col·laboració (Alea)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "depablo",
+    "t": "vaggione",
+    "type": "collaboration",
+    "label": "Col·laboració (Alea)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "marchetti",
+    "type": "collaboration",
+    "label": "ZAJ (1964)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "barce",
+    "type": "collaboration",
+    "label": "ZAJ + Nueva Música",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "mestres",
+    "t": "lewin",
+    "type": "collaboration",
+    "label": "Cofundadors Phonos (1974)",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "mestres",
+    "t": "callejo",
+    "type": "collaboration",
+    "label": "Cofundadors Phonos (1974)",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "mestres",
+    "t": "santos",
+    "type": "collaboration",
+    "label": "Club 49",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "polonio",
+    "t": "brncic",
+    "type": "collaboration",
+    "label": "Phonos / Multimúsica",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "mestres",
+    "t": "polonio",
+    "type": "collaboration",
+    "label": "Phonos (1976)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "mestres",
+    "t": "phonos",
+    "type": "member",
+    "label": "Cofundador (1974)",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "lewin",
+    "t": "phonos",
+    "type": "member",
+    "label": "Cofundador (1974)",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "callejo",
+    "t": "phonos",
+    "type": "member",
+    "label": "Cofundador (1974)",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "polonio",
+    "t": "phonos",
+    "type": "member",
+    "label": "Membre (1976–)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "depablo",
+    "t": "alea",
+    "type": "member",
+    "label": "Cofundador (1965)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "polonio",
+    "t": "alea",
+    "type": "member",
+    "label": "Membre (1969–72)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "vaggione",
+    "t": "alea",
+    "type": "member",
+    "label": "Membre",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "polonio",
+    "t": "amee",
+    "type": "member",
+    "label": "President (1988–94)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "depablo",
+    "t": "cdmc",
+    "type": "member",
+    "label": "Cofundador (1983)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "bbc",
+    "type": "member",
+    "label": "Accés regular (60s)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "mestres",
+    "t": "club49",
+    "type": "member",
+    "label": "Membre (1949)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "bbc",
+    "type": "labwork",
+    "label": "20+ obres (1954–67)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "grm",
+    "type": "labwork",
+    "label": "Stage (1961)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "polonio",
+    "t": "ipem",
+    "type": "labwork",
+    "label": "Beca Juan March (1969)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "polonio",
+    "t": "alea",
+    "type": "labwork",
+    "label": "Producció (1969–72)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "polonio",
+    "t": "phonos",
+    "type": "labwork",
+    "label": "Producció (1976–)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "depablo",
+    "t": "alea",
+    "type": "labwork",
+    "label": "Producció (1965–77)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "etude_stage",
+    "type": "composed",
+    "label": "Compositor (1961)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "mestres",
+    "t": "ibemia",
+    "type": "composed",
+    "label": "Compositor (1969)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "depablo",
+    "t": "we",
+    "type": "composed",
+    "label": "Compositor (1969)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "claustrophilia",
+    "type": "composed",
+    "label": "Compositor (1966)",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "mestres",
+    "t": "lestro",
+    "type": "composed",
+    "label": "Compositor (1973–78)",
+    "src": "MACBA R.4107"
+  },
+  {
+    "s": "mestres",
+    "t": "quartet_catroc",
+    "type": "composed",
+    "label": "Compositor (1962)",
+    "src": "MACBA R.4194"
+  },
+  {
+    "s": "mestres",
+    "t": "homenatge_gerhard",
+    "type": "composed",
+    "label": "Compositor (1976)",
+    "src": "MACBA R.4104"
+  },
+  {
+    "s": "halffter",
+    "t": "microformas",
+    "type": "composed",
+    "label": "Compositor (1960)",
+    "src": "Halffter bio"
+  },
+  {
+    "s": "castillejo",
+    "t": "electrocompositor",
+    "type": "composed",
+    "label": "Inventor (1933)",
+    "src": "Castillejo bio"
+  },
+  {
+    "s": "depablo",
+    "t": "ibm7090",
+    "type": "labwork",
+    "label": "Usà (1966)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "mestres",
+    "t": "ibm7090",
+    "type": "labwork",
+    "label": "Usà (Ibèmia, 1969)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "alea",
+    "t": "vcs3",
+    "type": "member",
+    "label": "Equipament (1970)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "phonos",
+    "t": "vcs3",
+    "type": "member",
+    "label": "Equipament",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "alea",
+    "t": "revox",
+    "type": "member",
+    "label": "Equipament",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "phonos",
+    "t": "revox",
+    "type": "member",
+    "label": "Equipament",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "bbc",
+    "t": "revox",
+    "type": "member",
+    "label": "Equipament",
+    "src": "BBC bio"
+  },
+  {
+    "s": "lestro",
+    "t": "macba",
+    "type": "recorded",
+    "label": "Col·lecció (R.4107)",
+    "src": "MACBA"
+  },
+  {
+    "s": "quartet_catroc",
+    "t": "macba",
+    "type": "recorded",
+    "label": "Col·lecció (R.4194)",
+    "src": "MACBA"
+  },
+  {
+    "s": "homenatge_gerhard",
+    "t": "macba",
+    "type": "recorded",
+    "label": "Col·lecció (R.4104)",
+    "src": "MACBA"
+  },
+  {
+    "s": "depablo",
+    "t": "darmstadt",
+    "type": "international",
+    "label": "Darmstadt (1956–)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "darmstadt",
+    "type": "international",
+    "label": "Darmstadt (1957–58)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "polonio",
+    "t": "darmstadt",
+    "type": "international",
+    "label": "Darmstadt (1966–70)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "halffter",
+    "t": "darmstadt",
+    "type": "international",
+    "label": "Darmstadt",
+    "src": "Halffter bio"
+  },
+  {
+    "s": "mestres",
+    "t": "darmstadt",
+    "type": "international",
+    "label": "Darmstadt (1960)",
+    "src": "Mestres bio"
+  },
+  {
+    "s": "gerhard",
+    "t": "bbc",
+    "type": "international",
+    "label": "Cambridge → BBC",
+    "src": "Gerhard bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "grm",
+    "type": "international",
+    "label": "París (1961)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "polonio",
+    "t": "ipem",
+    "type": "international",
+    "label": "Gant (1969)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "polonio",
+    "t": "imeb",
+    "type": "international",
+    "label": "Bourges (1994)",
+    "src": "Polonio bio"
+  },
+  {
+    "s": "phonos",
+    "t": "ircam",
+    "type": "international",
+    "label": "Col·laboració",
+    "src": "Phonos bio"
+  },
+  {
+    "s": "depablo",
+    "t": "pamplona",
+    "type": "international",
+    "label": "Organitzador (1972)",
+    "src": "de Pablo bio"
+  },
+  {
+    "s": "hidalgo",
+    "t": "nueva_musica",
+    "type": "international",
+    "label": "Organitzador (1959)",
+    "src": "Hidalgo bio"
+  },
+  {
+    "s": "homenatge_gerhard",
+    "t": "gerhard",
+    "type": "influence",
+    "label": "Homenatge (1976)",
+    "src": "MACBA"
+  }
+];
+
+  // ---- Configuració Cytoscape ----
+  var NODE_COLORS = {music:"#B9573D",lab:"#737B68",inst:"#5A4A8A",work:"#A86C2A",tech:"#1F2218",event:"#3a8db5"};
+  var NODE_SHAPES = {music:"ellipse",lab:"round-rectangle",inst:"diamond",work:"triangle",tech:"hexagon",event:"star"};
+  var EDGE_STYLES = {
+    teacher:{color:"#737B68",style:"solid"},
+    influence:{color:"#B9573D",style:"dashed"},
+    collaboration:{color:"#3a8db5",style:"dotted"},
+    member:{color:"#8A8A7E",style:"solid"},
+    labwork:{color:"#737B68",style:"dashed"},
+    composed:{color:"#A86C2A",style:"dotted"},
+    recorded:{color:"#2ecc71",style:"dotted"},
+    international:{color:"#5A4A8A",style:"dashed"},
+  };
+
+  // Construir elements per a Cytoscape
+  var elements = [];
+  NODES.forEach(function(n) {
+    elements.push({
+      data: {
+        id: n.id, name: n.name, category: n.cat,
+        dates: n.dates, loc: n.loc, desc: n.desc,
+        role: n.role, verified: n.verified
+      }
+    });
+  });
+  EDGES.forEach(function(e, i) {
+    elements.push({
+      data: {
+        id: "e" + i, source: e.s, target: e.t,
+        type: e.type, label: e.label, src: e.src
+      }
+    });
+  });
+
+  // Esperar a que Cytoscape.js estigui carregat
+  var _graphInitAttempts = 0;
+  function initGraph() {
+    _graphInitAttempts++;
+    var cyContainer = document.getElementById("cy");
+    if (!cyContainer) {
+      console.warn("[graf] #cy container no trobat");
+      return;
+    }
+    if (typeof cytoscape === "undefined") {
+      if (_graphInitAttempts > 50) {
+        // Després de ~5s, mostra missatge d'error visible
+        cyContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#e8e6e3;font-family:Manrope,sans-serif;font-size:.85rem;text-align:center;padding:2rem;">No s\'ha pogut carregar Cytoscape.js.<br>Comprova la connexió a Internet i recarrega la pàgina.</div>';
+        console.error("[graf] Cytoscape.js no disponible després de 5s. Possibles causes: CDN bloquejat, sense connexió, o error de xarxa.");
+        return;
+      }
+      setTimeout(initGraph, 100);
+      return;
+    }
+    // Verificar dimensions del contenidor
+    var rect = cyContainer.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      // El contenidor encara no té dimensions (CSS no carregat o display:none)
+      if (_graphInitAttempts > 30) {
+        console.warn("[graf] #cy té dimensions 0x0; és possible que la secció estigui oculta.");
+        return;
+      }
+      setTimeout(initGraph, 100);
+      return;
+    }
+
+    var cy = cytoscape({
+      container: document.getElementById("cy"),
+      elements: elements,
+      style: [
+        // Nodes
+        {
+          selector: "node",
+          style: {
+            "label": "data(name)",
+            "text-valign": "bottom",
+            "text-halign": "center",
+            "text-margin-y": 6,
+            "color": "#e8e6e3",
+            "font-size": 8,
+            "font-family": "Manrope, sans-serif",
+            "width": 20, "height": 20,
+            "background-color": function(ele) { return NODE_COLORS[ele.data("category")] || "#888"; },
+            "shape": function(ele) { return NODE_SHAPES[ele.data("category")] || "ellipse"; },
+            "border-width": 2,
+            "border-color": "#0f0f17",
+            "opacity": 0.9,
+            "transition-property": "opacity, border-color, border-width, width, height",
+            "transition-duration": "0.25s",
+          }
+        },
+        // Node seleccionat
+        {
+          selector: "node.selected",
+          style: {
+            "border-width": 4,
+            "border-color": "#FFFFFF",
+            "width": 28, "height": 28,
+            "opacity": 1,
+            "font-size": 10,
+            "font-weight": "bold",
+            "color": "#FFFFFF",
+            "z-index": 100,
+          }
+        },
+        // Node relacionat (veí del seleccionat)
+        {
+          selector: "node.related",
+          style: {
+            "opacity": 1,
+            "border-width": 3,
+            "border-color": "#B9573D",
+            "z-index": 50,
+          }
+        },
+        // Node atenuat (no relacionat)
+        {
+          selector: "node.faded",
+          style: {
+            "opacity": 0.15,
+          }
+        },
+        // Nodes coincidents de cerca
+        {
+          selector: "node.match",
+          style: {
+            "border-color": "#f39c12",
+            "border-width": 3,
+            "opacity": 1,
+          }
+        },
+        // Arestes
+        {
+          selector: "edge",
+          style: {
+            "width": 1.5,
+            "line-color": function(ele) { return (EDGE_STYLES[ele.data("type")] || {color:"#888"}).color; },
+            "line-style": function(ele) { return (EDGE_STYLES[ele.data("type")] || {style:"solid"}).style; },
+            "opacity": 0.5,
+            "curve-style": "bezier",
+            "transition-property": "opacity, width, line-color",
+            "transition-duration": "0.25s",
+            "target-arrow-shape": "triangle",
+            "target-arrow-color": function(ele) { return (EDGE_STYLES[ele.data("type")] || {color:"#888"}).color; },
+            "arrow-scale": 0.6,
+          }
+        },
+        // Aresta relacionada amb node seleccionat
+        {
+          selector: "edge.highlighted",
+          style: {
+            "opacity": 0.9,
+            "width": 2.5,
+            "label": "data(label)",
+            "font-size": 7,
+            "color": "#e8e6e3",
+            "text-background-color": "#0f0f17",
+            "text-background-opacity": 0.8,
+            "text-background-padding": 2,
+            "text-background-shape": "round-rectangle",
+          }
+        },
+        // Aresta atenuada
+        {
+          selector: "edge.faded",
+          style: {
+            "opacity": 0.05,
+          }
+        },
+      ],
+      layout: {
+        name: "cose",
+        animate: true,
+        animationDuration: 800,
+        nodeRepulsion: 10000,
+        idealEdgeLength: 100,
+        edgeElasticity: 0.45,
+        gravity: 0.25,
+        numIter: 2500,
+        fit: true,
+        padding: 30,
+      },
+      minZoom: 0.3,
+      maxZoom: 3,
+      wheelSensitivity: 0.3,
+    });
+
+    // ---- Selecció de node ----
+    var infoPanel = document.getElementById("graph-info-panel");
+    var infoContent = document.getElementById("graph-info-content");
+
+    function selectNode(node) {
+      // Netegem estats anteriors
+      cy.nodes().removeClass("selected related faded");
+      cy.edges().removeClass("highlighted faded");
+
+      node.addClass("selected");
+
+      // Obtenim veïns
+      var neighborhood = node.closedNeighborhood();
+      neighborhood.nodes().addClass("related");
+      neighborhood.edges().addClass("highlighted");
+
+      // Atenuem la resta
+      cy.elements().not(neighborhood).addClass("faded");
+
+      // Omplim el panell d'info
+      showInfo(node);
+      infoPanel.classList.add("open");
+    }
+
+    function clearSelection() {
+      cy.nodes().removeClass("selected related faded match");
+      cy.edges().removeClass("highlighted faded");
+      infoPanel.classList.remove("open");
+    }
+
+    function showInfo(node) {
+      var d = node.data();
+      var catLabels = {music:"Compositor",lab:"Laboratori",inst:"Institució",work:"Obra",tech:"Tecnologia",event:"Esdeveniment"};
+      var catLabel = catLabels[d.category] || d.category;
+
+      // Obtenim connexions
+      var connections = node.connectedEdges().connectedNodes().not(node);
+      var connByType = {};
+      connections.forEach(function(n) {
+        var edges = node.edgesTo(n);
+        edges.forEach(function(e) {
+          var t = e.data("type");
+          if (!connByType[t]) connByType[t] = [];
+          connByType[t].push({name: n.data("name"), id: n.data("id")});
+        });
+      });
+
+      var typeLabels = {teacher:"Mestres i deixebles",influence:"Influències",collaboration:"Col·laboradors",member:"Afiliacions",labwork:"Treball al laboratori",composed:"Obres composades",recorded:"Enregistraments i col·leccions",international:"Connexions internacionals"};
+
+      var html = '<div class="gi-category cat-' + d.category + '">' + catLabel + '</div>';
+      html += '<div class="gi-name">' + d.name + '</div>';
+      if (d.dates) html += '<div class="gi-dates">' + d.dates + (d.loc ? ' · ' + d.loc : '') + '</div>';
+      if (d.desc) html += '<p class="gi-desc">' + d.desc + '</p>';
+      if (d.role) {
+        html += '<div class="gi-section"><div class="gi-section-title">Paper</div><p class="gi-desc">' + d.role + '</p></div>';
+      }
+
+      // Connexions
+      var hasConnections = Object.keys(connByType).length > 0;
+      if (hasConnections) {
+        html += '<div class="gi-section"><div class="gi-section-title">Connexions directes</div>';
+        for (var t in connByType) {
+          if (connByType.hasOwnProperty(t)) {
+            html += '<div style="margin-bottom:.5rem;"><strong style="font-size:.72rem;color:var(--text-secondary);">' + (typeLabels[t] || t) + ':</strong><br>';
+            connByType[t].forEach(function(c) {
+              html += '<span class="gi-link" data-node-id="' + c.id + '">' + c.name + '</span>';
+            });
+            html += '</div>';
+          }
+        }
+        html += '</div>';
+      }
+
+      if (d.verified) {
+        html += '<div class="gi-verified">✓ Dada verificada documentalment</div>';
+      } else {
+        html += '<div class="gi-verified" style="color:var(--accent-amber);">⚠ Dada pendent de verificació</div>';
+      }
+
+      infoContent.innerHTML = html;
+
+      // Fer clicar els enllaços de connexions per navegar
+      infoContent.querySelectorAll(".gi-link").forEach(function(link) {
+        link.addEventListener("click", function() {
+          var targetId = this.getAttribute("data-node-id");
+          var targetNode = cy.getElementById(targetId);
+          if (targetNode && targetNode.length > 0) {
+            cy.animate({center: {eles: targetNode}, zoom: 1.2}, {duration: 400});
+            setTimeout(function() { selectNode(targetNode); }, 350);
+          }
+        });
+      });
+    }
+
+    // ---- Events ----
+    cy.on("tap", "node", function(evt) {
+      selectNode(evt.target);
+    });
+    cy.on("tap", function(evt) {
+      if (evt.target === cy) clearSelection();
+    });
+
+    // ---- Panell d'info: tancar ----
+    document.getElementById("graph-info-close").addEventListener("click", clearSelection);
+
+    // ---- Filtres ----
+    var filterChips = document.querySelectorAll(".filter-chip");
+    filterChips.forEach(function(chip) {
+      var input = chip.querySelector("input");
+      // Estat inicial: marcar com a 'inactive' si no està checked
+      chip.classList.toggle("inactive", !input.checked);
+      // El <label> nadiu ja commuta el checkbox quan es clica dins.
+      // Només cal escoltar el 'change' per actualitzar UI + aplicar filtre.
+      input.addEventListener("change", function() {
+        chip.classList.toggle("inactive", !this.checked);
+        applyFilters();
+        updateToggleAllState();
+      });
+    });
+
+    function applyFilters() {
+      var activeNodeTypes = {};
+      var activeEdgeTypes = {};
+      document.querySelectorAll(".filter-chip[data-nt]").forEach(function(chip) {
+        var nt = chip.getAttribute("data-nt");
+        var checked = chip.querySelector("input").checked;
+        activeNodeTypes[nt] = checked;
+      });
+      document.querySelectorAll(".filter-chip[data-et]").forEach(function(chip) {
+        var et = chip.getAttribute("data-et");
+        var checked = chip.querySelector("input").checked;
+        activeEdgeTypes[et] = checked;
+      });
+
+      // Aplicar als nodes
+      cy.nodes().forEach(function(n) {
+        var cat = n.data("category");
+        if (activeNodeTypes[cat] === false) {
+          n.style("display", "none");
+        } else {
+          n.style("display", "element");
+        }
+      });
+
+      // Aplicar a les arestes
+      cy.edges().forEach(function(e) {
+        var type = e.data("type");
+        var src = e.source();
+        var tgt = e.target();
+        if (activeEdgeTypes[type] === false || src.style("display") === "none" || tgt.style("display") === "none") {
+          e.style("display", "none");
+        } else {
+          e.style("display", "element");
+        }
+      });
+
+      // Re-layout suau
+      cy.layout({name: "cose", animate: true, animationDuration: 600, fit: true, padding: 30, nodeRepulsion: 10000, idealEdgeLength: 100, edgeElasticity: 0.45, gravity: 0.25, numIter: 2500}).run();
+    }
+
+    // ---- Cerca ----
+    var searchInput = document.getElementById("graph-search-input");
+    var searchTimer;
+    searchInput.addEventListener("input", function(e) {
+      clearTimeout(searchTimer);
+      var q = e.target.value.toLowerCase().trim();
+      searchTimer = setTimeout(function() {
+        cy.nodes().removeClass("match");
+        if (q.length >= 2) {
+          cy.nodes().forEach(function(n) {
+            var name = (n.data("name") || "").toLowerCase();
+            var dates = (n.data("dates") || "").toLowerCase();
+            var desc = (n.data("desc") || "").toLowerCase();
+            if (name.includes(q) || dates.includes(q) || desc.includes(q)) {
+              n.addClass("match");
+            }
+          });
+          // Fer zoom als resultats
+          var matches = cy.nodes(".match");
+          if (matches.length > 0) {
+            cy.animate({center: {eles: matches}, zoom: 1.3}, {duration: 400});
+          }
+        }
+      }, 200);
+    });
+
+    // ---- Reset ----
+    document.getElementById("graph-reset-btn").addEventListener("click", function() {
+      // Restaurar tots els filtres
+      setAllFilters(true);
+      applyFilters();
+      clearSelection();
+      cy.nodes().removeClass("match");
+      searchInput.value = "";
+      cy.animate({zoom: 1, center: {x: 0, y: 0}}, {duration: 400});
+      cy.layout({name: "cose", animate: true, animationDuration: 700, fit: true, padding: 30, nodeRepulsion: 10000, idealEdgeLength: 100, edgeElasticity: 0.45, gravity: 0.25, numIter: 2500}).run();
+    });
+
+    // ---- Tot / Cap toggle ----
+    var toggleAllBtn = document.getElementById("graph-toggle-all-btn");
+    if (toggleAllBtn) {
+      // Inicialitza estat del botó segons nombre d'activats
+      updateToggleAllState();
+
+      toggleAllBtn.addEventListener("click", function() {
+        // Determinar si tots estan activats -> en aquest cas els desactiva tots
+        // Si no tots activats -> els activa tots
+        var allActive = areAllFiltersActive();
+        setAllFilters(!allActive);
+        applyFilters();
+        updateToggleAllState();
+      });
+    }
+
+    function areAllFiltersActive() {
+      var all = document.querySelectorAll(".filter-chip input");
+      var active = 0, total = 0;
+      all.forEach(function(cb) {
+        total++;
+        if (cb.checked) active++;
+      });
+      return active === total;
+    }
+
+    function setAllFilters(state) {
+      document.querySelectorAll(".filter-chip input").forEach(function(cb) {
+        cb.checked = state;
+        var chip = cb.closest(".filter-chip");
+        if (chip) chip.classList.toggle("inactive", !state);
+      });
+      updateToggleAllState();
+    }
+
+    function updateToggleAllState() {
+      if (!toggleAllBtn) return;
+      var all = document.querySelectorAll(".filter-chip input");
+      var active = 0, total = 0;
+      all.forEach(function(cb) {
+        total++;
+        if (cb.checked) active++;
+      });
+      // Text del botó segons estat
+      if (active === total) {
+        // Tots activats -> el següent click farà "cap"
+        toggleAllBtn.classList.remove("is-empty");
+        toggleAllBtn.innerHTML = '<span class="state-dot"></span> Cap';
+        toggleAllBtn.setAttribute("title", "Desactiva tots els filtres (mostra res)");
+      } else if (active === 0) {
+        // Cap activat -> el següent click farà "tot"
+        toggleAllBtn.classList.add("is-empty");
+        toggleAllBtn.innerHTML = '<span class="state-dot"></span> Tot';
+        toggleAllBtn.setAttribute("title", "Activa tots els filtres (mostra tot)");
+      } else {
+        // Parcial -> el següent click farà "tot"
+        toggleAllBtn.classList.remove("is-empty");
+        toggleAllBtn.innerHTML = '<span class="state-dot"></span> Tot (' + active + '/' + total + ')';
+        toggleAllBtn.setAttribute("title", "Activa tots els filtres (" + active + " de " + total + " actius)");
+      }
+    }
+
+    // ---- Exposar per a debugging ----
+    window._cy = cy;
+    console.log("Mapa de grafs inicialitzat: " + NODES.length + " nodes, " + EDGES.length + " relacions");
+  }
+
+  // Inicialitzar quan el DOM estigui llest
+  window._graphDebug = 'IIFE executed';
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initGraph);
+  } else {
+    try { initGraph(); window._graphDebug = 'initGraph called directly'; }
+    catch(e) { window._graphError = e.message + ' | ' + (e.stack||'').substring(0,200); }
+  }
 })();
 </script>
 </body>
