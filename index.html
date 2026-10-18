@@ -6,40 +6,85 @@
     <title>Pioners de la Música Electrònica a l'Estat Espanyol</title>
     <style>
 /* ===================================================================
-   PIONERS // ELECTRÒNICA — Editorial Premium Design System
-   Paleta: marfil #F5F2EB · blanco · carbón #252820 · terracota #B9573D
-           verde oliva #737B68 · borde #DCD5C8
-   Tipos:  Instrument Serif (titulares) · Manrope (UI/texto)
-           IBM Plex Mono (metadatos, fechas)
+   PIONERS // ELECTRÒNICA — Editorial Brutalist Design System
+   Paleta: Hueso de archivo #F0E6D2 · Rojo señal #FF351F
+           Negro tinta #151515 · Azul ultramar #1747FF · Lima #D5E62B
+   Tipos:  Archivo Black (titulares monumentales) ·
+           Instrument Serif (editoriales, cursivas) ·
+           IBM Plex Mono (UI, metadatos, fechas)
    =================================================================== */
 :root {
-  --bg-primary: #F5F2EB;
-  --bg-card: #FFFFFF;
-  --bg-soft: #EFEBE0;
-  --bg-deep: #E8E2D3;
-  --text-primary: #252820;
-  --text-secondary: #5C5E50;
-  --text-muted: #8A8A7E;
-  --accent-terracota: #B9573D;
-  --accent-olive: #737B68;
-  --accent-ink: #1F2218;
-  --accent-violet: #5A4A8A;
-  --accent-amber: #A86C2A;
-  --border-subtle: #DCD5C8;
-  --border-strong: #B8B0A0;
-  --shadow-soft: 0 1px 3px rgba(37,40,32,.04);
-  --shadow-card: 0 8px 24px rgba(37,40,32,.06);
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  /* === Paleta cromática: 5 colors editorials (lima com a fons principal) === */
+  --bg-primary: #D5E62B;        /* Lima — fons principal */
+  --bg-card: #BFD500;           /* Lima més fosc (targetes destaquen) */
+  --bg-soft: #A8C000;          /* Lima encara més fosc (separadors) */
+  --bg-deep: #151515;          /* Negro tinta (blocs foscos) */
+  --bg-dark: #0d0d0d;          /* Negre profund (reproductor, graf) */
+  --text-primary: #151515;    /* Negro tinta */
+  --text-secondary: #2a2a2a;
+  --text-muted: #4a3f00;       /* Tons oliva fosc per metadatos sobre lima */
+  --bg-cream: #F0E6D2;        /* Marfil antic per a text sobre fons foscos */
+  --text-on-rojo: var(--bg-cream);
+  --text-on-azul: var(--bg-cream);
+  --text-on-negro: var(--accent-lima);
+  --text-on-lima: #151515;
+
+  /* Accents principals */
+  --accent-rojo: #FF351F;      /* Rojo señal — accent principal */
+  --accent-azul: #1747FF;      /* Azul ultramar — accent secundari */
+  --accent-lima: #D5E62B;      /* Lima — color principal / accent sobre negre */
+  --accent-ink: #151515;       /* Negro tinta */
+
+  /* Aliases per retrocompatibilitat amb codi existent */
+  --accent-terracota: var(--accent-rojo);
+  --accent-olive: #4a3f00;
+  --accent-violet: var(--accent-azul);
+  --accent-amber: var(--accent-rojo);
+  --accent-electric: var(--accent-azul);
+  --accent-wave: var(--accent-azul);
+  --accent-concrete: var(--text-muted);
+  --accent-minimal: var(--accent-ink);
+
+  /* Filets i bordes */
+  --border-subtle: #151515;    /* Filet negre prim */
+  --border-strong: #151515;    /* Filet negre gruixut */
+  --border-rojo: var(--accent-rojo);
+  --border-azul: var(--accent-azul);
+  --border-soft: #808a00;
+
+  /* Ombres: zero, surfaces planes */
+  --shadow-soft: none;
+  --shadow-card: none;
+  --shadow-rojo: 6px 6px 0 var(--accent-rojo);
+  --shadow-azul: 6px 6px 0 var(--accent-azul);
+
+  /* Radis: bordes rectes */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+
+  /* Tipografia: 3 famílies complementàries */
+  --font-titular: 'Archivo Black', 'Arial Black', 'Helvetica Neue', sans-serif;
+  --font-editorial: 'Instrument Serif', 'Bodoni Moda', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  --font-ui: var(--font-mono);
+
+  /* Escalas fluidas */
   --space-section: clamp(4rem, 8vw, 7rem);
   --max-w: 1280px;
   --max-w-text: 720px;
   --ease: cubic-bezier(.4, 0, .2, 1);
-  --sidebar-width: 240px;   /* calculat dinàmicament pel JS (longest label + 20%) */
+  --sidebar-width: 240px;
+
+  /* Escala tipogràfica monumental */
+  --h1-size: clamp(3rem, 9vw, 7.5rem);
+  --h2-size: clamp(2.2rem, 6vw, 5rem);
+  --h3-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  --display-size: clamp(4rem, 14vw, 12rem);
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-*::selection { background: var(--accent-terracota); color: #fff; }
+*::selection { background: var(--accent-rojo); color: var(--bg-cream); }
 
 html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce) {
@@ -53,7 +98,7 @@ html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
 }
 
 body {
-  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-ui);
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.65;
@@ -61,20 +106,63 @@ body {
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Retícula de fons: línies fines tipus paper quadriculat */
+  background-image:
+    linear-gradient(to right, rgba(21,21,21,.04) 1px, transparent 1px);
+  background-size: 8.33% 100%;
+  background-position: 0 0;
 }
 
-/* Tipografía base */
-h1, h2, h3, h4 { font-family: 'Instrument Serif', Georgia, serif; font-weight:400; line-height:1.1; letter-spacing:-.01em; }
+/* === Jerarquia tipogràfica monumental === */
+/* Titulars: Archivo Black, majúscules, gran escala */
+h1, h2, .hero h1, .hero-headline {
+  font-family: var(--font-titular);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+/* Títols editorials amb cursiva: Instrument Serif (per frases destacades) */
+.hero-tagline, .hero-manifest, .hero-original-title em,
+.bio-extra p, .editorial-note, .quote-block p {
+  font-family: var(--font-editorial);
+}
+
+/* h3 i h4 també serif per subtítols */
+h3, h4, .pioneer-name, .lab-name, .timeline-item h3,
+.transition-card h4, .genealogy h3 {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+/* Metadatos i labels: IBM Plex Mono */
 .timeline-year, .lab-period, .pioneer-dates, .source-badge,
-.nav-logo, .section-tag, .footer-credits, .hero-subtitle,
+.nav-logo, .section-tag, .footer-credits, .hero-subtitle, .hero-eyebrow,
 .bio-extra h4, .score-meta dt, .hero-meta, .timeline-link, .chip,
 .btn, .lang-toggle, .expand-btn, .pioneer-focus, .pioneer-era,
-.search-results-section, .filter-chips {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+.search-results-section, .filter-chips, .pioneer-editorial-meta,
+.verification-badge, .bio-back-link, .graph-toggle-all-btn,
+.graph-reset-btn, .gi-dates, .gi-category {
+  font-family: var(--font-mono);
 }
-h1, h2, .section-header h2, .pioneer-name, .lab-name, .hero h1,
-.transition-card h4, .genealogy h3, .timeline-item h3 {
-  font-family: 'Instrument Serif', Georgia, serif;
+
+/* Hero h1: escala monumental */
+.hero h1, .hero-headline {
+  font-size: var(--h1-size);
+  font-family: var(--font-titular);
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+
+/* Section header h2: titulars de secció monumentals */
+.section-header h2 {
+  font-size: var(--h2-size);
+  text-transform: uppercase;
+  line-height: 0.95;
 }
 
 /* Skip link — accesibilidad */
@@ -89,28 +177,29 @@ h1, h2, .section-header h2, .pioneer-name, .lab-name, .hero h1,
 /* ===== Nav fija editorial ===== */
 nav.nav-top {
   position:fixed; top:0; left:0; right:0; z-index:1000;
-  background: rgba(245,242,235,.86);
-  backdrop-filter: saturate(150%) blur(14px);
-  -webkit-backdrop-filter: saturate(150%) blur(14px);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 2px solid var(--accent-ink);
 }
 .nav-inner {
   max-width: var(--max-w); margin:0 auto; padding:0 1.5rem;
   display:flex; align-items:center; gap:1.2rem; height:72px;
 }
 .nav-logo {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-size: 1.38rem;             /* 4 punts més gran que 1.05rem anterior */
-  font-weight: 400;
-  letter-spacing: 0;
-  color: var(--accent-ink);
+  font-family: var(--font-titular);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
   text-decoration: none;
   display: inline-flex; align-items: center; gap: .55rem;
   line-height: 1.05;
+  text-transform: uppercase;
 }
 .nav-logo .nav-dot {
-  width: 8px; height: 8px; background: var(--accent-terracota);
-  border-radius: 50%; display: inline-block; flex-shrink: 0;
+  width: 10px; height: 10px; background: var(--accent-rojo);
+  border-radius: 0; display: inline-block; flex-shrink: 0;
 }
 .nav-logo .nav-lines {
   display: flex; flex-direction: column; text-align: left;
@@ -120,79 +209,83 @@ nav.nav-top {
   white-space: nowrap;
 }
 .nav-logo em {
+  font-family: var(--font-editorial);
   font-style: italic;
-  color: var(--accent-terracota);
+  color: var(--accent-rojo);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
 }
 @media (max-width: 1024px) {
-  .nav-logo { font-size: 1.28rem; }
+  .nav-logo { font-size: .92rem; }
 }
 @media (max-width: 768px) {
-  .nav-logo { font-size: 1.15rem; gap: .4rem; }
-  .nav-logo .nav-dot { width: 6px; height: 6px; }
+  .nav-logo { font-size: .82rem; gap: .4rem; }
+  .nav-logo .nav-dot { width: 8px; height: 8px; }
 }
 @media (max-width: 480px) {
-  .nav-logo { font-size: 1.02rem; gap: .35rem; }
+  .nav-logo { font-size: .72rem; gap: .35rem; }
 }
 /* Botó hamburguesa (sempre visible, commuta sidebar) */
 .nav-toggle-btn {
   display:flex; flex-direction:column; gap:5px;
-  background:none; border:none; cursor:pointer; padding:.4rem; border-radius:4px;
+  background:none; border:none; cursor:pointer; padding:.4rem; border-radius:0;
   width:36px; height:36px; align-items:center; justify-content:center;
   flex-shrink:0;
 }
 .nav-toggle-btn span {
-  width:22px; height:2px; background:var(--accent-ink); display:block;
+  width:24px; height:3px; background:var(--text-primary); display:block;
   transition: transform .3s var(--ease), opacity .3s var(--ease), width .3s var(--ease);
 }
-.nav-toggle-btn:hover span, .nav-toggle-btn:focus-visible span { background: var(--accent-terracota); }
-.nav-toggle-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle-btn:hover span, .nav-toggle-btn:focus-visible span { background: var(--accent-rojo); }
+.nav-toggle-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .nav-toggle-btn[aria-expanded="true"] span:nth-child(2) { opacity:0; transform: scaleX(0); }
-.nav-toggle-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.nav-toggle-btn:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+.nav-toggle-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+.nav-toggle-btn:focus-visible { outline: 3px solid var(--accent-rojo); outline-offset:2px; }
 
 /* ===== Sidebar lateral vertical (acordió premium) ===== */
 .sidebar {
   position: fixed; top: 72px; left: 0; bottom: 0;
   width: var(--sidebar-width); max-width: 85vw;
   background: var(--bg-card);
-  border-right: 1px solid var(--border-subtle);
+  border-right: 2px solid var(--accent-ink);
   z-index: 950;
   display: flex; flex-direction: column;
   transition: transform .4s var(--ease), width .3s var(--ease);
   overflow-y: auto; overflow-x: hidden;
-  box-shadow: 1px 0 0 var(--border-subtle);
+  box-shadow: none;
 }
 .sidebar.collapsed { transform: translateX(-100%); }
 .sidebar-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.4rem 1.5rem .9rem;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--accent-ink);
   position: sticky; top: 0;
   background: var(--bg-card);
   z-index: 2;
 }
 .sidebar-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: .65rem;
+  font-family: var(--font-mono);
+  font-size: .58rem;
   text-transform: uppercase;
-  letter-spacing: .22em;
-  color: var(--accent-terracota);
-  font-weight: 500;
+  letter-spacing: .24em;
+  color: var(--accent-rojo);
+  font-weight: 700;
 }
 .sidebar-close {
   width: 32px; height: 32px;
-  background: var(--bg-soft);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  cursor: pointer; border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--accent-ink);
+  color: var(--text-primary);
+  cursor: pointer; border-radius: 0;
   display: flex; align-items: center; justify-content: center;
   transition: all .25s var(--ease);
 }
 .sidebar-close:hover, .sidebar-close:focus-visible {
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   border-color: var(--accent-ink); transform: rotate(90deg);
 }
-.sidebar-close:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset: 2px; }
+.sidebar-close:focus-visible { outline: 2px solid var(--accent-rojo); outline-offset: 2px; }
 
 .sidebar-nav { flex: 1; }
 .sidebar-list {
@@ -203,61 +296,71 @@ nav.nav-top {
   display: flex; align-items: baseline; gap: 1rem;
   padding: .9rem 1.5rem .9rem 1.4rem;
   text-decoration: none;
-  color: var(--text-secondary);
-  transition: all .25s var(--ease);
+  color: var(--text-primary);
+  transition: all .2s var(--ease);
   position: relative;
-  border-left: 3px solid transparent;
-  font-size: .92rem;
+  border-left: 4px solid transparent;
+  font-size: .85rem;
   line-height: 1.3;
+  font-family: var(--font-mono);
+  font-weight: 500;
 }
 .sidebar-list a .num {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: .62rem;
-  color: var(--text-muted);
+  color: var(--accent-rojo);
   letter-spacing: .12em;
   min-width: 24px;
-  transition: color .25s var(--ease);
+  transition: color .2s var(--ease);
   white-space: nowrap;
   flex-shrink: 0;
+  font-weight: 700;
 }
 .sidebar-list a .label {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  transition: color .25s var(--ease);
+  font-family: var(--font-titular);
+  font-size: .95rem;
+  font-weight: 900;
+  letter-spacing: -.01em;
+  transition: color .2s var(--ease);
   white-space: nowrap;
+  text-transform: uppercase;
 }
 .sidebar-list a:hover, .sidebar-list a:focus-visible {
-  background: var(--bg-soft);
-  color: var(--accent-terracota);
-  border-left-color: var(--accent-terracota);
+  background: var(--text-primary);
+  color: var(--bg-cream);
+  border-left-color: var(--accent-rojo);
 }
 .sidebar-list a:hover .num,
-.sidebar-list a:focus-visible .num { color: var(--accent-terracota); }
+.sidebar-list a:focus-visible .num { color: var(--accent-rojo); }
+.sidebar-list a:hover .label,
+.sidebar-list a:focus-visible .label { color: var(--bg-cream); }
 .sidebar-list a:focus-visible {
-  outline: 2px solid var(--accent-terracota); outline-offset: -2px;
+  outline: 2px solid var(--accent-rojo); outline-offset: -2px;
 }
 .sidebar-list a.active {
-  background: var(--bg-soft);
-  color: var(--accent-ink);
-  border-left-color: var(--accent-terracota);
+  background: var(--accent-rojo);
+  color: var(--bg-cream);
+  border-left-color: var(--accent-ink);
 }
-.sidebar-list a.active .num { color: var(--accent-terracota); }
-.sidebar-list a.active .label { color: var(--accent-ink); }
+.sidebar-list a.active .num { color: var(--bg-cream); }
+.sidebar-list a.active .label { color: var(--bg-cream); }
 
 .sidebar-footer {
   padding: 1rem 1.5rem 1.4rem;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--accent-ink);
   position: sticky; bottom: 0;
   background: var(--bg-card);
 }
 .sidebar-footnote {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: .62rem;
-  letter-spacing: .14em;
-  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  letter-spacing: .18em;
+  color: var(--text-primary);
   text-transform: uppercase;
+  font-weight: 600;
+}
+.sidebar-footnote::before {
+  content: "■ "; color: var(--accent-rojo);
 }
 
 /* Backdrop (per a mòbil quan sidebar està oberta sobre contingut) */
@@ -314,27 +417,28 @@ nav.nav-top {
   margin-left:auto; display:flex; align-items:center; gap:.6rem; position:relative;
 }
 .search-input {
-  font: inherit; font-size:.78rem;
+  font: inherit; font-family: var(--font-mono); font-size:.7rem;
   padding: .55rem .9rem .55rem 2.1rem;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236A6A60' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat .7rem center;
-  border-radius: 999px; color: var(--text-primary);
+  border: 2px solid var(--accent-ink);
+  background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23151515' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat .7rem center;
+  border-radius: 0; color: var(--text-primary);
   width: 200px; max-width: 35vw;
-  transition: width .3s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease);
+  transition: width .3s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
+  font-weight: 500;
 }
-.search-input::placeholder { color: var(--text-muted); }
-.search-input:focus { outline: none; width: 240px; border-color: var(--accent-terracota); box-shadow: 0 0 0 3px rgba(185,87,61,.18); }
+.search-input::placeholder { color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; }
+.search-input:focus { outline: none; width: 240px; border-color: var(--accent-rojo); background-color: var(--bg-cream); }
 
 .lang-toggle {
-  font: inherit; font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
-  padding:.45rem .85rem; border:1px solid var(--border-strong); background:transparent;
-  color: var(--accent-ink); border-radius:999px; cursor:pointer;
-  transition: all .25s var(--ease); font-weight:500;
+  font: inherit; font-family: var(--font-mono); font-size:.62rem; letter-spacing:.22em; text-transform:uppercase;
+  padding:.5rem .9rem; border:2px solid var(--accent-ink); background:var(--accent-ink);
+  color: var(--bg-cream); border-radius:0; cursor:pointer;
+  transition: all .2s var(--ease); font-weight:700;
 }
 .lang-toggle:hover, .lang-toggle:focus-visible {
-  background:var(--accent-ink); color:var(--bg-primary); border-color:var(--accent-ink);
+  background:var(--accent-rojo); color:var(--bg-primary); border-color:var(--accent-rojo);
 }
-.lang-toggle:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:3px; }
+.lang-toggle:focus-visible { outline: 3px solid var(--accent-azul); outline-offset:2px; }
 
 /* (estils nav-toggle-btn moguts a la secció anterior) */
 
@@ -342,9 +446,9 @@ nav.nav-top {
 .search-results {
   position: absolute; top: calc(100% + .5rem); right: 0;
   width: min(420px, 92vw); max-height: 70vh; overflow-y:auto;
-  background: var(--bg-card); border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md); box-shadow: var(--shadow-card);
-  padding: .4rem; display: none; z-index: 1100;
+  background: var(--bg-card); border: 2px solid var(--accent-ink);
+  border-radius: 0; box-shadow: 6px 6px 0 var(--accent-rojo);
+  padding: 0; display: none; z-index: 1100;
 }
 .search-results.open { display:block; }
 .search-results-section {
@@ -374,16 +478,16 @@ nav.nav-top {
   position: relative; overflow:hidden;
   background: var(--bg-primary);
   display: grid; place-items:center;
-  isolation: isolate;  /* crea stacking context → sidebar fixed queda fora i per sobre */
+  isolation: isolate;
+  border-bottom: 6px solid var(--accent-rojo);  /* Filet rojo d'apertura */
 }
 .hero::before {
   content:""; position:absolute; inset:0;
   background:
-    radial-gradient(ellipse 80% 50% at 75% 15%, rgba(185,87,61,.07), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 5% 85%, rgba(115,123,104,.08), transparent 60%);
+    radial-gradient(ellipse 80% 50% at 75% 15%, rgba(255,53,31,.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 85%, rgba(23,71,255,.06), transparent 60%);
   pointer-events:none;
 }
-/* hero-overlay i hero-video eliminats (redissenyat a .hero-video-banner) */
 
 /* ===== Video banner (ones.mp4) — 60% transparente sobre el texto ===== */
 .hero-video-banner {
@@ -394,32 +498,33 @@ nav.nav-top {
   object-fit: cover;
   object-position: center;
   z-index: 1;
-  opacity: 0.4;            /* 60% transparente */
+  opacity: 0.35;            /* més transparent per llegir el titular monumental */
   pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: grayscale(1) contrast(1.4);
 }
-/* Refuerzo de marfil bajo el video para mantener legibilidad del texto */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(245, 242, 235, 0.35);
+  background: rgba(213, 230, 43, 0.5);
   z-index: 1;
   pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-video-banner { display: none; }  /* respeta preferencia */
+  .hero-video-banner { display: none; }
 }
 @media (max-width: 768px) {
-  .hero-video-banner { object-position: 60% center; opacity: 0.35; }
+  .hero-video-banner { object-position: 60% center; opacity: 0.25; }
 }
 
 .waveform-bg {
   position:absolute; top:50%; left:0; right:0; transform: translateY(-50%);
   height: 120px; display:flex; align-items:center; justify-content:center; gap:3px;
-  opacity:.45; pointer-events:none; padding: 0 2rem;
+  opacity:.35; pointer-events:none; padding: 0 2rem;
 }
 .wavebar {
-  width:2px; background: var(--accent-olive); border-radius:1px;
+  width:2px; background: var(--accent-rojo); border-radius:0;
   animation: wave 2s ease-in-out infinite;
 }
 @keyframes wave { 0%,100%{transform:scaleY(.3);} 50%{transform:scaleY(1);} }
@@ -436,51 +541,95 @@ nav.nav-top {
   .hero-content { grid-template-columns: 1.25fr 1fr; align-items: end; gap: 3rem; }
 }
 .hero-subtitle {
-  font-size:.72rem; text-transform:uppercase; letter-spacing:.22em;
-  color: var(--accent-terracota); margin-bottom:0;
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.24em;
+  color: var(--accent-rojo); margin-bottom:0;
   display:flex; align-items:center; gap:.8rem;
+  font-weight: 600;
 }
 .hero-subtitle::after {
-  content:""; flex:1; height:1px; background: var(--border-subtle); max-width:140px;
+  content:""; flex:1; height:2px; background: var(--accent-rojo); max-width:140px;
+}
+.hero-eyebrow {
+  font-size: .6rem; text-transform: uppercase;
+  letter-spacing: .24em; color: var(--text-muted);
+  margin-top: 1.2rem; margin-bottom: .4rem;
+  font-weight: 500;
+}
+.hero-headline {
+  font-family: var(--font-titular);
+  font-size: var(--h1-size);
+  font-weight: 900; line-height: 0.88;
+  margin: 0 0 1.4rem 0;
+  color: var(--text-primary); letter-spacing: -.04em;
+  text-transform: uppercase;
+}
+.hero-tagline {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  line-height: 1.35;
+  color: var(--text-primary); max-width: 580px;
+  margin: 0 0 1.2rem 0;
+  font-style: italic;
+  font-weight: 400;
+}
+.hero-original-title {
+  font-size: .65rem; text-transform: uppercase;
+  letter-spacing: .2em; color: var(--text-muted);
+  margin: 0 0 1.4rem 0;
+  padding-top: 1rem; border-top: 1px solid var(--accent-ink);
+  max-width: 580px;
+  font-weight: 500;
+}
+.hero-original-title em {
+  font-family: var(--font-editorial);
+  font-style: italic; color: var(--accent-rojo);
+  text-transform: none; letter-spacing: 0;
+  font-size: .9rem;
 }
 .hero h1 {
-  font-size: clamp(2.6rem, 6.5vw, 5.2rem);
-  font-weight: 400; line-height: 1.02; margin: 0;
-  color: var(--accent-ink); letter-spacing:-.02em;
+  font-size: var(--h1-size);
+  font-weight: 900; line-height: 0.88; margin: 0;
+  color: var(--text-primary); letter-spacing:-.04em;
+  text-transform: uppercase;
+  font-family: var(--font-titular);
 }
-.hero h1 em { font-style: italic; color: var(--accent-terracota); }
+.hero h1 em { font-style: italic; color: var(--accent-rojo); font-family: var(--font-editorial); text-transform: none; }
 .hero-manifest {
-  font-size: 1.02rem; color: var(--text-secondary);
-  line-height: 1.7; max-width: 520px;
-  font-style: normal;
-  border-left: 2px solid var(--accent-terracota);
-  padding-left: 1.2rem;
+  font-family: var(--font-editorial);
+  font-size: 1.1rem; color: var(--text-primary);
+  line-height: 1.55; max-width: 520px;
+  font-style: italic;
+  border-left: 4px solid var(--accent-rojo);
+  padding-left: 1.4rem;
 }
 .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; margin-top:.5rem; }
 .btn {
-  padding: .85rem 1.6rem; border:1px solid var(--accent-ink); color: var(--accent-ink);
+  padding: .85rem 1.6rem; border:2px solid var(--accent-ink); color: var(--accent-ink);
   background: transparent; text-decoration:none; font: inherit;
-  font-size:.7rem; text-transform:uppercase; letter-spacing:.18em; font-weight: 600;
-  border-radius: 2px; cursor:pointer;
-  transition: all .25s var(--ease); display:inline-block;
+  font-size:.65rem; text-transform:uppercase; letter-spacing:.22em; font-weight: 700;
+  border-radius: 0; cursor:pointer;
+  transition: all .2s var(--ease); display:inline-block;
+  position: relative;
 }
-.btn:hover, .btn:focus-visible { background: var(--accent-ink); color: var(--bg-primary); }
-.btn:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:3px; }
-.btn-filled { background: var(--accent-ink); color: var(--bg-primary); }
+.btn:hover, .btn:focus-visible { background: var(--accent-ink); color: var(--bg-cream); }
+.btn:focus-visible { outline: 3px solid var(--accent-rojo); outline-offset:3px; }
+.btn-filled { background: var(--accent-rojo); color: var(--bg-cream); border-color: var(--accent-rojo); }
 .btn-filled:hover, .btn-filled:focus-visible {
-  background: var(--accent-terracota); border-color: var(--accent-terracota); color:#fff;
+  background: var(--accent-ink); border-color: var(--accent-ink); color: var(--accent-rojo);
 }
 
 .hero-meta {
   display:flex; gap:2rem; flex-wrap:wrap; align-items:baseline;
-  font-family: 'IBM Plex Mono', monospace; font-size:.68rem;
-  color: var(--text-muted); text-transform:uppercase; letter-spacing:.12em;
-  margin-top: 1rem;
+  font-family: var(--font-mono); font-size:.62rem;
+  color: var(--text-muted); text-transform:uppercase; letter-spacing:.18em;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--accent-ink);
 }
 .hero-meta span strong {
-  color: var(--accent-ink); display:block; font-size:1.4rem;
-  font-family: 'Instrument Serif', serif; letter-spacing:0; text-transform:none;
-  margin-top:.2rem;
+  color: var(--accent-rojo); display:block; font-size:1.6rem;
+  font-family: var(--font-titular); letter-spacing:-.02em; text-transform:uppercase;
+  margin-top:.3rem; font-weight: 900;
 }
 
 /* ===== Secciones (capítulos) ===== */
@@ -489,10 +638,14 @@ section {
   max-width: var(--max-w);
   margin: 0 auto;
   position: relative;
+  border-bottom: 1px solid var(--accent-ink);
 }
+section:last-of-type { border-bottom: none; }
 .section-header {
   margin-bottom: 3rem; display:grid; gap:1rem;
   grid-template-columns: 1fr;
+  padding-top: 1.5rem;
+  border-top: 4px solid var(--accent-rojo);  /* Filet rojo d'apertura de secció */
 }
 @media (min-width: 768px) {
   .section-header { grid-template-columns: auto 1fr; align-items:end; gap:2rem; }
@@ -502,33 +655,39 @@ section {
   .section-header > .section-tag { border-left:none; padding-left:0; }
 }
 .section-tag {
-  font-size:.66rem; text-transform:uppercase; letter-spacing:.2em;
-  color: var(--accent-terracota); font-weight:500;
+  font-size:.6rem; text-transform:uppercase; letter-spacing:.24em;
+  color: var(--bg-cream); font-weight:700;
   display: inline-block;
-  background: var(--bg-soft); padding:.32rem .8rem; border-radius: 999px;
-  border: 1px solid var(--border-subtle);
+  background: var(--accent-rojo); padding:.35rem .9rem; border-radius: 0;
+  border: none;
   width: max-content; max-width:100%; align-self: start;
 }
-.section-tag.wave { color: var(--accent-olive); }
-.section-tag.analog { color: var(--accent-terracota); }
-.section-tag.concrete { color: var(--accent-olive); }
-.section-tag.minimal { color: var(--accent-ink); }
+.section-tag.wave { background: var(--accent-azul); color: var(--bg-cream); }
+.section-tag.analog { background: var(--accent-rojo); color: var(--bg-cream); }
+.section-tag.concrete { background: var(--text-primary); color: var(--bg-cream); }
+.section-tag.minimal { background: var(--accent-ink); color: var(--accent-lima); }
 
 .section-header h2 {
-  font-size: clamp(1.9rem, 4.2vw, 3rem);
-  margin: 0; color: var(--accent-ink); max-width: 900px;
+  font-size: var(--h2-size);
+  margin: 0; color: var(--text-primary); max-width: 900px;
+  font-family: var(--font-titular);
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
 }
 .section-header p {
-  color: var(--text-secondary); max-width: var(--max-w-text);
-  margin:.4rem 0 0 0; font-size:.98rem; line-height:1.65;
+  color: var(--text-primary); max-width: var(--max-w-text);
+  margin:.6rem 0 0 0; font-size:1rem; line-height:1.6;
+  font-family: var(--font-editorial);
+  font-style: italic;
 }
 
 /* Sub-headers en biblioteca */
 section h3:not(.lab-name):not(.transition-card h4):not(.genealogy h3):not(.timeline-item h3) {
-  font-family: 'IBM Plex Mono', monospace; font-weight:500;
-  font-size:.78rem; text-transform:uppercase; letter-spacing:.18em;
-  color: var(--accent-terracota);
-  margin: 3rem 0 1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border-subtle);
+  font-family: var(--font-mono); font-weight:600;
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.2em;
+  color: var(--accent-rojo);
+  margin: 3rem 0 1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--accent-ink);
 }
 
 /* Subtle wave divider — separador editorial */
@@ -536,48 +695,58 @@ section h3:not(.lab-name):not(.transition-card h4):not(.genealogy h3):not(.timel
   height: 30px; display:flex; align-items:center; justify-content:center; gap:3px;
   opacity:.4; margin: 2.5rem auto; max-width: var(--max-w); padding: 0 1.5rem;
 }
-.wave-divider span { width:1px; background: var(--accent-olive); border-radius:1px; }
+.wave-divider span { width:1px; background: var(--accent-rojo); border-radius:0; }
 
 /* ===== Timeline ===== */
 .timeline { position:relative; max-width: 880px; margin:0 auto; padding: 1rem 0; }
 .timeline::before {
-  content:""; position:absolute; left:7px; top:8px; bottom:8px; width:1px;
-  background: linear-gradient(to bottom, var(--accent-terracota), var(--accent-olive), var(--border-subtle));
-  opacity:.55;
+  content:""; position:absolute; left:7px; top:8px; bottom:8px; width:2px;
+  background: var(--accent-ink);
+  opacity:1;
 }
 .timeline-item { position:relative; padding-left:2.4rem; margin-bottom:1.2rem; }
 .timeline-content {
-  background: var(--bg-card); padding: 1.2rem 1.4rem 1.1rem;
-  border:1px solid var(--border-subtle); border-radius: var(--radius-md);
-  transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease);
+  background: var(--bg-card); padding: 1.4rem 1.6rem 1.2rem;
+  border:2px solid var(--accent-ink); border-radius: 0;
+  transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+  position: relative;
 }
 .timeline-content:hover, .timeline-content:focus-within {
-  transform: translateX(4px); border-color: var(--accent-terracota);
-  box-shadow: var(--shadow-card);
+  transform: translate(4px, -4px);
+  border-color: var(--accent-rojo);
+  box-shadow: -6px 6px 0 var(--accent-rojo);
+  background: var(--bg-primary);
 }
 .timeline-dot {
-  position:absolute; left:1px; top:1.5rem; width:13px; height:13px;
-  border-radius:50%; z-index:2;
-  border:3px solid var(--bg-primary); box-shadow:0 0 0 1px var(--border-strong);
+  position:absolute; left:-2px; top:1.5rem; width:13px; height:13px;
+  border-radius:0; z-index:2;
+  border:2px solid var(--bg-primary); box-shadow:0 0 0 2px var(--accent-ink);
 }
 .timeline-year {
-  display:inline-block; font-size:.8rem; font-weight:600; letter-spacing:.04em;
-  color: var(--accent-terracota); margin:0 0 .3rem;
+  display:inline-block; font-size:1.4rem; font-weight:900; letter-spacing:-.02em;
+  color: var(--accent-rojo); margin:0 0 .4rem;
+  font-family: var(--font-titular);
+  text-transform: uppercase;
+  line-height: 1;
 }
 .timeline-item h3 {
-  font-size: 1.15rem; margin:0 0 .5rem; color: var(--accent-ink);
+  font-size: 1.25rem; margin:0 0 .5rem; color: var(--text-primary);
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  line-height: 1.15;
 }
-.timeline-desc { font-size:.88rem; color: var(--text-secondary); line-height:1.65; margin:0; }
-.timeline-links { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.9rem; }
+.timeline-desc { font-size:.92rem; color: var(--text-primary); line-height:1.6; margin:0; font-family: var(--font-editorial); }
+.timeline-links { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
 .timeline-link {
   display:inline-flex; align-items:center; gap:.35rem;
-  font-size:.66rem; padding:.35rem .75rem; border-radius: 999px;
-  background: var(--bg-soft); border:1px solid var(--border-subtle);
-  text-decoration:none; color: var(--accent-ink); text-transform:uppercase; letter-spacing:.08em;
+  font-size:.6rem; padding:.4rem .8rem; border-radius: 0;
+  background: transparent; border:1px solid var(--accent-ink);
+  text-decoration:none; color: var(--text-primary); text-transform:uppercase; letter-spacing:.15em;
+  font-weight: 600;
   transition: all .2s var(--ease);
 }
 .timeline-link:hover, .timeline-link:focus-visible {
-  background: var(--accent-ink); color: var(--bg-primary); border-color: var(--accent-ink);
+  background: var(--accent-ink); color: var(--bg-cream); border-color: var(--accent-ink);
 }
 .timeline-link.external:hover, .timeline-link.external:focus-visible {
   background: var(--accent-terracota); border-color: var(--accent-terracota);
@@ -586,119 +755,195 @@ section h3:not(.lab-name):not(.transition-card h4):not(.genealogy h3):not(.timel
 /* Filter chips */
 .filter-chips { display:flex; flex-wrap:wrap; gap:.5rem; margin: 0 0 2rem; padding:0; }
 .chip {
-  font: inherit; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase;
-  padding:.42rem .85rem; border-radius:999px;
-  background: var(--bg-card); border:1px solid var(--border-subtle);
-  color: var(--text-secondary); cursor:pointer; transition: all .2s var(--ease);
-  font-weight:500;
+  font: inherit; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:.45rem .9rem; border-radius:0;
+  background: transparent; border:2px solid var(--accent-ink);
+  color: var(--text-primary); cursor:pointer; transition: all .2s var(--ease);
+  font-weight:700;
 }
-.chip:hover, .chip:focus-visible { border-color: var(--accent-terracota); color: var(--accent-terracota); }
-.chip.active { background: var(--accent-ink); color: var(--bg-primary); border-color: var(--accent-ink); }
-.chip:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+.chip:hover, .chip:focus-visible { border-color: var(--accent-rojo); color: var(--accent-rojo); background: var(--bg-primary); }
+.chip.active { background: var(--accent-rojo); color: var(--bg-cream); border-color: var(--accent-rojo); }
+.chip:focus-visible { outline: 3px solid var(--accent-azul); outline-offset:2px; }
 
 /* ===== Pioneers grid ===== */
 .pioneers-grid {
-  display:grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem; margin-top: 2rem;
 }
 .pioneer-card {
-  background: var(--bg-card); border:1px solid var(--border-subtle);
-  border-radius: var(--radius-md); overflow:hidden;
-  transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  max-width: 460px;
+  margin-left: auto; margin-right: auto;
+  width: 100%;
+  background: var(--bg-card); border:2px solid var(--accent-ink);
+  border-radius: 0; overflow:hidden;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
   align-self: start;
   display:flex; flex-direction:column;
 }
 .pioneer-card:hover, .pioneer-card:focus-within {
-  transform: translateY(-2px); border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 var(--accent-rojo);
 }
 .pioneer-portrait {
-  height: 280px; position:relative; overflow:hidden; background: var(--bg-soft);
+  aspect-ratio: 1 / 1;
+  position:relative; overflow:hidden; background: var(--accent-ink);
+  border-bottom: 2px solid var(--accent-ink);
 }
 .pioneer-portrait::after {
   content:""; position:absolute; inset:0;
-  background: linear-gradient(180deg, transparent 55%, rgba(245,242,235,.65) 100%);
+  background: linear-gradient(180deg, transparent 55%, rgba(213,230,43,.35) 100%);
   pointer-events:none;
 }
 .pioneer-photo {
-  width:100%; height:100%; object-fit:cover; object-position: center 25%;
+  width:100%; height:100%; object-fit:cover; object-position: center 20%;
   display:block;
-  filter: grayscale(.55) contrast(1.05) sepia(.08);
-  transition: transform .6s var(--ease), filter .4s var(--ease);
+  filter: grayscale(1) contrast(1.15);
+  transition: transform .5s var(--ease), filter .5s var(--ease);
 }
 .pioneer-card:hover .pioneer-photo {
-  transform: scale(1.03); filter: grayscale(.25) contrast(1.05) sepia(.05);
+  transform: scale(1.05); filter: grayscale(.7) contrast(1.15);
 }
 .pioneer-era {
-  position:absolute; top:1rem; left:1rem;
-  font-size:.62rem; letter-spacing:.1em;
-  padding:.35rem .7rem; background: rgba(245,242,235,.92); color: var(--accent-ink);
-  border-radius: 999px; border:1px solid var(--border-subtle);
+  position:absolute; top:0; left:0;
+  font-size:.55rem; letter-spacing:.2em;
+  padding:.45rem .8rem; background: var(--accent-rojo); color: var(--bg-cream);
+  border-radius:0; border:none;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 .pioneer-body { padding: 1.6rem 1.6rem 1.4rem; flex:1; display:flex; flex-direction:column; }
 .pioneer-name {
-  font-size: 1.55rem; font-weight:400; margin-bottom:.2rem;
-  color: var(--accent-ink); line-height:1.15;
+  font-size: 1.65rem; font-weight:400; margin-bottom:.2rem;
+  color: var(--text-primary); line-height:1.05;
+  font-family: var(--font-editorial);
+  letter-spacing: -.01em;
 }
 .pioneer-dates {
-  font-size:.7rem; color: var(--text-muted); margin-bottom:1rem; letter-spacing:.05em;
+  font-size:.66rem; color: var(--text-primary); margin-bottom:1rem; letter-spacing:.15em;
+  font-weight: 600;
+  text-transform: uppercase;
 }
+.pioneer-dates::before { content: "≫ "; color: var(--accent-rojo); }
 .pioneer-focus {
-  display:inline-block; font-size:.62rem; text-transform:uppercase; letter-spacing:.15em;
-  margin-bottom:1rem; padding:.32rem .75rem; border-radius: 2px;
-  background: var(--bg-soft); color: var(--accent-ink);
-  border-left: 3px solid var(--accent-terracota); font-weight:500;
+  display:inline-block; font-size:.58rem; text-transform:uppercase; letter-spacing:.2em;
+  margin-bottom:1rem; padding:.32rem .7rem; border-radius: 0;
+  background: var(--bg-primary); color: var(--text-primary);
+  border:1px solid var(--accent-ink); font-weight:700;
   align-self:flex-start;
 }
-.focus-serial { border-left-color: var(--accent-olive); color: var(--accent-olive); }
-.focus-aleatory { border-left-color: var(--accent-terracota); color: var(--accent-terracota); }
-.focus-gestion { border-left-color: var(--accent-ink); color: var(--accent-ink); }
-.focus-conceptual { border-left-color: var(--accent-violet); color: var(--accent-violet); }
-.focus-minimal { border-left-color: var(--accent-amber); color: var(--accent-amber); }
+.focus-serial { border-color: var(--accent-azul); color: var(--accent-azul); }
+.focus-aleatory { border-color: var(--accent-rojo); color: var(--accent-rojo); }
+.focus-gestion { border-color: var(--accent-ink); color: var(--accent-ink); }
+.focus-conceptual { border-color: var(--accent-ink); color: var(--accent-lima); background: var(--accent-ink); }
+.focus-minimal { border-color: var(--accent-ink); color: var(--accent-ink); }
+
+/* ===== Badges editorials: estat de verificació + data d'actualització ===== */
+.pioneer-editorial-meta {
+  display: flex; flex-wrap: wrap; gap: .5rem .8rem;
+  margin-top: 1.2rem; padding-top: 1rem;
+  border-top: 1px solid var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: .55rem; text-transform: uppercase;
+  letter-spacing: .15em; color: var(--text-muted);
+  align-items: center;
+}
+.pioneer-editorial-meta .meta-label { color: var(--text-muted); }
+.pioneer-editorial-meta .meta-value {
+  color: var(--accent-rojo); font-weight: 700;
+}
+.verification-badge {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .3rem .65rem; border-radius: 0;
+  font-size: .5rem; letter-spacing: .15em;
+  border: 1px solid; text-transform: uppercase;
+  font-weight: 700;
+}
+.verification-badge::before {
+  content: ""; display: inline-block;
+  width: 6px; height: 6px; border-radius: 0;
+  background: currentColor;
+}
+.verification-badge.is-verified {
+  color: var(--bg-cream); border-color: var(--accent-azul);
+  background: var(--accent-azul);
+}
+.verification-badge.is-pending {
+  color: var(--accent-lima); border-color: var(--accent-ink);
+  background: var(--accent-ink);
+}
+.verification-badge.is-discrepancy {
+  color: var(--bg-cream); border-color: var(--accent-rojo);
+  background: var(--accent-rojo);
+}
+.editorial-note {
+  font-size: .82rem; color: var(--text-primary);
+  font-style: italic; line-height: 1.55;
+  padding: .8rem 1rem;
+  border-left: 4px solid var(--accent-rojo);
+  background: var(--bg-soft);
+  margin: .8rem 0;
+  border-radius: 0;
+  font-family: var(--font-editorial);
+}
+.editorial-note strong {
+  font-style: normal; color: var(--accent-rojo);
+  letter-spacing: .05em; font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: .65rem;
+  font-weight: 700;
+}
 
 .pioneer-text {
-  font-size:.9rem; color: var(--text-secondary); line-height:1.7;
+  font-size:.95rem; color: var(--text-primary); line-height:1.6;
   margin-bottom:1.2rem; flex:1;
+  font-family: var(--font-editorial);
 }
 .pioneer-works { list-style:none; margin-bottom:1.2rem; }
 .pioneer-works li {
-  font-size:.8rem; padding:.5rem 0; border-bottom:1px solid var(--border-subtle);
-  color: var(--text-secondary); display:flex; justify-content:space-between; gap:1rem; align-items:baseline;
+  font-size:.82rem; padding:.5rem 0; border-bottom:1px solid var(--accent-ink);
+  color: var(--text-primary); display:flex; justify-content:space-between; gap:1rem; align-items:baseline;
+  font-family: var(--font-editorial);
+  line-height: 1.4;
 }
-.pioneer-works strong { color: var(--accent-ink); font-weight:600; }
+.pioneer-works strong { color: var(--accent-rojo); font-weight:600; font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
 .pioneer-link {
-  display:inline-block; font-size:.68rem; color: var(--accent-terracota);
-  text-decoration:none; text-transform:uppercase; letter-spacing:.12em; font-weight:600;
-  transition: opacity .2s var(--ease);
+  display:inline-block; font-size:.62rem; color: var(--accent-rojo);
+  text-decoration:none; text-transform:uppercase; letter-spacing:.18em; font-weight:700;
+  transition: color .2s var(--ease);
+  font-family: var(--font-mono);
+  padding: .25rem 0;
+  border-bottom: 1px solid var(--accent-rojo);
 }
-.pioneer-link:hover, .pioneer-link:focus-visible { opacity:.7; text-decoration: underline; }
-.pioneer-link:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:3px; border-radius:2px; }
+.pioneer-link:hover, .pioneer-link:focus-visible { color: var(--text-primary); border-bottom-color: var(--text-primary); }
+.pioneer-link:focus-visible { outline: 2px solid var(--accent-rojo); outline-offset:3px; }
 
 .expand-btn {
-  margin-top:1rem; width:100%; padding:.8rem;
-  font-size:.66rem; letter-spacing:.15em; text-transform:uppercase; font-weight:500;
-  background: var(--bg-soft); border:1px solid var(--border-subtle); color: var(--accent-ink);
-  cursor:pointer; border-radius: 2px; transition: all .25s var(--ease); font-family: inherit;
+  margin-top:1rem; width:100%; padding:.85rem;
+  font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; font-weight:700;
+  background: transparent; border:2px solid var(--accent-ink); color: var(--text-primary);
+  cursor:pointer; border-radius: 0; transition: all .2s var(--ease);
+  font-family: var(--font-mono);
 }
 .expand-btn:hover, .expand-btn:focus-visible {
-  background: var(--accent-ink); color: var(--bg-primary); border-color: var(--accent-ink);
+  background: var(--accent-ink); color: var(--bg-cream); border-color: var(--accent-ink);
 }
-.expand-btn:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+.expand-btn:focus-visible { outline: 3px solid var(--accent-rojo); outline-offset:2px; }
 
 .wiki-link {
   display:inline-flex; align-items:center; gap:.4rem; margin:1.2rem 0 .4rem;
-  font-size:.68rem; color: var(--accent-olive); text-decoration:none;
-  text-transform:uppercase; letter-spacing:.1em; font-weight:500;
-  border:1px solid var(--accent-olive); padding:.42rem .85rem; border-radius: 2px;
-  transition: all .25s var(--ease);
+  font-size:.6rem; color: var(--accent-azul); text-decoration:none;
+  text-transform:uppercase; letter-spacing:.18em; font-weight:700;
+  border:1px solid var(--accent-azul); padding:.45rem .85rem; border-radius: 0;
+  transition: all .2s var(--ease);
+  font-family: var(--font-mono);
 }
 .wiki-link:hover, .wiki-link:focus-visible {
-  background: var(--accent-olive); color: var(--bg-primary);
+  background: var(--accent-azul); color: var(--bg-cream);
 }
-.wiki-link:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset:2px; }
+.wiki-link:focus-visible { outline: 2px solid var(--accent-rojo); outline-offset:2px; }
 
 .bio-extra {
-  display:none; border-top:1px solid var(--border-subtle); margin-top:1.4rem; padding-top:1.4rem;
+  display:none; border-top:2px solid var(--accent-ink); margin-top:1.4rem; padding-top:1.4rem;
 }
 .bio-extra.open { display:block; animation: fadein .45s var(--ease); }
 @keyframes fadein {
@@ -707,16 +952,40 @@ section h3:not(.lab-name):not(.transition-card h4):not(.genealogy h3):not(.timel
 }
 @media (prefers-reduced-motion: reduce) { .bio-extra.open { animation:none; } }
 .bio-extra h4 {
-  font-size:.78rem; color: var(--accent-terracota); margin:1.3rem 0 .6rem;
-  text-transform:uppercase; letter-spacing:.18em; font-weight:500;
+  font-size:.66rem; color: var(--accent-rojo); margin:1.3rem 0 .6rem;
+  text-transform:uppercase; letter-spacing:.22em; font-weight:700;
+  font-family: var(--font-mono);
 }
 .bio-extra h4:first-child { margin-top:0; }
-.bio-extra p { font-size:.88rem; color: var(--text-secondary); line-height:1.75; margin-bottom:.9rem; }
+.bio-extra h4::before { content: "▌ "; color: var(--accent-rojo); }
+.bio-extra p { font-size:.92rem; color: var(--text-primary); line-height:1.65; margin-bottom:.9rem; font-family: var(--font-editorial); }
 .bio-extra ul { padding-left:1.2rem; margin:.8rem 0; }
-.bio-extra li { font-size:.84rem; color: var(--text-secondary); margin-bottom:.5rem; line-height:1.65; }
-.bio-extra li strong { color: var(--accent-ink); }
+.bio-extra li { font-size:.85rem; color: var(--text-primary); margin-bottom:.5rem; line-height:1.6; font-family: var(--font-editorial); }
+.bio-extra li strong { color: var(--accent-rojo); font-family: var(--font-mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
 .bio-lang-en { display:none; }
 html[data-lang="en"] .bio-lang-ca { display:none; }
+
+/* ===== Back-to-section link (within bio-extra) ===== */
+.bio-back-link {
+  display: inline-flex; align-items: center; gap: .4rem;
+  margin: 1.4rem 0 0; padding: .45rem .85rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--text-muted);
+  background: var(--bg-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px; text-decoration: none;
+  transition: all .2s var(--ease);
+}
+.bio-back-link:hover, .bio-back-link:focus-visible {
+  color: var(--accent-terracota);
+  border-color: var(--accent-terracota);
+  background: var(--bg-card);
+}
+.bio-back-link::before {
+  content: "←"; font-size: .8rem; line-height: 1;
+  color: currentColor;
+}
 html[data-lang="en"] .bio-lang-en { display:block; }
 
 /* ===== Instruments / Labs / Bibliografia cards ===== */
@@ -724,98 +993,109 @@ html[data-lang="en"] .bio-lang-en { display:block; }
   display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;
 }
 .lab-card {
-  background: var(--bg-card); border:1px solid var(--border-subtle);
-  border-radius: var(--radius-md); padding: 1.8rem; position:relative; overflow:hidden;
-  transition: border-color .25s var(--ease), transform .25s var(--ease);
+  background: var(--bg-card); border:2px solid var(--accent-ink);
+  border-radius: 0; padding: 1.8rem; position:relative; overflow:hidden;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
 }
 .lab-card:hover, .lab-card:focus-within {
-  border-color: var(--border-strong); transform: translateY(-1px);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--accent-rojo);
 }
 .lab-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:2px;
-  background: var(--accent-terracota);
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background: var(--accent-rojo);
 }
-.lab-card.phonos::before { background: var(--accent-olive); }
-.lab-card.alea::before { background: var(--accent-terracota); }
+.lab-card.phonos::before { background: var(--accent-azul); }
+.lab-card.alea::before { background: var(--accent-rojo); }
 .lab-card.bbc::before { background: var(--accent-ink); }
 .lab-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem; }
-/* .lab-icon eliminat (substituït per .lab-icon-img) */
-/* Imatges reals de màquines (secció Instruments) — màx 50×50 mm */
 .lab-icon-img {
-  width: 140px; height: 140px;            /* ~37 mm @ 96 DPI (sota 50 mm) */
-  border-radius: var(--radius-sm);
+  width: 140px; height: 140px;
+  border-radius: 0;
   overflow: hidden; flex-shrink: 0;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-soft);
+  border: 2px solid var(--accent-ink);
+  background: var(--accent-ink);
   position: relative;
 }
 .lab-icon-img img {
   width: 100%; height: 100%;
   object-fit: cover; display: block;
-  filter: grayscale(.35) contrast(1.05);
+  filter: grayscale(1) contrast(1.2);
   transition: filter .5s var(--ease), transform .5s var(--ease);
 }
 .lab-card:hover .lab-icon-img img {
-  filter: grayscale(0) contrast(1.05);
+  filter: grayscale(0) contrast(1.1);
   transform: scale(1.04);
 }
 .lab-icon-img::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 70%, rgba(245,242,235,.45) 100%);
+  background: linear-gradient(180deg, transparent 70%, rgba(213,230,43,.3) 100%);
   pointer-events: none;
 }
 @media (max-width: 768px) {
   .lab-icon-img { width: 110px; height: 110px; }
 }
 .lab-name {
-  font-size:1.2rem; font-weight:400; color: var(--accent-ink);
-  line-height:1.2; margin:0 0 .3rem;
+  font-family: var(--font-editorial);
+  font-size:1.4rem; font-weight:400; color: var(--text-primary);
+  line-height:1.1; margin:0 0 .3rem;
+  letter-spacing: -.01em;
 }
-.lab-period { font-size:.7rem; color: var(--text-muted); margin-bottom:.6rem; letter-spacing:.05em; }
-.lab-desc { font-size:.88rem; color: var(--text-secondary); line-height:1.7; margin-bottom:1.3rem; }
-.lab-facts { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
-.lab-fact { font-size:.72rem; color: var(--text-secondary); }
+.lab-period {
+  font-family: var(--font-mono);
+  font-size:.62rem; color: var(--accent-rojo); margin-bottom:.6rem; letter-spacing:.18em;
+  text-transform: uppercase; font-weight: 700;
+}
+.lab-desc { font-size:.9rem; color: var(--text-primary); line-height:1.6; margin-bottom:1.3rem; font-family: var(--font-editorial); }
+.lab-facts { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; border-top: 1px solid var(--accent-ink); padding-top: 1rem; }
+.lab-fact { font-size:.7rem; color: var(--text-primary); font-family: var(--font-mono); }
 .lab-fact strong {
-  display:block; color: var(--accent-ink); font-size:.82rem;
-  font-family: 'Instrument Serif', serif; margin-bottom:.2rem;
+  display:block; color: var(--text-primary); font-size:.9rem;
+  font-family: var(--font-titular); margin-bottom:.2rem;
+  font-weight: 900; text-transform: uppercase; letter-spacing: -.01em;
 }
 
 /* ===== Fonoteca ===== */
 .fono-card { position:relative; padding-top: 2.6rem; }
 .source-badge {
   position:absolute; top:1rem; right:1rem;
-  font-size:.58rem; text-transform:uppercase; letter-spacing:.12em;
-  padding:.25rem .6rem; border-radius: 999px; font-weight:500;
-  border:1px solid var(--border-subtle);
+  font-size:.55rem; text-transform:uppercase; letter-spacing:.18em;
+  padding:.3rem .65rem; border-radius: 0; font-weight:700;
+  border:1px solid var(--accent-ink);
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
-.badge-bandcamp { background: var(--bg-soft); color: #4a8aa6; border-color:#cfdee6; }
-.badge-youtube { background: var(--bg-soft); color: #b9392d; border-color:#e4c5c1; }
-.badge-archive { background: var(--bg-soft); color: var(--accent-olive); border-color:#c5cdbb; }
+.badge-bandcamp { background: var(--accent-azul); color: var(--bg-cream); border-color: var(--accent-azul); }
+.badge-youtube { background: var(--accent-rojo); color: var(--bg-cream); border-color: var(--accent-rojo); }
+.badge-archive { background: var(--accent-ink); color: var(--accent-lima); border-color: var(--accent-ink); }
 
 /* ===== Genealogy ===== */
 .genealogy {
-  background: var(--bg-card); border-radius: var(--radius-md);
+  background: var(--bg-card); border-radius: 0;
   padding: 2.5rem; margin-top:2rem;
-  border:1px solid var(--border-subtle);
+  border:2px solid var(--accent-ink);
 }
 .genealogy h3 {
-  text-align:center; margin-bottom:2rem; color: var(--accent-ink);
-  font-size:1.4rem;
+  text-align:left; margin-bottom:2rem; color: var(--text-primary);
+  font-size:1.6rem;
+  font-family: var(--font-editorial);
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--accent-rojo);
 }
 .connections-grid { display:flex; flex-direction:column; gap:1rem; }
 .connection {
   display:flex; align-items:center; gap:1rem; padding:1rem 1.5rem;
-  background: var(--bg-soft); border:1px solid var(--border-subtle);
-  border-radius: var(--radius-sm); flex-wrap:wrap;
-  transition: border-color .2s var(--ease);
+  background: var(--bg-primary); border:1px solid var(--accent-ink);
+  border-radius: 0; flex-wrap:wrap;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
 }
-.connection:hover { border-color: var(--border-strong); }
+.connection:hover { border-color: var(--accent-rojo); background: var(--bg-soft); }
 .connection-node {
-  font-weight:500; font-size:.95rem; white-space:nowrap;
-  color: var(--accent-ink); font-family:'Instrument Serif', serif;
+  font-weight:400; font-size:1.05rem; white-space:nowrap;
+  color: var(--text-primary); font-family:var(--font-editorial);
 }
-.connection-arrow { color: var(--accent-terracota); font-size:1.1rem; }
-.connection-label { font-size:.74rem; color: var(--text-muted); font-style:italic; }
+.connection-arrow { color: var(--accent-rojo); font-size:1.3rem; font-family: var(--font-titular); font-weight: 900; }
+.connection-label { font-size:.7rem; color: var(--text-muted); font-style:italic; font-family: var(--font-mono); letter-spacing: .1em; }
 
 /* ===== Transition cards ===== */
 .transition-content {
@@ -823,15 +1103,19 @@ html[data-lang="en"] .bio-lang-en { display:block; }
   gap:1.5rem; margin-top:2rem;
 }
 .transition-card {
-  background: var(--bg-card); border:1px solid var(--border-subtle);
-  border-radius: var(--radius-md); padding: 1.8rem;
-  transition: border-color .25s var(--ease), transform .25s var(--ease);
+  background: var(--bg-card); border:2px solid var(--accent-ink);
+  border-radius: 0; padding: 1.8rem;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
 }
-.transition-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.transition-card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent-azul); }
 .transition-card h4 {
-  font-size:1.25rem; margin-bottom:.8rem; color: var(--accent-terracota);
+  font-size:1.3rem; margin-bottom:.8rem; color: var(--accent-rojo);
+  font-family: var(--font-titular);
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  font-weight: 900;
 }
-.transition-card p { font-size:.88rem; color: var(--text-secondary); line-height:1.7; }
+.transition-card p { font-size:.9rem; color: var(--text-primary); line-height:1.65; font-family: var(--font-editorial); }
 
 /* ===== Scores gallery ===== */
 .scores-gallery {
@@ -839,40 +1123,40 @@ html[data-lang="en"] .bio-lang-en { display:block; }
   gap:1.5rem; margin-top:2rem;
 }
 .score-card {
-  background: var(--bg-card); border:1px solid var(--border-subtle);
-  border-radius: var(--radius-md); overflow:hidden;
-  transition: border-color .25s var(--ease), transform .25s var(--ease);
+  background: var(--bg-card); border:2px solid var(--accent-ink);
+  border-radius: 0; overflow:hidden;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
 }
-.score-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.score-card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent-azul); }
 .score-visual { height: 220px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-.score-visual.has-img { height: 260px; background: var(--bg-soft); }
-.score-visual.has-img img { width:100%; height:100%; object-fit:contain; padding:.6rem; display:block; }
-/* .graphic-1/2/3, .score-shapes, .shape-* eliminats (no usats en HTML) */
+.score-visual.has-img { height: 260px; background: var(--bg-soft); border-bottom: 2px solid var(--accent-ink); }
+.score-visual.has-img img { width:100%; height:100%; object-fit:contain; padding:.6rem; display:block; filter: grayscale(.3) contrast(1.05); }
 .score-info { padding: 1rem 1.2rem 1.4rem; }
 .score-info .lab-name { font-size:1.15rem; margin-bottom:.4rem; }
 .score-info .lab-period { margin-bottom:.5rem; }
 .score-info .lab-desc { font-size:.82rem; margin-bottom:.6rem; }
 .score-meta {
   display:grid; grid-template-columns: auto 1fr; gap:.25rem .9rem;
-  margin:.7rem 0 0; font-size:.72rem; line-height:1.5;
+  margin:.7rem 0 0; font-size:.7rem; line-height:1.5;
+  padding-top: .7rem; border-top: 1px solid var(--accent-ink);
 }
 .score-meta dt {
-  color: var(--text-muted); text-transform:uppercase; letter-spacing:.08em;
-  font-size:.6rem; padding-top:.1rem;
+  color: var(--accent-rojo); text-transform:uppercase; letter-spacing:.15em;
+  font-size:.55rem; padding-top:.1rem; font-weight: 700;
 }
-.score-meta dd { margin:0; color: var(--accent-ink); overflow-wrap:anywhere; }
+.score-meta dd { margin:0; color: var(--text-primary); overflow-wrap:anywhere; font-family: var(--font-mono); font-weight: 500; }
 .score-links { display:flex; flex-wrap:wrap; gap:.4rem 1.2rem; margin-top:.6rem; }
 .score-info .pioneer-link { margin-top:.6rem; display:inline-block; }
 .score-info .score-links .pioneer-link { margin-top:0; }
 
 /* ===== Quote block ===== */
 .quote-block {
-  border-left: 2px solid var(--accent-terracota);
-  padding: 1rem 1.5rem; margin: 1.5rem 0;
-  background: var(--bg-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 4px solid var(--accent-rojo);
+  padding: 1.2rem 1.6rem; margin: 1.5rem 0;
+  background: var(--bg-soft); border-radius: 0;
 }
 .quote-block p {
-  font-size:1.05rem; font-style:italic; color: var(--accent-ink);
+  font-size:1.15rem; font-style:italic; color: var(--text-primary);
   margin-bottom:.5rem; font-family:'Instrument Serif', serif; line-height:1.4;
 }
 .quote-block cite { font-size:.74rem; color: var(--text-muted); font-style:normal; letter-spacing:.05em; }
@@ -887,28 +1171,34 @@ html[data-lang="en"] .bio-lang-en { display:block; }
 
 /* ===== Footer ===== */
 footer {
-  border-top: 1px solid var(--border-subtle);
+  border-top: 4px solid var(--accent-rojo);
   padding: 4rem 2rem 3rem;
   text-align: center;
-  background: var(--bg-soft);
+  background: var(--accent-ink);
+  color: var(--bg-cream);
   max-width: none; margin: 0;
 }
 footer p {
-  color: var(--text-secondary); max-width: 760px; margin: 0 auto 1rem;
+  color: var(--bg-cream); max-width: 760px; margin: 0 auto 1rem;
   font-size:.92rem; line-height:1.7;
+  font-family: var(--font-editorial);
+  font-style: italic;
 }
-footer p strong { color: var(--accent-ink); }
+footer p strong { color: var(--accent-lima); }
 .footer-credits {
-  font-size:.68rem; color: var(--text-muted); margin-top:1.5rem;
-  letter-spacing:.04em; line-height:1.65;
+  font-size:.6rem; color: var(--bg-cream); margin-top:1.5rem;
+  letter-spacing:.18em; line-height:1.65;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: .7;
 }
 
 /* Back-to-top button */
 .back-to-top {
   position: fixed; bottom: 1.5rem; right: 1.5rem;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--accent-ink); color: var(--bg-primary);
-  border: none; cursor: pointer;
+  width: 44px; height: 44px; border-radius: 0;
+  background: var(--accent-rojo); color: var(--bg-cream);
+  border: 2px solid var(--accent-ink); cursor: pointer;
   display: flex; align-items:center; justify-content:center;
   opacity: 0; pointer-events: none;
   transition: opacity .25s var(--ease), transform .25s var(--ease), background .25s var(--ease);
@@ -938,7 +1228,7 @@ footer p strong { color: var(--accent-ink); }
 .audio-control.is-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 .audio-btn, .audio-mute {
   width: 30px; height: 30px; border-radius: 50%;
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   border: none; cursor: pointer;
   display: flex; align-items:center; justify-content:center;
   transition: background .2s var(--ease), transform .15s var(--ease);
@@ -994,7 +1284,7 @@ footer p strong { color: var(--accent-ink); }
 /* Notificació inicial */
 .audio-hint {
   position: fixed; bottom: 5.5rem; left: 1.5rem; z-index: 950;
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   padding: .6rem .9rem; border-radius: 6px;
   font-size: .72rem; letter-spacing: .04em;
   box-shadow: var(--shadow-card); max-width: 240px;
@@ -1057,7 +1347,7 @@ footer p strong { color: var(--accent-ink); }
   background: var(--bg-primary);
 }
 .lightbox-caption {
-  color: var(--bg-primary);
+  color: var(--bg-cream);
   font-size: 0.85rem; text-align: center;
   font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 0.04em;
@@ -1092,7 +1382,7 @@ footer p strong { color: var(--accent-ink); }
 .lightbox-hint {
   position: fixed; bottom: 1.5rem; left: 50%;
   transform: translateX(-50%);
-  color: var(--bg-primary); opacity: 0.5;
+  color: var(--bg-cream); opacity: 0.5;
   font-size: 0.72rem;
   font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 0.08em; text-transform: uppercase;
@@ -1121,71 +1411,83 @@ footer p strong { color: var(--accent-ink); }
 .biblio-details {
   margin-top: 1.8rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 2px solid var(--accent-ink);
 }
 .biblio-summary {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: .68rem;
   text-transform: uppercase;
-  letter-spacing: .18em;
-  color: var(--accent-terracota);
+  letter-spacing: .2em;
+  color: var(--accent-rojo);
   cursor: pointer;
   padding: .5rem 0;
-  list-style: none;          /* treu el triangle per defecte */
+  list-style: none;
   display: flex; align-items: baseline; gap: .6rem;
   transition: color .2s var(--ease);
+  font-weight: 700;
 }
 .biblio-summary::-webkit-details-marker { display: none; }
 .biblio-summary::before {
   content: "+";
-  font-family: 'Instrument Serif', serif;
-  font-size: 1rem;
-  color: var(--accent-terracota);
+  font-family: var(--font-titular);
+  font-size: 1.2rem;
+  color: var(--accent-rojo);
   transition: transform .25s var(--ease);
   line-height: 1;
+  font-weight: 900;
 }
 .biblio-details[open] .biblio-summary::before {
   content: "–";
   transform: rotate(0deg);
 }
-.biblio-summary:hover { color: var(--accent-ink); }
+.biblio-summary:hover { color: var(--text-primary); }
 .biblio-count {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: .58rem;
-  color: var(--text-muted);
+  color: var(--bg-cream);
   font-weight: normal;
-  letter-spacing: .08em;
-  text-transform: none;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .65;
 }
 
 .bibliography {
   margin-top: 1.2rem;
-  font-size: .58rem;              /* cuerpo 7 (~9.3px) */
-  line-height: 1.55;
-  color: var(--text-secondary);
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: .62rem;
+  line-height: 1.6;
+  color: var(--bg-cream);
+  font-family: var(--font-mono);
   letter-spacing: 0;
+  background: var(--accent-ink);
+  padding: 1.6rem 1.8rem;
+  border: 2px solid var(--accent-rojo);
+  border-radius: 0;
+  box-shadow: 6px 6px 0 var(--accent-rojo);
 }
 .biblio-section-title {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: .58rem;
   text-transform: uppercase;
-  letter-spacing: .2em;
-  color: var(--accent-terracota);
-  margin: 1.4rem 0 .5rem;
-  padding-bottom: .25rem;
-  border-bottom: 1px dotted var(--border-subtle);
-  font-weight: 500;
+  letter-spacing: .22em;
+  color: var(--accent-lima);
+  margin: 1.6rem 0 .6rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--accent-lima);
+  font-weight: 700;
   break-after: avoid;
 }
 .biblio-section-title:first-child { margin-top: 0; }
+.biblio-section-title::before {
+  content: "▌ ";
+  color: var(--accent-rojo);
+}
 
 .biblio-list {
   list-style: none;
   counter-reset: biblio;
   padding: 0;
   margin: 0 0 .8rem 0;
-  column-count: 2;               /* 2 columnes per compactar */
+  column-count: 2;
   column-gap: 1.8rem;
   column-fill: balance;
 }
@@ -1194,46 +1496,50 @@ footer p strong { color: var(--accent-ink); }
 }
 .biblio-list li {
   counter-increment: biblio;
-  margin: 0 0 .35rem 0;
-  padding-left: 1.6rem;
+  margin: 0 0 .4rem 0;
+  padding-left: 1.8rem;
   position: relative;
   break-inside: avoid;
-  font-size: .58rem;
-  line-height: 1.5;
+  font-size: .62rem;
+  line-height: 1.55;
+  color: var(--bg-cream);
 }
 .biblio-list li::before {
   content: counter(biblio, decimal-leading-zero);
   position: absolute;
   left: 0;
   top: 0;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: .52rem;
-  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  color: var(--accent-lima);
   letter-spacing: .04em;
+  font-weight: 700;
 }
 .biblio-list em {
   font-style: italic;
-  color: var(--accent-ink);
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-size: .68rem;            /* una mica més gran per a titols */
+  color: var(--bg-cream);
+  font-family: var(--font-editorial);
+  font-size: .72rem;
 }
 .biblio-list strong {
-  color: var(--accent-ink);
-  font-weight: 600;
+  color: var(--accent-lima);
+  font-weight: 700;
 }
 .biblio-list a {
-  color: var(--accent-terracota);
+  color: var(--accent-lima);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent-terracota);
-  transition: opacity .15s var(--ease);
-  font-size: .58rem;
+  border-bottom: 1px solid var(--accent-lima);
+  transition: color .15s var(--ease), border-color .15s var(--ease);
+  font-size: .62rem;
+  font-weight: 600;
 }
 .biblio-list a:hover, .biblio-list a:focus-visible {
-  opacity: .7;
+  color: var(--accent-rojo);
+  border-bottom-color: var(--accent-rojo);
   border-bottom-style: solid;
 }
 .biblio-list a:focus-visible {
-  outline: 2px solid var(--accent-terracota);
+  outline: 2px solid var(--accent-rojo);
   outline-offset: 1px;
 }
 
@@ -1241,6 +1547,9 @@ footer p strong { color: var(--accent-ink); }
   .biblio-details, .biblio-details[open] { display: block !important; }
   .biblio-summary { display: none; }
   .biblio-list { column-count: 1; }
+  .bibliography { background: transparent !important; border: none !important; color: #000 !important; padding: 0 !important; }
+  .biblio-list li, .biblio-list em, .biblio-list strong, .biblio-list a { color: #000 !important; }
+  .biblio-section-title { color: #000 !important; border-color: #000 !important; }
 }
 
 
@@ -1358,7 +1667,7 @@ footer p strong { color: var(--accent-ink); }
   cursor: pointer; transition: all .2s var(--ease); white-space: nowrap;
 }
 .graph-reset-btn:hover {
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   border-color: var(--accent-ink);
 }
 .graph-toggle-all-btn {
@@ -1370,7 +1679,7 @@ footer p strong { color: var(--accent-ink); }
   display: inline-flex; align-items: center; gap: .35rem;
 }
 .graph-toggle-all-btn:hover {
-  background: var(--accent-terracota); color: var(--bg-primary);
+  background: var(--accent-terracota); color: var(--bg-cream);
   border-color: var(--accent-terracota);
 }
 .graph-toggle-all-btn .state-dot {
@@ -1471,7 +1780,7 @@ footer p strong { color: var(--accent-ink); }
   transition: all .25s var(--ease); z-index: 2;
 }
 .graph-info-close:hover {
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   border-color: var(--accent-ink); transform: rotate(90deg);
 }
 .graph-info-content {
@@ -1567,14 +1876,15 @@ img, svg, video { max-width:100%; height:auto; }
   .section-header > *:not(.section-tag) { border-left:none; padding-left:0; }
 }
 @media (max-width: 480px) {
-  .hero h1 { font-size: 2.2rem; }
+  .hero h1, .hero-headline { font-size: 1.85rem; }
+  .hero-tagline { font-size: 1rem; }
   .hero-subtitle { letter-spacing:.15em; font-size:.66rem; }
   .hero-manifest { font-size:.95rem; padding-left: 1rem; }
   .hero-cta { width:100%; flex-direction:column; align-items:stretch; gap:.6rem; }
   .hero-cta .btn { text-align:center; }
   .section-header h2 { font-size: 1.55rem; }
   .pioneer-body, .lab-card, .transition-card { padding: 1.2rem; }
-  .pioneer-portrait { height: 200px; }
+  .pioneer-portrait { aspect-ratio: 4 / 3; }
   .quote-block { padding: 1rem 1.1rem; }
   .nav-inner { padding: 0 1rem; }
   .lab-name { font-size: 1.05rem; }
@@ -1606,7 +1916,7 @@ img, svg, video { max-width:100%; height:auto; }
   font-style: italic;
 }
 .toc-fab:hover, .toc-fab:focus-visible {
-  background: var(--accent-ink); color: var(--bg-primary);
+  background: var(--accent-ink); color: var(--bg-cream);
   border-color: var(--accent-ink); transform: translateY(-1px);
 }
 .toc-fab:focus-visible { outline: 2px solid var(--accent-terracota); outline-offset: 3px; }
@@ -1670,35 +1980,92 @@ img, svg, video { max-width:100%; height:auto; }
   }
   .timeline-content { box-shadow: none !important; }
   .timeline-content:hover { transform: none !important; }
-  footer { background: #fff; border-top: 1px solid #000; padding: 1rem 0; }
-  .footer-credits { color: #555; }
+  footer { background: #fff !important; color: #000 !important; border-top: 4px solid #000; padding: 1rem 0; }
+  footer p, footer p strong { color: #000 !important; }
+  .footer-credits { color: #555 !important; opacity: 1 !important; }
+  .biblio-count { color: #555 !important; opacity: 1 !important; }
+  .biblio-summary { color: #000 !important; }
+}
+
+/* ===== Accesibilitat: prefers-reduced-motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-video-banner { display: none; }
+  .waveform-bg { display: none; }
+  .pioneer-photo, .lab-photo, .score-visual, .instrument-photo {
+    filter: grayscale(.2) contrast(1.05) !important;
+    transition: none !important;
+  }
+  .pioneer-card:hover, .lab-card:hover, .score-card:hover, .timeline-content:hover {
+    transform: none !important;
+  }
+}
+
+/* ===== Focus visible mejorado para accesibilitat ===== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.chip:focus-visible,
+.filter-chip:focus-visible,
+.gi-link:focus-visible,
+.pioneer-link:focus-visible,
+.timeline-link:focus-visible,
+.search-result-item:focus-visible,
+.sidebar-list a:focus-visible,
+.toc-panel a:focus-visible {
+  outline: 2px solid var(--accent-terracota);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ===== Salt de contigut (skip link) visible al rebre focus ===== */
+.skip-link:focus {
+  position: fixed !important;
+  top: 1rem; left: 1rem;
+  padding: .6rem 1.2rem;
+  background: var(--accent-ink);
+  color: var(--bg-cream) !important;
+  z-index: 9999;
+  border-radius: 4px;
+  clip: auto !important;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: .75rem;
 }
 </style>
 <meta name="author" content="Electrònica Spain">
 <meta name="theme-color" content="#F5F2EB">
 <meta name="keywords" content="música electrònica, pioners, electroacústica, Phonos, Alea, Robert Gerhard, Hidalgo, Polonio, Castillejo, Mestres Quadreny, España, franquisme, avantguarda">
 <meta name="robots" content="index, follow">
+<meta name="description" content="Abans dels sintetitzadors, ja imaginaven el futur del so. Arxiu editorial dels pioners, les obres i els laboratoris que van transformar la música electrònica a l'Estat espanyol (1930–1980): Gerhard, Mestres Quadreny, Hidalgo, Polonio, Castillejo, de Pablo, Halffter, Val del Omar.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Pioners de la Música Electrònica a l'Estat Espanyol">
-<meta property="og:description" content="Arxiu cultural sobre els pioners de la música electrònica a l'Estat espanyol, 1930–1980: compositors, instruments, laboratoris, fonoteca i bibliografia.">
+<meta property="og:title" content="Abans dels sintetitzadors, ja imaginaven el futur del so — Pioners de la Música Electrònica a l'Estat Espanyol">
+<meta property="og:description" content="Arxiu editorial dels pioners de la música electrònica a l'Estat espanyol, 1930–1980: compositors, obres, instruments, laboratoris, cronologia, genealogia sonora i bibliografia.">
 <meta property="og:locale" content="ca_ES">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:image" content="og-cover.jpg">
 <meta property="og:url" content="https://electronica-spain.vercel.app/">
+<meta property="og:site_name" content="Electrònica Spain — Pioners de la Música Electrònica">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pioners de la Música Electrònica a l'Estat Espanyol">
 <meta name="twitter:description" content="Arxiu cultural sobre els pioners de la música electrònica a l'Estat espanyol, 1930–1980.">
 <link rel="canonical" href="https://electronica-spain.vercel.app/">
 <link rel="alternate" hreflang="ca" href="https://electronica-spain.vercel.app/">
 <link rel="alternate" hreflang="en" href="https://electronica-spain.vercel.app/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://electronica-spain.vercel.app/">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23F5F2EB'/%3E%3Crect x='3' width='4' height='32' fill='%23B9573D'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F0E6D2'/%3E%3Crect x='0' width='8' height='32' fill='%23FF351F'/%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-title" content="Pioners Electrònica">
 
-<!-- Fuentes premium: Instrument Serif (titulares) · Manrope (UI) · IBM Plex Mono (metadatos) -->
+<!-- Fuentes premium: Archivo Black (titulars) · Instrument Serif (editorials) · IBM Plex Mono (UI/metadatos) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
 
 <!-- JSON-LD: Article + BreadcrumbList -->
 <script type="application/ld+json">
@@ -1809,16 +2176,21 @@ img, svg, video { max-width:100%; height:auto; }
     <div class="hero-content">
         <div>
             <p class="hero-subtitle i18n" data-en="Spain · 1930–1980">Estat Espanyol · 1930–1980</p>
-            <h1 class="i18n" data-en="Pioneers of <em>Electronic Music</em>">Pioners de la <em>Música Electrònica</em></h1>
+            <p class="hero-eyebrow i18n" data-en="An editorial archive of electronic music pioneers">Arxiu editorial dels pioners de la música electrònica</p>
+            <h1 class="hero-headline i18n" data-en="Before synthesizers, they were already imagining the future of sound.">Abans dels sintetitzadors, ja imaginaven el futur del so.</h1>
+            <p class="hero-tagline i18n" data-en="A journey through the pioneers, the works and the laboratories that transformed electronic music in Spain.">Un viatge pels pioners, les obres i els laboratoris que van transformar la música electrònica a Espanya.</p>
+            <p class="hero-original-title i18n" data-en="Pioneers of &lt;em&gt;Electronic Music&lt;/em&gt; in Spain">Pioners de la <em>Música Electrònica</em> a l'Estat espanyol</p>
             <div class="hero-cta">
-                <a href="#pioners" class="btn btn-filled i18n" data-en="Explore Pioneers">Explorar Pioners</a>
-                <a href="#cronologia" class="btn i18n" data-en="Timeline">Línia del Temps</a>
+                <a href="#pioners" class="btn btn-filled i18n" data-en="Explore the pioneers">Explora els pioners</a>
+                <a href="#fonoteca" class="btn i18n" data-en="Listen to the archive">Escolta l'arxiu</a>
             </div>
         </div>
         <div>
             <p class="hero-manifest i18n" data-en="A composer is a &quot;pioneer&quot; when working before the language is consolidated, before institutional infrastructure or a mass audience exist. In Spain, that meant creating under Franco's dictatorship, isolated from the European circuit, with tape, oscillators and a radical will to renew — from Castillejo's 1933 electrocompositor to the founding of the Phonos and Alea laboratories.">Un compositor és "pioner" quan treballa abans que el llenguatge estigui consolidat, quan no existeix infraestructura institucional ni públic massiu. A l'Estat espanyol, significà crear en ple franquisme, aïllats del circuit europeu, amb cintes, oscil·ladors i una voluntat radical de renovació — des de l'electrocompositor de Castillejo (1933) fins a la fundació dels laboratoris Phonos i Alea.</p>
             <div class="hero-meta">
                 <span>Idioma<strong>CA · EN</strong></span>
+                <span class="i18n" data-en="Period">Període<strong>1930–1980</strong></span>
+                <span class="i18n" data-en="Pioneers">Pioners<strong>8 figures</strong></span>
             </div>
         </div>
     </div>
@@ -1863,7 +2235,7 @@ img, svg, video { max-width:100%; height:auto; }
 </div>
 <div class="pioneers-grid" id="pioneers-grid">
             <article class="pioneer-card" data-focus="serial" id="gerhard">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-gerhard.jpg" alt="Robert Gerhard" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-gerhard.jpg" alt="Retrat de Robert Gerhard (1896–1970), compositor català exiliat a Cambridge, únic alumne espanyol de Schönberg i pioner de la música electrònica britànica" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Valls → Cambridge">Valls → Cambridge</span>
                 </div>
                 <div class="pioneer-body">
@@ -1880,6 +2252,11 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>Caligula</strong>, <strong>The Overcoat</strong>, <strong>Asylum Diary</strong> (1959–61): BBC radio-drama scores, incorporating recorded sculpture sound and radiophonic effects."><strong>Caligula</strong>, <strong>The Overcoat</strong>, <strong>Asylum Diary</strong> (1959–61): partitures per a drames radiofònics de la BBC.</li>
                     </ul>
                     <a href="#laboratoris" class="pioneer-link i18n" data-en="See BBC collaboration →">Veure col·laboració BBC →</a>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-discrepancy i18n" data-en="Discrepancy between sources">Discrepància entre fonts</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
+                    <div class="editorial-note"><strong>Nota editorial:</strong> La Sinfonia núm. 3 «Collages» aparece datada de 1960 (composició, encàrrec de la Fundació Koussevitzky) però la biografía la situa també en el context de 1968. Cal distingir entre composició (1960) i possible estrena o revisió posterior. La cronologia del lloc la mostra sota 1960. Vegeu la nota a la secció «Discrepàncies» del peu editorial.</div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -1893,6 +2270,7 @@ img, svg, video { max-width:100%; height:auto; }
                         <p>El 1954, amb "The Prisoner", l'obra esdevenia la primera obra teatral anglesa amb música electrònica, i el 1955 King Lear, per a la Royal Shakespeare Company, el va marcar com el primer compositor electrònic britànic. Durant el decenni de 1960, va ser el compositor anglès amb accés a BBC Radiophonic Workshop (establert el 1958 a Maida Vale), col·laborant amb Desmond Briscoe, Delia Derbyshire i Dick Mills, i va crear més de 20 obres electròniques amb el suport de William Glock, director de música de la BBC.</p>
                         <p>L'Audiomobile 3 "Sculpture" (1959–63, 67), per exemple, aprofita la ressonància natural del piano per a una escultura sonora de John Youngman i el seu so, i "Claustrophilia" (1966), l'únic punt gràfic de Gerhard, per a la sol·licitud que John Cage per al seu llibre Notations, amb 8 arpes múltiples, 4 ràdios i 2 monitors.</p>
                         <p>The Anger of Achilles (1963–64), una epopeia radiofónica de 59 minuts per a orquestra, solistes i cor, basada en la Ilíada i planificada amb Delia Derbyshire, va rebre el Prix Italia 1965. En 1968, la Sinfonia nº 3 "Collages" (1960, de la Fundació Koussevitzky) va esdevenir la primera a combinar cinta magnètica i orquestra, i la Sinfonia nº 4 "New York" (1966–67) per a Filharmònica de NY (estrenada el 14 desembre 1967, 125è aniversari, a 9 assaigs, dirigida per William Steinberg, amb el suport de Bernstein) va aplicar la tècnica del "conjunt temporal", dividint el hexacord i prohibint el moviment melòdic.</p>
+                        <div class="editorial-note"><strong>Nota sobre dates — Sinfonia núm. 3 «Collages»:</strong> El text original barreja la data de composició (1960, encàrrec de la Fundació Koussevitzky) amb la menció de 1968 com a any de referència per a la primera combinació cinta+orquestra. Les fonts consultades (Roberto Gerhard Digital Archive, IRCAM) coincideixen a situar la composició el 1960; la referència de 1968 podria correspondre a l'estrena completa o a una revisió posterior, però no ha estat possible verificar-la amb una font primària única. La cronologia d'aquest arxiu la situa sota 1960 (composició). <em>Pendent de documentació primària per a la data d'estrena.</em></div>
                         <h4>Altres obres clau</h4>
                         <ul class="pioneer-works">
                             <li><strong>Lament for the Death of a Bullfighter</strong> (1959): basat en el poema de Garcia Lorca per a veu i cinta.</li>
@@ -1924,11 +2302,13 @@ img, svg, video { max-width:100%; height:auto; }
 <p>CBE (1967), Prix Italia (1965) and an honorary doctorate from Cambridge (1968) crowned a career that fused Catalan folklore, Schoenbergian dodecaphony and BBC-era electronics &mdash; a synthesis musicologist Calum MacDonald compared to B&eacute;la Bart&oacute;k's achievement in Hungary. He died in Cambridge on 5 January 1970.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Robert_Gerhard" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                 </div>
             </article>
             <article class="pioneer-card" data-focus="aleatory" id="mestres">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-mestres.jpg" alt="Josep Maria Mestres Quadreny" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-mestres.jpg" alt="Retrat de Josep Maria Mestres Quadreny (1929–2021), compositor de Manresa, fundador del Laboratori Phonos (1974) i pioner de l'aleatorisme i l'electroacústica catalana" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Manresa → Barcelona">Manresa → Barcelona</span>
                 </div>
                 <div class="pioneer-body">
@@ -1944,6 +2324,10 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>Sintagmes</strong> (1963&ndash;64): the audience becomes the instrument &mdash; Spain's first participatory action-art piece."><strong>Sintagmes</strong> (1963–64): el públic esdevé l'instrument — primera obra participativa i d'art d'acció a Espanya.</li>
                     </ul>
                     <div class="quote-block"><p class="i18n" data-en="&quot;Mestres Quadreny has been the bravest Catalan composer&hellip; he has always explored every possible path, without fear.&quot;">"Mestres Quadreny ha estat el compositor català més valent... sempre ha explorat tots els camins possibles sense por."</p><cite>— Carles Santos</cite></div>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -1977,12 +2361,14 @@ img, svg, video { max-width:100%; height:auto; }
 <p>His scores &mdash; using colour, collage and photography as musical parameters &mdash; have been exhibited as artworks at MNAC, MACBA and the Reina Sof&iacute;a. Later works such as <em>Tr&agrave;nsit boreal</em> (2010, an interactive piece reacting to the audience via motion sensors, composed at age 81) show a lifelong curiosity. He received the Creu de Sant Jordi (1992) and died in Barcelona on 17 January 2021, aged 91.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://ca.wikipedia.org/wiki/Josep_Maria_Mestres_Quadreny" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                     <a href="#laboratoris" class="pioneer-link i18n" data-en="See Phonos Laboratory →">Veure Laboratori Phonos →</a>
                 </div>
             </article>
             <article class="pioneer-card" data-focus="gestion" id="depablo">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-depablo.jpg" alt="Luis de Pablo" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-depablo.jpg" alt="Retrat de Luis de Pablo (1930–2021), compositor basc fundador del Laboratori Alea de Madrid (1965)" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Bilbao → Madrid">Bilbao → Madrid</span>
                 </div>
                 <div class="pioneer-body">
@@ -1997,6 +2383,10 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>We</strong> (1969): an emblematic work of electronic documentary collage."><strong>We</strong> (1969): Obra emblemàtica de collage documental electrònic.</li>
                         <li class="i18n-html" data-en-html="<strong>Encuentros de Pamplona</strong> (1972): a landmark international avant-garde festival."><strong>Encuentros de Pamplona</strong> (1972): Festival internacional de ruptura.</li>
                     </ul>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -2034,12 +2424,14 @@ img, svg, video { max-width:100%; height:auto; }
 <p>De Pablo scored over 24 films (with Saura and Erice among others), composed six operas, taught worldwide, and founded Spain's Centro para la Difusi&oacute;n de la M&uacute;sica Contempor&aacute;nea (CDMC) in 1983. He received Spain's National Music Prize (1991) and died in Madrid on 10 October 2021.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Luis_de_Pablo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                     <a href="#laboratoris" class="pioneer-link i18n" data-en="See Alea Laboratory →">Veure Laboratori Alea →</a>
                 </div>
             </article>
             <article class="pioneer-card" data-focus="conceptual" id="hidalgo">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-hidalgo.jpg" alt="Juan Hidalgo" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-hidalgo.jpg" alt="Retrat de Juan Hidalgo (1927–2018), compositor canari fundador del col·lectiu ZAJ i primer espanyol a componer obra electroacústica (Étude de Stage, 1961)" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Gran Canaria → Madrid / Paris">Gran Canaria → Madrid / París</span>
                 </div>
                 <div class="pioneer-body">
@@ -2057,6 +2449,10 @@ img, svg, video { max-width:100%; height:auto; }
                     <div class="quote-block">
                         <p>"ZAJ és com un bar: la gent entra, surt, està; es pren una copa i deixa una propina."</p>
                         <cite>— Autotext ZAJ, 1965</cite>
+                    </div>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
                     </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
@@ -2088,13 +2484,15 @@ img, svg, video { max-width:100%; height:auto; }
 <p>From the 1970s Hidalgo moved into objects, mail art and photography ("etc&eacute;teras", akin to Zen koans). ZAJ dissolved in 1996, the year of its retrospective at the Reina Sof&iacute;a. He received Spain's National Fine Arts Prize (2016) and died in Ayacata, Gran Canaria, on 26 February 2018, aged 91.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Juan_Hidalgo" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                     <a href="#genealogia" class="pioneer-link i18n" data-en="See connection to Cage, Duchamp and Polonio →">Veure relació amb Cage, Duchamp i Polonio →</a>
                 </div>
             </article>
 
             <article class="pioneer-card" data-focus="minimal" id="polonio">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-polonio.jpg" alt="Eduardo Polonio" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-polonio.jpg" alt="Retrat d'Eduardo Polonio (n. 1941), compositor madrileny vinculat al Laboratori Alea, president de l'AMEE i figura central de l'electroacústica espanyola posterior" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Madrid → Ghent → Barcelona">Madrid → Gant → Barcelona</span>
                 </div>
                 <div class="pioneer-body">
@@ -2111,6 +2509,10 @@ img, svg, video { max-width:100%; height:auto; }
                     <div class="quote-block" style="border-color:var(--accent-minimal)">
                         <p class="i18n" data-en="&quot;By 1969 I was already making repetitive, minimal music. There was nobody else in Spain doing it.&quot;">"El 1969 jo ja feia música repetitiva i minimal. No hi havia ningú a Espanya que ho fes."</p>
                         <cite>— Eduardo Polonio</cite>
+                    </div>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
                     </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
@@ -2146,13 +2548,15 @@ img, svg, video { max-width:100%; height:auto; }
 <p>After a fallow period travelling Europe and North Africa (1972&ndash;75), Polonio settled in Barcelona in 1978, finding a creative home at the Phonos Laboratory alongside Andr&eacute;s Lewin-Richter, Mestres Quadreny and Gabriel Brn&#269;i&#263;. He received the Bourges International Electroacoustic Music Competition's Magisterium (1994), Europe's top prize in the field, and died in Valverde del Camino (Huelva) on 25 December 2024, aged 83.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/w/index.php?search=Eduardo+Polonio+compositor" target="_blank" rel="noopener">Consultar a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                     <a href="#laboratoris" class="pioneer-link i18n" data-en="History at Alea and Phonos →">Història a Alea i Phonos →</a>
                 </div>
             </article>
 
             <article class="pioneer-card" data-focus="all" id="halffter">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-halffter.jpg" alt="Cristóbal Halffter" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-halffter.jpg" alt="Retrat de Cristóbal Halffter (1930–2021), compositor de la nissaga Halffter, catedràtic de composició i membre de la Generació del 27" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Madrid → Darmstadt / Freiburg">Madrid → Darmstadt / Friburg</span>
                 </div>
                 <div class="pioneer-body">
@@ -2167,6 +2571,10 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>Noche Pasiva del Sentido</strong> (1970&ndash;71): soprano, percussion and two delay tapes, in quadraphonic sound."><strong>Noche Pasiva del Sentido</strong> (1970–71): soprano, percussionista i dos cintes en retard (quadrifònica).</li>
                         <li class="i18n-html" data-en-html="Director of the Experimentalstudio f&uuml;r akustische Kunst (1979), Freiburg &mdash; one of Europe's leading electronic-music studios."><strong>Director de l'Experimentalstudio de Friburg</strong> (1979): un dels grans laboratoris electrònics europeus.</li>
                     </ul>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -2200,12 +2608,14 @@ img, svg, video { max-width:100%; height:auto; }
 <p>Deeply engaged politically, he wrote works honoring war victims, conscientious objectors and murdered or exiled poets (Machado, Hern&aacute;ndez, Garc&iacute;a Lorca). He later composed three operas and received Spain's National Music Prize twice (1953, 1989) and the BBVA Foundation's Frontiers of Knowledge Award (2009&ndash;10). He died in Villafranca del Bierzo (Le&oacute;n) on 23 May 2021, aged 91.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Crist%C3%B3bal_Halffter" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                 </div>
             </article>
 
             <article class="pioneer-card" data-focus="all" id="castillejo">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-castillejo.jpg" alt="Juan García Castillejo" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-castillejo.jpg" alt="Retrat de Juan García Castillejo, inventor de l'Electrocompositor Musical (1933) i primer teòric espanyol de la música elèctrica" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Montilla del Palancar 1933–1944 Valencia?">Montilla del Palancar 1933–1944 Valencia?</span>
                 </div>
                 <div class="pioneer-body">
@@ -2217,6 +2627,11 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>Electrocompositor musical</strong> (1933): an experimental device for automated composition."><strong>Electrocompositor musical</strong> (1933): dispositiu experimental.</li>
                         <li class="i18n-html" data-en-html="<strong>&quot;M&uacute;sica El&eacute;ctrica y Telegraf&iacute;a&quot;</strong> (1944): book on automation, remote distribution and electric synthesis of sound."><strong>"Música Eléctrica y Telegrafía"</strong> (1944): llibre sobre automatisme, distància, síntesi elèctrica.</li>
                     </ul>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-pending i18n" data-en="Pending review">Pendent de verificació</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
+                    <div class="editorial-note"><strong>Nota editorial:</strong> Les dades biogràfiques de Juan García Castillejo (dates exactes de naixement i defunció, ubicacions precises) resten pendents de documentació primària contrastada. L'activitat documentada se situa entre 1933 (presentació de l'Electrocompositor) i 1944 (publicació del llibre «Música Eléctrica y Telegrafía»). Les biografies existents depenen de fonts secundàries.</div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -2236,12 +2651,14 @@ img, svg, video { max-width:100%; height:auto; }
 <p>Because the category of pioneer includes inventors and theorists, not only composers: Castillejo is Spain's direct precedent for automatism, remote transmission and electric synthesis in music, themes still under-researched in industrial patent archives from 1910&ndash;1960.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/w/index.php?search=Juan+Garc%C3%ADa+Castillejo" target="_blank" rel="noopener">Consultar Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                 </div>
             </article>
 
             <article class="pioneer-card" data-focus="all" id="valdelomar">
-                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-valdelomar.jpg" alt="José Val del Omar" loading="lazy" decoding="async">
+                <div class="pioneer-portrait"><img class="pioneer-photo" src="img-valdelomar.jpg" alt="Retrat de José Val del Omar (1904–1982), cineasta granadí precursor del videoart, de les instal·lacions multimèdia i de l'espacialització sonora a l'Estat" loading="lazy" decoding="async">
                     <span class="pioneer-era i18n" data-en="Granada → Madrid">Granada → Madrid</span>
                 </div>
                 <div class="pioneer-body">
@@ -2253,6 +2670,10 @@ img, svg, video { max-width:100%; height:auto; }
                         <li class="i18n-html" data-en-html="<strong>&quot;Diaphonic sound&quot;</strong>: a method of sound projection and expansion that transcends the screen."><strong>"So diafònic"</strong>: un mètode de projecció i expansió del so que transcendeix la pantalla.</li>
                         <li class="i18n-html" data-en-html="<strong>Trilog&iacute;a elemental</strong>: audiovisual works between film, installation and concert."><strong>Trilogía elemental</strong>: obres audiovisuals entre cinema, instal·lació i concert.</li>
                     </ul>
+                    <div class="pioneer-editorial-meta">
+                        <span class="verification-badge is-verified i18n" data-en="Verified data">Dada verificada</span>
+                        <span class="meta-label">Revisió editorial:<span class="meta-value">10/2026</span></span>
+                    </div>
                     <button class="btn-expand expand-btn i18n-toggle" aria-expanded="false" data-en-collapsed="Read more ⌄" data-en-expanded="Close ⌃">Ampliar informació ⌄</button>
                     <div class="bio-extra">
                         <div class="bio-lang-ca">
@@ -2269,7 +2690,9 @@ img, svg, video { max-width:100%; height:auto; }
 <p>On a site devoted to pioneers of electronic music, Val del Omar belongs to the indirect, pre-electronic lineage of the 1930s&ndash;40s &mdash; alongside Castillejo &mdash; rather than to the 1950&ndash;70 generation. He did not make abstract music, but foresaw the expanded-sound and audiovisual concerts later staged by Grupo Koan, Alea and ZAJ.</p>
 </div>
 <a class="wiki-link i18n" data-en="Read on Wikipedia ↗" href="https://es.wikipedia.org/wiki/Jos%C3%A9_Val_del_Omar" target="_blank" rel="noopener">Llegir a Viquipèdia ↗</a>
-                    </div>
+                    
+                    <a href="#pioners" class="bio-back-link i18n" data-en="Back to Pioneers">Tornar a Pioners</a>
+                </div>
                 </div>
             </article>
         </div>
@@ -2389,9 +2812,9 @@ img, svg, video { max-width:100%; height:auto; }
         </div>
 
         <!-- Referència documental:obra precursora dels laboratoris -->
-        <div class="quote-block i18n-html" style="margin-top: 3rem; border-left-color: var(--accent-olive);" data-en-html="<p><strong>La Música Electroacústica en España (1998)</strong> by Andrés Lewin-Richter.</p><p style='font-style:normal;font-family:Manrope,sans-serif;font-size:.92rem;color:var(--text-secondary);'>Prelude to the Laboratories:</p><a class='pioneer-link' href='https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998' target='_blank' rel='noopener' style='display:inline-block;margin-top:1rem;'>Browse the fonds at the UPF archive →</a>">
+        <div class="quote-block i18n-html" style="margin-top: 3rem; border-left-color: var(--accent-olive);" data-en-html="<p><strong>La Música Electroacústica en España (1998)</strong> by Andrés Lewin-Richter.</p><p style='font-style:normal;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.92rem;color:var(--text-secondary);'>Prelude to the Laboratories:</p><a class='pioneer-link' href='https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998' target='_blank' rel='noopener' style='display:inline-block;margin-top:1rem;'>Browse the fonds at the UPF archive →</a>">
             <p><strong>La Música Electroacústica en España (1998)</strong> per Andrés Lewin-Richter.</p>
-            <p style="font-style: normal; font-family: 'Manrope', sans-serif; font-size: .92rem; color: var(--text-secondary);">Preludi dels Laboratoris:</p>
+            <p style="font-style: normal; font-family: var(--font-mono); font-size: .92rem; color: var(--text-secondary);">Preludi dels Laboratoris:</p>
             <a class="pioneer-link" href="https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998" target="_blank" rel="noopener" style="display: inline-block; margin-top: 1rem;">Consultar el fons a l'arxiu de la UPF →</a>
         </div>
     </section>
@@ -2483,15 +2906,15 @@ img, svg, video { max-width:100%; height:auto; }
         <div class="scores-gallery">
             <article class="score-card">
                 <div class="score-visual has-img"><img src="img-lestro-aleatorio.jpg" alt="L'Estro Aleatorio" loading="lazy" decoding="async"></div>
-                <div class="score-info"><h5>L'Estro Aleatorio</h5><dl class="score-meta"><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4107</dd><dt class="i18n" data-en="Date">data</dt><dd>1973 - 1978</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Mixed media on paper">Tècnica mixta sobre paper</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>L'Estro Aleatorio</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="Various sizes">Mides diverses</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4107-lestro-aleatorio" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
+                <div class="score-info"><h5>L'Estro Aleatorio</h5><dl class="score-meta"><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4107</dd><dt class="i18n" data-en="Year of production">any de producció</dt><dd>1973 - 1978</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Mixed media on paper">Tècnica mixta sobre paper</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>L'Estro Aleatorio</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="Various sizes">Mides diverses</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4107-lestro-aleatorio" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
             </article>
             <article class="score-card">
                 <div class="score-visual has-img"><img src="img-quartet-catroc.jpg" alt="Quartet de catroc" loading="lazy" decoding="async"></div>
-                <div class="score-info"><h5>Quartet de catroc</h5><dl class="score-meta"><dt class="i18n" data-en="Original title">títol original</dt><dd>Quartet de catroc</dd><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4194</dd><dt class="i18n" data-en="Date">data</dt><dd>1962</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Letraset and printed ink on tracing paper">Letraset i tinta impresa sobre paper vegetal</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>Quartet de catroc</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="4 elements: 26 x 39.5 cm each">4 elements: 26 x 39.5 cm c/u</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4194-quartet-de-catroc" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
+                <div class="score-info"><h5>Quartet de catroc</h5><dl class="score-meta"><dt class="i18n" data-en="Original title">títol original</dt><dd>Quartet de catroc</dd><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4194</dd><dt class="i18n" data-en="Year of production">any de producció</dt><dd>1962</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Letraset and printed ink on tracing paper">Letraset i tinta impresa sobre paper vegetal</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>Quartet de catroc</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="4 elements: 26 x 39.5 cm each">4 elements: 26 x 39.5 cm c/u</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4194-quartet-de-catroc" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
             </article>
             <article class="score-card">
                 <div class="score-visual has-img"><img src="img-homenatge-gerhard.jpg" alt="Homenatge a Robert Gerhard" loading="lazy" decoding="async"></div>
-                <div class="score-info"><h5>Homenatge a Robert Gerhard</h5><dl class="score-meta"><dt class="i18n" data-en="Original title">títol original</dt><dd>Homenatge a Robert Gerhard</dd><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4104</dd><dt class="i18n" data-en="Date">data</dt><dd>1976</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Intaglio print on tracing paper and print on paper">Calcografia sobre paper vegetal i impressió sobre paper</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>Homenatge a Robert Gerhard</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="Various sizes">Mides diverses</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4104-homenatge-a-robert-gerhard" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
+                <div class="score-info"><h5>Homenatge a Robert Gerhard</h5><dl class="score-meta"><dt class="i18n" data-en="Original title">títol original</dt><dd>Homenatge a Robert Gerhard</dd><dt class="i18n" data-en="Registration number">número de registre</dt><dd>R.4104</dd><dt class="i18n" data-en="Year of production">any de producció</dt><dd>1976</dd><dt class="i18n" data-en="Collection">fons</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Technique">tècnica</dt><dd class="i18n" data-en="Intaglio print on tracing paper and print on paper">Calcografia sobre paper vegetal i impressió sobre paper</dd><dt class="i18n" data-en="Credits">crèdits</dt><dd>Col·lecció MACBA. Consorci MACBA</dd><dt class="i18n" data-en="Translated title">títol traduït</dt><dd>Homenatge a Robert Gerhard</dd><dt class="i18n" data-en="Artist">artista</dt><dd>Josep Maria Mestres Quadreny</dd><dt class="i18n" data-en="Year of acquisition">any d'adquisició</dt><dd>2010</dd><dt class="i18n" data-en="Object type">tipus d'objecte</dt><dd class="i18n" data-en="Graphic material">Material gràfic</dd><dt class="i18n" data-en="Dimensions">dimensions</dt><dd class="i18n" data-en="Various sizes">Mides diverses</dd><dt class="i18n" data-en="Copyright">Copyright</dt><dd>© Hereus de Josep Maria Mestres Quadreny</dd></dl><a class="pioneer-link i18n" href="https://www.macba.cat/ca/obra/r4104-homenatge-a-robert-gerhard" target="_blank" rel="noopener" data-en="View at MACBA →">Veure al MACBA →</a></div>
             </article>
             <article class="score-card">
                 <div class="score-visual has-img"><img src="img-claustrofília-gerhard.jpg" alt="Claustrophilia — Robert Gerhard (1966). Partitura gràfica, regal a John Cage per al llibre Notations (1969)" loading="lazy" decoding="async"></div>
@@ -4836,7 +5259,7 @@ img, svg, video { max-width:100%; height:auto; }
     if (typeof cytoscape === "undefined") {
       if (_graphInitAttempts > 50) {
         // Després de ~5s, mostra missatge d'error visible
-        cyContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#e8e6e3;font-family:Manrope,sans-serif;font-size:.85rem;text-align:center;padding:2rem;">No s\'ha pogut carregar Cytoscape.js.<br>Comprova la connexió a Internet i recarrega la pàgina.</div>';
+        cyContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#e8e6e3;font-family:ui-monospace,monospace;font-size:.85rem;text-align:center;padding:2rem;">No s\'ha pogut carregar Cytoscape.js.<br>Comprova la connexió a Internet i recarrega la pàgina.</div>';
         console.error("[graf] Cytoscape.js no disponible després de 5s. Possibles causes: CDN bloquejat, sense connexió, o error de xarxa.");
         return;
       }
@@ -4869,7 +5292,7 @@ img, svg, video { max-width:100%; height:auto; }
             "text-margin-y": 6,
             "color": "#e8e6e3",
             "font-size": 8,
-            "font-family": "Manrope, sans-serif",
+            "font-family": "ui-monospace, monospace",
             "width": 20, "height": 20,
             "background-color": function(ele) { return NODE_COLORS[ele.data("category")] || "#888"; },
             "shape": function(ele) { return NODE_SHAPES[ele.data("category")] || "ellipse"; },
