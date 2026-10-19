@@ -751,6 +751,109 @@ section:last-of-type { border-bottom: none; }
   }
   #cronologia .timeline::before { background: #000 !important; opacity: 1 !important; }
 }
+
+/* ===== Glossari amb foto de fons (mateix patró que cronologia) =====
+   Foto panoràmica sencera (sense retallar) + tint lima suau
+   Les 16 targetes .lab-card del glossari són 15% transparents perquè
+   es vegi la foto de fons a través seu
+   =================================================================== */
+#glossari {
+  position: relative;
+  isolation: isolate;
+  background: var(--accent-ink);
+}
+#glossari::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background-image: url("img-glossari-bg.avif");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.25) brightness(0.85);
+  z-index: 0;
+  pointer-events: none;
+}
+#glossari::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--accent-lima);
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Tot el contingut del glossari per sobre del fons */
+#glossari > * {
+  position: relative;
+  z-index: 2;
+}
+/* Header del glossari: text marfil sobre fons fosc */
+#glossari .section-header h2,
+#glossari .section-header p {
+  color: var(--bg-cream);
+}
+#glossari .section-header h2 {
+  text-shadow: 3px 3px 0 var(--accent-rojo);
+}
+#glossari .section-header p {
+  font-style: italic;
+  text-shadow: 1px 1px 0 var(--accent-ink);
+}
+#glossari .section-tag {
+  background: var(--bg-cream);
+  color: var(--accent-ink);
+}
+/* Les targetes .lab-card del glossari: 15% transparents + padding restaurat */
+#glossari .lab-card {
+  background: rgba(191, 213, 0, 0.85);   /* lima fosc 15% transparent */
+  padding: 1.6rem 1.8rem;
+  border: 2px solid var(--accent-ink);
+  backdrop-filter: saturate(110%);
+  -webkit-backdrop-filter: saturate(110%);
+  transition: transform .2s var(--ease), background-color .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+#glossari .lab-card:hover, #glossari .lab-card:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--accent-rojo);
+  background: rgba(213, 230, 43, 0.92);  /* hover: lima pur 8% transparent */
+  border-color: var(--accent-rojo);
+}
+#glossari .lab-card::before {
+  background: var(--accent-rojo);  /* filet rojo superior */
+}
+/* Text del glossari sempre llegible (negre sobre lima) */
+#glossari .lab-name {
+  color: var(--text-primary);
+  margin: 0 0 .5rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--accent-ink);
+}
+#glossari .lab-desc {
+  color: var(--text-primary);
+  margin: 0;
+}
+@media (max-width: 768px) {
+  #glossari::after { opacity: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #glossari::before { filter: grayscale(1) contrast(1.15) brightness(0.9) !important; }
+}
+@media print {
+  #glossari::before, #glossari::after { display: none !important; }
+  #glossari { background: #fff !important; }
+  #glossari .section-header h2, #glossari .section-header p, #glossari .section-tag,
+  #glossari .lab-card, #glossari .lab-name, #glossari .lab-desc {
+    color: #000 !important; text-shadow: none !important; background: transparent !important;
+  }
+}
 .section-header {
   margin-bottom: 3rem; display:grid; gap:1rem;
   grid-template-columns: 1fr;
