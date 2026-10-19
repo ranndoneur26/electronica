@@ -854,6 +854,158 @@ section:last-of-type { border-bottom: none; }
     color: #000 !important; text-shadow: none !important; background: transparent !important;
   }
 }
+
+/* ===== Fonoteca — Reproductor de YouTube premium retro electrònic =====
+   Caixa negra amb filet rojo superior, corner marks decoratius,
+   i marca tipus monitor de laboratori analògic
+   =================================================================== */
+.fonoteca-player {
+  position: relative;
+  max-width: 980px;
+  margin: 2rem auto 3rem;
+  background: var(--accent-ink);
+  border: 2px solid var(--accent-ink);
+  box-shadow: 6px 6px 0 var(--accent-rojo);
+  padding: 1.4rem 1.6rem 1rem;
+  isolation: isolate;
+}
+.fonoteca-player::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--accent-rojo);
+  z-index: 2;
+}
+/* Corner marks decoratius (cantonades tipus visor) */
+.fonoteca-player::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    /* cantonada superior-esquerra */
+    linear-gradient(to right, var(--accent-lima) 0 18px, transparent 18px) top left / 18px 2px no-repeat,
+    linear-gradient(to bottom, var(--accent-lima) 0 18px, transparent 18px) top left / 2px 18px no-repeat,
+    /* cantonada superior-dreta */
+    linear-gradient(to left, var(--accent-lima) 0 18px, transparent 18px) top right / 18px 2px no-repeat,
+    linear-gradient(to bottom, var(--accent-lima) 0 18px, transparent 18px) top right / 2px 18px no-repeat,
+    /* cantonada inferior-esquerra */
+    linear-gradient(to right, var(--accent-lima) 0 18px, transparent 18px) bottom left / 18px 2px no-repeat,
+    linear-gradient(to top, var(--accent-lima) 0 18px, transparent 18px) bottom left / 2px 18px no-repeat,
+    /* cantonada inferior-dreta */
+    linear-gradient(to left, var(--accent-lima) 0 18px, transparent 18px) bottom right / 18px 2px no-repeat,
+    linear-gradient(to top, var(--accent-lima) 0 18px, transparent 18px) bottom right / 2px 18px no-repeat;
+}
+.fonoteca-player-header {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: .8rem;
+  margin-bottom: 1rem;
+  position: relative; z-index: 2;
+}
+.fonoteca-player-tag {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+  color: var(--accent-rojo);
+  font-weight: 700;
+}
+.fonoteca-player-tag::before {
+  content: "▌ ";
+  color: var(--accent-rojo);
+}
+.fonoteca-player-status {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: var(--accent-lima);
+  font-weight: 600;
+}
+.fonoteca-player-status::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--accent-lima);
+  animation: fonoteca-pulse 2s ease-in-out infinite;
+}
+@keyframes fonoteca-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fonoteca-player-status::before { animation: none; }
+}
+.fonoteca-player-title {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  color: var(--bg-cream);
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  position: relative; z-index: 2;
+  text-shadow: 1px 1px 0 var(--accent-ink);
+}
+.fonoteca-player-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 2px solid var(--accent-lima);
+  overflow: hidden;
+  z-index: 2;
+}
+.fonoteca-player-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.fonoteca-player-meta {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid rgba(213, 230, 43, .25);
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--bg-cream);
+  opacity: .75;
+  font-weight: 500;
+  position: relative; z-index: 2;
+}
+.fonoteca-player-meta strong {
+  color: var(--accent-lima);
+  font-weight: 700;
+}
+.fonoteca-player-meta a {
+  color: var(--accent-lima);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-lima);
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.fonoteca-player-meta a:hover, .fonoteca-player-meta a:focus-visible {
+  color: var(--accent-rojo);
+  border-bottom-color: var(--accent-rojo);
+}
+.fonoteca-player-meta a:focus-visible {
+  outline: 2px solid var(--accent-rojo);
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .fonoteca-player { padding: 1rem 1rem .8rem; }
+  .fonoteca-player-header { gap: .5rem; }
+  .fonoteca-player-meta { font-size: .5rem; gap: .4rem 1rem; }
+}
+@media print {
+  .fonoteca-player { display: none !important; }
+}
 .section-header {
   margin-bottom: 3rem; display:grid; gap:1rem;
   grid-template-columns: 1fr;
@@ -3529,6 +3681,31 @@ input:focus-visible,
             <h2>Fonoteca</h2>
             <p class="i18n" data-en="A curated selection of works by the pioneers on this site, hosted on their original external platforms — Bandcamp, YouTube and digital archives.">Selecció curada d'obres dels pioners d'aquesta web, allotjades a les seves plataformes externes originals — Bandcamp, YouTube i arxius digitals.</p>
         </div>
+
+        <!-- ===== Reproductor de YouTube premium retro electrònic ===== -->
+        <div class="fonoteca-player" id="fonoteca-player">
+            <div class="fonoteca-player-header">
+                <span class="fonoteca-player-tag i18n" data-en="Audiovisual Record">Registre Audiovisual</span>
+                <span class="fonoteca-player-status i18n" data-en="Ready">Llest</span>
+            </div>
+            <p class="fonoteca-player-title i18n" data-en="Documentary selection integrated into the archive — view directly without leaving the page.">Selecció documental integrada a l'arxiu — visualitza-la directament sense sortir de la pàgina.</p>
+            <div class="fonoteca-player-frame">
+                <iframe
+                    src="https://www.youtube.com/embed/Esc3iXwaqgg?rel=0&modestbranding=1&color=white"
+                    title="Reproductor de YouTube — Registre audiovisual"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="fonoteca-player-meta">
+                <span><strong class="i18n" data-en="Source">Font:</strong> YouTube</span>
+                <span><strong class="i18n" data-en="Format">Format:</strong> 16:9</span>
+                <span><strong class="i18n" data-en="Status">Estat:</strong> <span class="i18n" data-en="Embedded">Incrustat</span></span>
+                <span><strong class="i18n" data-en="Original">Original ↗:</strong> <a href="https://www.youtube.com/watch?v=Esc3iXwaqgg" target="_blank" rel="noopener">youtube.com/watch?v=Esc3iXwaqgg</a></span>
+            </div>
+        </div>
+
         <div class="labs-container">
             <article class="lab-card fono-card">
                 <span class="source-badge badge-bandcamp">Bandcamp</span>
@@ -3700,6 +3877,31 @@ input:focus-visible,
         </div>
 
         <h3 >Documentals internacionals</h3>
+
+        <!-- ===== Reproductor VK Video premium retro electrònic ===== -->
+        <div class="fonoteca-player" id="documentals-player">
+            <div class="fonoteca-player-header">
+                <span class="fonoteca-player-tag i18n" data-en="Audiovisual Record">Registre Audiovisual</span>
+                <span class="fonoteca-player-status i18n" data-en="Ready">Llest</span>
+            </div>
+            <p class="fonoteca-player-title i18n" data-en="Documentary selection from VK Video integrated into the archive — view directly without leaving the page.">Selecció documental de VK Video integrada a l'arxiu — visualitza-la directament sense sortir de la pàgina.</p>
+            <div class="fonoteca-player-frame">
+                <iframe
+                    src="https://vk.com/video_ext.php?oid=-136471876&id=456240229&hd=2"
+                    title="Reproductor de VK Video — Documental internacional"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="fonoteca-player-meta">
+                <span><strong class="i18n" data-en="Source">Font:</strong> VK Video</span>
+                <span><strong class="i18n" data-en="Format">Format:</strong> 16:9</span>
+                <span><strong class="i18n" data-en="Status">Estat:</strong> <span class="i18n" data-en="Embedded">Incrustat</span></span>
+                <span><strong class="i18n" data-en="Original">Original ↗:</strong> <a href="https://vkvideo.ru/video-136471876_456240229" target="_blank" rel="noopener">vkvideo.ru/video-136471876_456240229</a></span>
+            </div>
+        </div>
+
         <div class="labs-container">
             <article class="lab-card">
                 <h3 class="lab-name i18n" data-en="&quot;Sisters with Transistors&quot; (Lisa Rovner, 2020)">"Sisters with Transistors" (Lisa Rovner, 2020)</h3>
