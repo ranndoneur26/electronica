@@ -1988,6 +1988,181 @@ img, svg, video { max-width:100%; height:auto; }
 }
 
 /* ===== Accesibilitat: prefers-reduced-motion ===== */
+/* ===== Phonos Banner — transició entre Cronologia i Pioners =====
+   Foto del Laboratori Phonos (1974) amb tractament duotone lima/negre
+   per donar un toc tecnològic i brutalista
+   =================================================================== */
+.phonos-banner {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  height: clamp(320px, 52vh, 560px);
+  overflow: hidden;
+  background: var(--accent-ink);
+  border-top: 4px solid var(--accent-rojo);
+  border-bottom: 4px solid var(--accent-rojo);
+  isolation: isolate;
+}
+/* Foto base: B/N fort, contrast alt */
+.phonos-banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: grayscale(1) contrast(1.4) brightness(0.7);
+  z-index: 1;
+}
+/* Overlay 1: tint lima en mode multiply → integra la foto amb el color principal del lloc */
+.phonos-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent-lima);
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+  z-index: 2;
+  pointer-events: none;
+}
+/* Overlay 2: gradient vertical negre per llegibilitat del text inferior */
+.phonos-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(21,21,21,.4) 0%, transparent 35%, transparent 60%, rgba(21,21,21,.92) 100%),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(213,230,43,.05) 2px, rgba(213,230,43,.05) 4px);
+  z-index: 3;
+  pointer-events: none;
+}
+/* Conte de text sobre la imatge */
+.phonos-banner-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 6vw, 6rem);
+  z-index: 4;
+}
+.phonos-banner-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 1rem;
+}
+.phonos-banner-tag {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+  color: var(--accent-lima);
+  background: var(--accent-ink);
+  padding: .45rem .9rem;
+  border: 1px solid var(--accent-lima);
+  font-weight: 700;
+}
+.phonos-banner-year {
+  font-family: var(--font-titular);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  color: var(--accent-rojo);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  text-shadow: 4px 4px 0 var(--accent-ink);
+}
+.phonos-banner-bottom {
+  max-width: 880px;
+}
+.phonos-banner-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bg-cream);
+  line-height: 1.1;
+  margin-bottom: .6rem;
+  text-shadow: 2px 2px 0 var(--accent-ink);
+}
+.phonos-banner-title em {
+  font-style: normal;
+  color: var(--accent-lima);
+  font-family: var(--font-titular);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.05em;
+  letter-spacing: -.02em;
+}
+.phonos-banner-meta {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  color: var(--bg-cream);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  opacity: .85;
+  font-weight: 500;
+  display: flex; flex-wrap: wrap; gap: .6rem;
+  align-items: center;
+}
+.phonos-banner-meta strong {
+  color: var(--accent-lima);
+  font-weight: 700;
+}
+.phonos-banner-meta::before {
+  content: "▶";
+  color: var(--accent-rojo);
+  margin-right: .3rem;
+}
+.phonos-banner-verify {
+  font-family: var(--font-mono);
+  font-size: .52rem;
+  color: var(--accent-lima);
+  margin-top: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .7;
+  font-style: italic;
+}
+.phonos-banner-verify::before {
+  content: "⚠ ";
+  color: var(--accent-rojo);
+  font-style: normal;
+}
+/* Scanline decorativa (tremolor tecnològic) */
+.phonos-banner-scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent-rojo);
+  z-index: 5;
+  animation: phonos-scan 6s linear infinite;
+  pointer-events: none;
+  opacity: .8;
+}
+@keyframes phonos-scan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(clamp(320px, 52vh, 560px)); }
+}
+@media (max-width: 768px) {
+  .phonos-banner { height: clamp(260px, 50vh, 360px); }
+  .phonos-banner-content { padding: 1.2rem; }
+  .phonos-banner-top { gap: .6rem; }
+  .phonos-banner-meta { font-size: .55rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .phonos-banner-scanline { display: none; }
+  .phonos-banner-img { filter: grayscale(1) contrast(1.2) brightness(0.8) !important; }
+}
+@media print {
+  .phonos-banner { break-inside: avoid; }
+  .phonos-banner::before, .phonos-banner::after { display: none; }
+  .phonos-banner-img { filter: grayscale(1) !important; }
+  .phonos-banner-content { position: static; padding: 1rem; }
+  .phonos-banner-top, .phonos-banner-bottom { color: #000 !important; }
+  .phonos-banner-title, .phonos-banner-meta { color: #000 !important; text-shadow: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
@@ -2218,6 +2393,28 @@ input:focus-visible,
             <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-electric)"></div><div class="timeline-content"><div class="timeline-year">1974</div><h3 class="i18n" data-en="Founding of the Phonos Laboratory – Barcelona">Fundació del Laboratori Phonos – Barcelona</h3><p class="timeline-desc i18n" data-en="Mestres Quadreny, Lewin-Richter and Callejo found the first electroacoustic music studio in Catalonia.">Mestres Quadreny, Lewin-Richter i Callejo funden el primer estudi de música electroacústica de Catalunya.</p><div class="timeline-links"><a href="#mestres" class="timeline-link i18n" data-en="Mestres Quadreny">Mestres Quadreny</a><a href="#phonos" class="timeline-link i18n" data-en="Phonos Laboratory">Laboratori Phonos</a></div></div></div>
         </div>
     </section>
+
+    <!-- ===== Banner: Laboratori Phonos — transició Cronologia → Pioners ===== -->
+    <aside class="phonos-banner" id="phonos-banner" aria-label="Banner del Laboratori Phonos (1974)">
+        <img class="phonos-banner-img" src="img-phonos-callejo.jpg" alt="Interior del Laboratori Phonos de Barcelona (c. 1974): home de perfil davant d'un sintetitzador modular de paret, magnetòfon de cinta oberta i taula de mescles. Primer estudi de música electroacústica de Catalunya." loading="lazy" decoding="async">
+        <div class="phonos-banner-scanline" aria-hidden="true"></div>
+        <div class="phonos-banner-content">
+            <div class="phonos-banner-top">
+                <span class="phonos-banner-tag i18n" data-en="Lab · Phonos — Barcelona 1974">Laboratori · Phonos — Barcelona 1974</span>
+                <span class="phonos-banner-year" aria-hidden="true">1974</span>
+            </div>
+            <div class="phonos-banner-bottom">
+                <p class="phonos-banner-title i18n" data-en="The first electroacoustic music studio in Catalonia: modular synthesizer, reel-to-reel tape and mixing console — &lt;em&gt;the founders&lt;/em&gt; at work.">El primer estudi de música electroacústica de Catalunya: sintetitzador modular, magnetòfon de cinta i taula de mescles — <em>els fundadors</em> a la feina.</p>
+                <p class="phonos-banner-meta">
+                    <span><strong class="i18n" data-en="Founders">Fundadors:</strong> <span class="i18n" data-en="Mestres Quadreny · Lewin-Richter · Callejo">Mestres Quadreny · Lewin-Richter · Callejo</span></span>
+                    <span><strong class="i18n" data-en="Location">Ubicació:</strong> <span class="i18n" data-en="Barcelona">Barcelona</span></span>
+                    <span><strong class="i18n" data-en="Active">Actiu:</strong> 1974–<span class="i18n" data-en="present">avui</span></span>
+                </p>
+                <p class="phonos-banner-verify i18n" data-en="Identification of the person pending documentary verification.">Identificació de la persona pendent de verificació documental.</p>
+            </div>
+        </div>
+    </aside>
+
     <div class="wave-divider" id="wave-divider"></div>
     <section id="pioners">
         <div class="section-header">
