@@ -641,6 +641,120 @@ section {
   border-bottom: 1px solid var(--accent-ink);
 }
 section:last-of-type { border-bottom: none; }
+
+/* ===== Cronologia amb foto de fons (Fundació Robert Gerhard) =====
+   Tractament suau: B/N + tint lima pàl·lid + overlay negre protegeix el text
+   La foto ocupa tota l'amplada de pantalla (100vw) més enllà del max-width:1280px
+   =================================================================== */
+#cronologia {
+  position: relative;
+  isolation: isolate;
+}
+#cronologia::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background-image: url("img-fundacio-gerhard-bg.jpg");
+  background-size: cover;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.25) brightness(0.85);
+  z-index: 0;
+  pointer-events: none;
+}
+#cronologia::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(180deg, rgba(21,21,21,.65) 0%, rgba(21,21,21,.5) 50%, rgba(21,21,21,.85) 100%),
+    var(--accent-lima);
+  background-blend-mode: multiply, color;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Tot el contingut de la cronologia per sobre del fons */
+#cronologia > * {
+  position: relative;
+  z-index: 2;
+}
+/* Caption peu de foto */
+.cronologia-caption {
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--bg-cream);
+  text-align: right;
+  margin: 2.5rem 0 0;
+  padding: .6rem 1rem .3rem;
+  border-top: 1px solid rgba(240,230,210,.3);
+  opacity: .85;
+  font-weight: 500;
+}
+.cronologia-caption a {
+  color: var(--accent-lima);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-lima);
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+.cronologia-caption a:hover, .cronologia-caption a:focus-visible {
+  color: var(--accent-rojo);
+  border-bottom-color: var(--accent-rojo);
+}
+.cronologia-caption a:focus-visible {
+  outline: 2px solid var(--accent-rojo);
+  outline-offset: 2px;
+}
+/* La cronologia té header text negre sobre fons fosc → invertim a marfil */
+#cronologia .section-header h2,
+#cronologia .section-header p {
+  color: var(--bg-cream);
+}
+#cronologia .section-header h2 {
+  text-shadow: 3px 3px 0 var(--accent-rojo);
+}
+#cronologia .section-header p {
+  font-style: italic;
+  text-shadow: 1px 1px 0 var(--accent-ink);
+}
+#cronologia .section-tag {
+  background: var(--bg-cream);
+  color: var(--accent-ink);
+}
+/* La línia vertical de la timeline també més visible */
+#cronologia .timeline::before {
+  background: var(--accent-lima);
+  opacity: 0.8;
+}
+@media (max-width: 768px) {
+  #cronologia::after {
+    background:
+      linear-gradient(180deg, rgba(21,21,21,.75) 0%, rgba(21,21,21,.6) 50%, rgba(21,21,21,.92) 100%),
+      var(--accent-lima);
+    background-blend-mode: multiply, color;
+    opacity: 0.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #cronologia::before { filter: grayscale(1) contrast(1.15) brightness(0.9) !important; }
+}
+@media print {
+  #cronologia::before, #cronologia::after { display: none !important; }
+  #cronologia .section-header h2, #cronologia .section-header p, #cronologia .section-tag,
+  #cronologia .cronologia-caption, #cronologia .cronologia-caption a {
+    color: #000 !important; text-shadow: none !important; background: transparent !important;
+  }
+  #cronologia .timeline::before { background: #000 !important; opacity: 1 !important; }
+}
 .section-header {
   margin-bottom: 3rem; display:grid; gap:1rem;
   grid-template-columns: 1fr;
@@ -1466,9 +1580,11 @@ footer p strong { color: var(--accent-lima); }
   cursor: pointer;
   padding: .5rem 0;
   list-style: none;
-  display: flex; align-items: baseline; gap: .6rem;
+  display: flex; align-items: baseline; justify-content: center; gap: .6rem;
   transition: color .2s var(--ease);
   font-weight: 700;
+  text-align: center;
+  text-wrap: balance;
 }
 .biblio-summary::-webkit-details-marker { display: none; }
 .biblio-summary::before {
@@ -2430,6 +2546,7 @@ input:focus-visible,
             <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-analog)"></div><div class="timeline-content"><div class="timeline-year">1972</div><h3 class="i18n" data-en="Encuentros de Pamplona">Encuentros de Pamplona</h3><p class="timeline-desc i18n" data-en="International avant-garde festival co-organized by Luis de Pablo and Alexanco, bringing Cage, Tudor and Cunningham to Spain.">Festival de avantguarda internacional co-organitzat per Luis de Pablo i Alexanco.</p><div class="timeline-links"><a href="#depablo" class="timeline-link i18n" data-en="Luis de Pablo">Luis de Pablo</a></div></div></div>
             <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-electric)"></div><div class="timeline-content"><div class="timeline-year">1974</div><h3 class="i18n" data-en="Founding of the Phonos Laboratory – Barcelona">Fundació del Laboratori Phonos – Barcelona</h3><p class="timeline-desc i18n" data-en="Mestres Quadreny, Lewin-Richter and Callejo found the first electroacoustic music studio in Catalonia.">Mestres Quadreny, Lewin-Richter i Callejo funden el primer estudi de música electroacústica de Catalunya.</p><div class="timeline-links"><a href="#mestres" class="timeline-link i18n" data-en="Mestres Quadreny">Mestres Quadreny</a><a href="#phonos" class="timeline-link i18n" data-en="Phonos Laboratory">Laboratori Phonos</a></div></div></div>
         </div>
+        <p class="cronologia-caption i18n-html" data-en-html="Background photo: &lt;a href=&quot;https://robertgerhard.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Fundació Robert Gerhard&lt;/a&gt;">Foto de fons: <a href="https://robertgerhard.org/" target="_blank" rel="noopener">Fundació Robert Gerhard</a></p>
     </section>
 
     <!-- ===== Banner: Laboratori Phonos — transició Cronologia → Pioners ===== -->
