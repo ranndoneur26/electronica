@@ -1998,7 +1998,7 @@ img, svg, video { max-width:100%; height:auto; }
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  height: clamp(320px, 52vh, 560px);
+  height: clamp(400px, 65vh, 660px);
   overflow: hidden;
   background: var(--accent-ink);
   border-top: 4px solid var(--accent-rojo);
@@ -2012,7 +2012,7 @@ img, svg, video { max-width:100%; height:auto; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 20%;
   filter: grayscale(1) contrast(1.4) brightness(0.7);
   z-index: 1;
 }
@@ -2114,21 +2114,6 @@ img, svg, video { max-width:100%; height:auto; }
   color: var(--accent-rojo);
   margin-right: .3rem;
 }
-.phonos-banner-verify {
-  font-family: var(--font-mono);
-  font-size: .52rem;
-  color: var(--accent-lima);
-  margin-top: .8rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  opacity: .7;
-  font-style: italic;
-}
-.phonos-banner-verify::before {
-  content: "⚠ ";
-  color: var(--accent-rojo);
-  font-style: normal;
-}
 /* Scanline decorativa (tremolor tecnològic) */
 .phonos-banner-scanline {
   position: absolute;
@@ -2142,10 +2127,10 @@ img, svg, video { max-width:100%; height:auto; }
 }
 @keyframes phonos-scan {
   0% { transform: translateY(0); }
-  100% { transform: translateY(clamp(320px, 52vh, 560px)); }
+  100% { transform: translateY(clamp(400px, 65vh, 660px)); }
 }
 @media (max-width: 768px) {
-  .phonos-banner { height: clamp(260px, 50vh, 360px); }
+  .phonos-banner { height: clamp(300px, 55vh, 420px); }
   .phonos-banner-content { padding: 1.2rem; }
   .phonos-banner-top { gap: .6rem; }
   .phonos-banner-meta { font-size: .55rem; }
@@ -2161,6 +2146,15 @@ img, svg, video { max-width:100%; height:auto; }
   .phonos-banner-content { position: static; padding: 1rem; }
   .phonos-banner-top, .phonos-banner-bottom { color: #000 !important; }
   .phonos-banner-title, .phonos-banner-meta { color: #000 !important; text-shadow: none !important; }
+}
+
+/* Variant .lewin-banner: foto més quadrada → object-position centra per no tallar el cap */
+.lewin-banner .phonos-banner-img {
+  object-position: center center;
+}
+.lewin-banner .phonos-banner-year {
+  color: var(--accent-lima);
+  text-shadow: 4px 4px 0 var(--accent-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2395,8 +2389,8 @@ input:focus-visible,
     </section>
 
     <!-- ===== Banner: Laboratori Phonos — transició Cronologia → Pioners ===== -->
-    <aside class="phonos-banner" id="phonos-banner" aria-label="Banner del Laboratori Phonos (1974)">
-        <img class="phonos-banner-img" src="img-phonos-callejo.jpg" alt="Interior del Laboratori Phonos de Barcelona (c. 1974): home de perfil davant d'un sintetitzador modular de paret, magnetòfon de cinta oberta i taula de mescles. Primer estudi de música electroacústica de Catalunya." loading="lazy" decoding="async">
+    <aside class="phonos-banner" id="phonos-banner" aria-label="Banner del Laboratori Phonos (1974) amb Lluís Callejo">
+        <img class="phonos-banner-img" src="img-phonos-callejo.jpg" alt="Lluís Callejo al Laboratori Phonos de Barcelona (c. 1974): home de perfil davant d'un sintetitzador modular de paret, magnetòfon de cinta oberta i taula de mescles. Primer estudi de música electroacústica de Catalunya." loading="lazy" decoding="async">
         <div class="phonos-banner-scanline" aria-hidden="true"></div>
         <div class="phonos-banner-content">
             <div class="phonos-banner-top">
@@ -2404,13 +2398,12 @@ input:focus-visible,
                 <span class="phonos-banner-year" aria-hidden="true">1974</span>
             </div>
             <div class="phonos-banner-bottom">
-                <p class="phonos-banner-title i18n" data-en="The first electroacoustic music studio in Catalonia: modular synthesizer, reel-to-reel tape and mixing console — &lt;em&gt;the founders&lt;/em&gt; at work.">El primer estudi de música electroacústica de Catalunya: sintetitzador modular, magnetòfon de cinta i taula de mescles — <em>els fundadors</em> a la feina.</p>
+                <p class="phonos-banner-title i18n" data-en="The first electroacoustic music studio in Catalonia: &lt;em&gt;Lluís Callejo&lt;/em&gt; at the modular synthesizer, reel-to-reel tape and mixing console.">El primer estudi de música electroacústica de Catalunya: <em>Lluís Callejo</em> al sintetitzador modular, el magnetòfon de cinta i la taula de mescles.</p>
                 <p class="phonos-banner-meta">
                     <span><strong class="i18n" data-en="Founders">Fundadors:</strong> <span class="i18n" data-en="Mestres Quadreny · Lewin-Richter · Callejo">Mestres Quadreny · Lewin-Richter · Callejo</span></span>
                     <span><strong class="i18n" data-en="Location">Ubicació:</strong> <span class="i18n" data-en="Barcelona">Barcelona</span></span>
                     <span><strong class="i18n" data-en="Active">Actiu:</strong> 1974–<span class="i18n" data-en="present">avui</span></span>
                 </p>
-                <p class="phonos-banner-verify i18n" data-en="Identification of the person pending documentary verification.">Identificació de la persona pendent de verificació documental.</p>
             </div>
         </div>
     </aside>
@@ -3015,6 +3008,26 @@ input:focus-visible,
             <a class="pioneer-link" href="https://www.upf.edu/web/phonos/arxiu/fons/electroacustica-a-espanya-1998" target="_blank" rel="noopener" style="display: inline-block; margin-top: 1rem;">Consultar el fons a l'arxiu de la UPF →</a>
         </div>
     </section>
+
+    <!-- ===== Banner: Andrés Lewin-Richter — transició Laboratoris → Genealogia ===== -->
+    <aside class="phonos-banner lewin-banner" id="lewin-banner" aria-label="Banner d'Andrés Lewin-Richter a la seu del Laboratori Phonos">
+        <img class="phonos-banner-img" src="img-lewin-richter-phonos.webp" alt="Andrés Lewin-Richter a la seu del Laboratori Phonos, als soterranis de la Fundació Joan Miró de Barcelona: home davant d'equipament electroacústic." loading="lazy" decoding="async">
+        <div class="phonos-banner-scanline" aria-hidden="true"></div>
+        <div class="phonos-banner-content">
+            <div class="phonos-banner-top">
+                <span class="phonos-banner-tag i18n" data-en="Andrés Lewin-Richter · Phonos — Fundació Joan Miró">Andrés Lewin-Richter · Phonos — Fundació Joan Miró</span>
+                <span class="phonos-banner-year" aria-hidden="true">1974</span>
+            </div>
+            <div class="phonos-banner-bottom">
+                <p class="phonos-banner-title i18n" data-en="In the basements of the Fundació Joan Miró: &lt;em&gt;Andrés Lewin-Richter&lt;/em&gt; at the Phonos Laboratory premises.">Els soterranis de la Fundació Joan Miró: <em>Andrés Lewin-Richter</em> a la seu del Laboratori Phonos.</p>
+                <p class="phonos-banner-meta">
+                    <span><strong class="i18n" data-en="Role">Rol:</strong> <span class="i18n" data-en="Co-founder · Director">Co-fundador · Director</span></span>
+                    <span><strong class="i18n" data-en="Location">Ubicació:</strong> <span class="i18n" data-en="Fundació Joan Miró, Barcelona">Fundació Joan Miró, Barcelona</span></span>
+                    <span><strong class="i18n" data-en="Active">Actiu:</strong> 1974–<span class="i18n" data-en="present">avui</span></span>
+                </p>
+            </div>
+        </div>
+    </aside>
 
     <!-- Genealogy -->
     <section id="genealogia">
