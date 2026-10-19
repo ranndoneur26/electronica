@@ -643,12 +643,14 @@ section {
 section:last-of-type { border-bottom: none; }
 
 /* ===== Cronologia amb foto de fons (Fundació Robert Gerhard) =====
-   Tractament suau: B/N + tint lima pàl·lid + overlay negre protegeix el text
-   La foto ocupa tota l'amplada de pantalla (100vw) més enllà del max-width:1280px
+   Foto panoràmica sencera (sense retallar) + tint lima suau
+   Les 14 targetes timeline-content són 15% transparents perquè
+   es vegi la foto de fons a través seu
    =================================================================== */
 #cronologia {
   position: relative;
   isolation: isolate;
+  background: var(--accent-ink);   /* fons negre per les zones sense foto */
 }
 #cronologia::before {
   content: "";
@@ -658,8 +660,8 @@ section:last-of-type { border-bottom: none; }
   width: 100vw;
   transform: translateX(-50%);
   background-image: url("img-fundacio-gerhard-bg.jpg");
-  background-size: cover;
-  background-position: center 20%;
+  background-size: contain;            /* mostra tota la foto, sense retallar */
+  background-position: center center;
   background-repeat: no-repeat;
   filter: grayscale(1) contrast(1.25) brightness(0.85);
   z-index: 0;
@@ -672,12 +674,9 @@ section:last-of-type { border-bottom: none; }
   left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  background:
-    linear-gradient(180deg, rgba(21,21,21,.65) 0%, rgba(21,21,21,.5) 50%, rgba(21,21,21,.85) 100%),
-    var(--accent-lima);
-  background-blend-mode: multiply, color;
+  background: var(--accent-lima);
   mix-blend-mode: multiply;
-  opacity: 0.5;
+  opacity: 0.35;                       /* tint lima més suau */
   z-index: 1;
   pointer-events: none;
 }
@@ -737,11 +736,7 @@ section:last-of-type { border-bottom: none; }
 }
 @media (max-width: 768px) {
   #cronologia::after {
-    background:
-      linear-gradient(180deg, rgba(21,21,21,.75) 0%, rgba(21,21,21,.6) 50%, rgba(21,21,21,.92) 100%),
-      var(--accent-lima);
-    background-blend-mode: multiply, color;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -749,6 +744,7 @@ section:last-of-type { border-bottom: none; }
 }
 @media print {
   #cronologia::before, #cronologia::after { display: none !important; }
+  #cronologia { background: #fff !important; }
   #cronologia .section-header h2, #cronologia .section-header p, #cronologia .section-tag,
   #cronologia .cronologia-caption, #cronologia .cronologia-caption a {
     color: #000 !important; text-shadow: none !important; background: transparent !important;
@@ -820,16 +816,19 @@ section h3:not(.lab-name):not(.transition-card h4):not(.genealogy h3):not(.timel
 }
 .timeline-item { position:relative; padding-left:2.4rem; margin-bottom:1.2rem; }
 .timeline-content {
-  background: var(--bg-card); padding: 1.4rem 1.6rem 1.2rem;
+  background: rgba(191, 213, 0, 0.85);   /* lima fosc 15% transparent: es veu la foto a través */
+  padding: 1.4rem 1.6rem 1.2rem;
   border:2px solid var(--accent-ink); border-radius: 0;
-  transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+  transition: transform .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease);
   position: relative;
+  backdrop-filter: saturate(110%);
+  -webkit-backdrop-filter: saturate(110%);
 }
 .timeline-content:hover, .timeline-content:focus-within {
   transform: translate(4px, -4px);
   border-color: var(--accent-rojo);
   box-shadow: -6px 6px 0 var(--accent-rojo);
-  background: var(--bg-primary);
+  background: rgba(213, 230, 43, 0.92);   /* hover: lima pur 8% transparent */
 }
 .timeline-dot {
   position:absolute; left:-2px; top:1.5rem; width:13px; height:13px;
