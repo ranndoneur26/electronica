@@ -966,6 +966,32 @@ section:last-of-type { border-bottom: none; }
   border: 0;
   display: block;
 }
+/* Fallback link — es mostra sota l'iframe per si VK no carrega */
+.fonoteca-player-fallback {
+  position: absolute;
+  bottom: 8px; left: 8px; right: 8px;
+  display: block;
+  padding: .5rem .8rem;
+  background: rgba(21, 21, 21, 0.85);
+  border: 1px solid var(--accent-lima);
+  color: var(--accent-lima);
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  z-index: 3;
+  pointer-events: auto;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.fonoteca-player-fallback:hover, .fonoteca-player-fallback:focus-visible {
+  background: var(--accent-lima);
+  color: var(--accent-ink);
+  outline: 2px solid var(--accent-rojo);
+  outline-offset: 2px;
+}
 .fonoteca-player-meta {
   display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
   margin-top: 1rem;
@@ -3301,6 +3327,30 @@ input:focus-visible,
                 </div>
             </article>
         </div>
+
+        <!-- ===== Reproductor YouTube premium retro electrònic — Castillejo 1933 ===== -->
+        <div class="fonoteca-player" id="pioners-player">
+            <div class="fonoteca-player-header">
+                <span class="fonoteca-player-tag i18n" data-en="Audiovisual Record">Registre Audiovisual</span>
+                <span class="fonoteca-player-status i18n" data-en="Ready">Llest</span>
+            </div>
+            <p class="fonoteca-player-title i18n" data-en="Documentary on Juan García Castillejo and his 1933 Electrocompositor Musical — the earliest Spanish attempt to mechanize the act of composing.">Documental sobre Juan García Castillejo i el seu Electrocompositor Musical de 1933 — el primer intent documentat a Espanya de mecanitzar l'acte de compondre.</p>
+            <div class="fonoteca-player-frame">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/_VVY5FWXrG8?rel=0&modestbranding=1&color=white"
+                    title="Reproductor de YouTube — Castillejo 1933, Electrocompositor Musical"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="fonoteca-player-meta">
+                <span><strong class="i18n" data-en="Source">Font:</strong> YouTube</span>
+                <span><strong class="i18n" data-en="Format">Format:</strong> 16:9</span>
+                <span><strong class="i18n" data-en="Status">Estat:</strong> <span class="i18n" data-en="Embedded">Incrustat</span></span>
+                <span><strong class="i18n" data-en="Original">Original ↗:</strong> <a href="https://youtu.be/_VVY5FWXrG8" target="_blank" rel="noopener">youtu.be/_VVY5FWXrG8</a></span>
+            </div>
+        </div>
     </section>
 
     <div class="wave-divider"><span style="height:50px"></span><span style="height:30px"></span><span style="height:55px"></span><span style="height:25px"></span><span style="height:45px"></span><span style="height:35px"></span><span style="height:60px"></span><span style="height:20px"></span><span style="height:50px"></span><span style="height:30px"></span><span style="height:55px"></span><span style="height:25px"></span></div>
@@ -3887,12 +3937,15 @@ input:focus-visible,
             <p class="fonoteca-player-title i18n" data-en="Documentary selection from VK Video integrated into the archive — view directly without leaving the page.">Selecció documental de VK Video integrada a l'arxiu — visualitza-la directament sense sortir de la pàgina.</p>
             <div class="fonoteca-player-frame">
                 <iframe
-                    src="https://vk.com/video_ext.php?oid=-136471876&id=456240229&hd=2"
+                    src="https://vkvideo.ru/video_ext.php?oid=-136471876&id=456240229&hd=2&autoplay=0"
                     title="Reproductor de VK Video — Documental internacional"
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen></iframe>
+                <a class="fonoteca-player-fallback" href="https://vkvideo.ru/video-136471876_456240229" target="_blank" rel="noopener" aria-label="Obre el vídeo directament a VK Video">
+                    <span class="i18n" data-en="If the player does not load, click here to view it directly on VK Video ↗">Si el reproductor no es mostra, fes clic aquí per veure'l directament a VK Video ↗</span>
+                </a>
             </div>
             <div class="fonoteca-player-meta">
                 <span><strong class="i18n" data-en="Source">Font:</strong> VK Video</span>
